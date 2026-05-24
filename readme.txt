@@ -23,9 +23,9 @@ Works with **Divi 4 & 5**, **Gutenberg**, **Elementor**, and **Bricks**.
 
 ---
 
-= ✨ AI-Powered Form Generator — 100% Free =
+= ✨ AI Form Generator =
 
-**The world's first AI form builder for Contact Form 7 — and it's completely free.**
+**AI form builder for Contact Form 7**
 
 Describe the form you need in plain English and CF7 Mate instantly generates a ready-to-use Contact Form 7 shortcode. No drag-and-drop. No manual field setup. Just type, generate, and go.
 
@@ -33,7 +33,6 @@ Describe the form you need in plain English and CF7 Mate instantly generates a r
 * Supports all CF7 field types: text, email, select, radio, checkbox, file, date, and more
 * Works with OpenAI (GPT-4) and other compatible AI providers
 * Edit and refine the generated form in CF7's editor after generation
-* Completely free — no Pro plan needed
 
 ---
 
@@ -103,9 +102,6 @@ Save your favorite form styles as reusable presets. Apply a polished design to a
 
 **Multi-Column Layouts**
 Advanced column configurations with custom responsive breakpoints for complex form layouts.
-
-**Heading, Separator, Icon & Image Fields** (advanced)
-Additional visual field types to structure and brand your forms.
 
 **White Label (Agency Plan)**
 Replace CF7 Mate branding with your own agency name, logo, and support links. Your clients see your brand, not ours.

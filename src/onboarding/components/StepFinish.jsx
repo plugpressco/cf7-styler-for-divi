@@ -6,12 +6,16 @@
 import { __ } from '@wordpress/i18n';
 
 const StepFinish = ({ onComplete }) => {
+	const isPro = typeof dcsOnboarding !== 'undefined' && !!dcsOnboarding.is_pro;
 	const cf7Url = typeof dcsOnboarding !== 'undefined' && dcsOnboarding.cf7_admin_url
 		? dcsOnboarding.cf7_admin_url
 		: '/wp-admin/admin.php?page=wpcf7';
+	const dashboardUrl = typeof dcsOnboarding !== 'undefined' && dcsOnboarding.dashboard_url
+		? dcsOnboarding.dashboard_url
+		: '/wp-admin/admin.php?page=cf7-mate';
 	const pricingUrl = typeof dcsOnboarding !== 'undefined' && dcsOnboarding.pricing_url
 		? dcsOnboarding.pricing_url
-		: '/wp-admin/admin.php?page=cf7-mate-pricing';
+		: 'https://cf7mate.com/pricing';
 
 	const goToCf7 = () => {
 		if (onComplete) onComplete();
@@ -20,6 +24,7 @@ const StepFinish = ({ onComplete }) => {
 
 	const goToDashboard = () => {
 		if (onComplete) onComplete();
+		window.location.href = dashboardUrl;
 	};
 
 	const closeGuide = () => {
@@ -53,13 +58,15 @@ const StepFinish = ({ onComplete }) => {
 				</ul>
 			</div>
 
-			<div className="cf7m-finish-pro-teaser">
-				<p className="cf7m-finish-pro-teaser-title">{__('With Pro you get', 'cf7-styler-for-divi')}</p>
-				<p className="cf7m-finish-pro-teaser-text">
-					{__('Form entries, multi-step forms, AI form generator, conditional logic, and 14 powerful modules.', 'cf7-styler-for-divi')}{' '}
-					<a href={pricingUrl} target="_blank" rel="noopener noreferrer">{__('Unlock Pro', 'cf7-styler-for-divi')}</a>
-				</p>
-			</div>
+			{!isPro && (
+				<div className="cf7m-finish-pro-teaser">
+					<p className="cf7m-finish-pro-teaser-title">{__('With Pro you get', 'cf7-styler-for-divi')}</p>
+					<p className="cf7m-finish-pro-teaser-text">
+						{__('Form entries, multi-step forms, AI form generator, conditional logic, and 14 powerful modules.', 'cf7-styler-for-divi')}{' '}
+						<a href={pricingUrl} target="_blank" rel="noopener noreferrer">{__('Unlock Pro', 'cf7-styler-for-divi')}</a>
+					</p>
+				</div>
+			)}
 
 			<div className="cf7m-finish-actions">
 				<button type="button" className="cf7m-finish-btn cf7m-finish-btn-primary" onClick={goToDashboard}>

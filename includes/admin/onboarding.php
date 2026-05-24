@@ -57,7 +57,7 @@ class Onboarding
         }
         self::reset_onboarding();
         set_transient('cf7m_run_onboarding_' . get_current_user_id(), '1', 60);
-        wp_safe_redirect(admin_url('admin.php?page=cf7-mate-settings'));
+        wp_safe_redirect(admin_url('admin.php?page=cf7-mate'));
         exit;
     }
 
@@ -106,7 +106,7 @@ class Onboarding
             'current_step' => $this->get_current_step(),
             'create_page_url' => admin_url('post-new.php?post_type=page'),
             'cf7_admin_url' => admin_url('admin.php?page=wpcf7'),
-            'dashboard_url' => admin_url('admin.php?page=cf7-mate-settings'),
+            'dashboard_url' => admin_url('admin.php?page=cf7-mate'),
             'pricing_url' => defined('CF7M_URL_PRICING') ? CF7M_URL_PRICING : '',
             'is_pro' => function_exists('cf7m_is_pro') && cf7m_is_pro(),
             'rebrand_seen' => $this->is_rebrand_seen(),
@@ -141,7 +141,7 @@ class Onboarding
             return;
         }
 
-        $setup_url    = esc_url(admin_url('admin.php?page=cf7-mate-settings&cf7m_guided_setup=1'));
+        $setup_url    = esc_url(admin_url('admin.php?page=cf7-mate&cf7m_guided_setup=1'));
         $dismiss_nonce = wp_create_nonce('cf7m_skip_setup_notice');
         ?>
         <div id="cf7m-setup-notice" class="notice notice-info" style="display:flex;align-items:center;padding:16px 40px 16px 16px;gap:16px;border-left-color:#3044D7;background:#f0f2ff;">
@@ -288,8 +288,11 @@ class Onboarding
                     'database_entries' => true,
                     'range_slider' => true,
                     'separator' => true,
+                    'heading' => true,
                     'image' => true,
                     'icon' => true,
+                    'ai_form_generator' => true,
+                    'conditional' => true,
                 ];
 
                 $sanitized = [];

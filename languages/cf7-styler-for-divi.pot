@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: PlugPress <support@plugpress.io>\n"
-"POT-Creation-Date: 2026-05-12 22:07+0000\n"
+"POT-Creation-Date: 2026-05-24 19:51+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -129,11 +129,11 @@ msgstr ""
 msgid "Contact support →"
 msgstr ""
 
-#: includes/pro/loader.php:134, includes/pro/loader.php:135, includes/pro/features/entries/editor-panel.php:51
+#: includes/pro/loader.php:124, includes/pro/loader.php:125, includes/pro/features/entries/editor-panel.php:51
 msgid "Responses"
 msgstr ""
 
-#: includes/pro/loader.php:143, includes/pro/loader.php:144
+#: includes/pro/loader.php:133, includes/pro/loader.php:134
 msgid "Analytics"
 msgstr ""
 
@@ -425,7 +425,7 @@ msgstr ""
 msgid "Labels"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:900, includes/lite/builders/elementor/elementor-widget.php:456, includes/pro/features/phone-number/module.php:241, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:56, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:632
+#: includes/lite/builders/bricks/bricks-element.php:900, includes/lite/builders/elementor/elementor-widget.php:456, includes/lite/features/phone-number/module.php:241, includes/pro/features/phone-number/module.php:241, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:56, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:632
 msgid "Placeholder"
 msgstr ""
 
@@ -734,6 +734,30 @@ msgstr ""
 msgid "Generate a three-fourths width column"
 msgstr ""
 
+#: includes/lite/features/heading/module.php:188, includes/pro/features/heading/module.php:193
+msgid "heading"
+msgstr ""
+
+#: includes/lite/features/heading/module.php:199, includes/pro/features/heading/module.php:204
+msgid "Heading"
+msgstr ""
+
+#: includes/lite/features/heading/module.php:202, includes/pro/features/heading/module.php:207, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:40, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:661
+msgid "Text"
+msgstr ""
+
+#: includes/lite/features/heading/module.php:206, includes/pro/features/heading/module.php:211
+msgid "Tag"
+msgstr ""
+
+#: includes/lite/features/heading/module.php:216, includes/lite/features/separator/module.php:149, includes/pro/features/heading/module.php:221
+msgid "Color"
+msgstr ""
+
+#: includes/lite/features/heading/module.php:225, includes/lite/features/icon/module.php:183, includes/lite/features/image/module.php:154, includes/lite/features/phone-number/module.php:250, includes/lite/features/range-slider/module.php:232, includes/lite/features/separator/module.php:162, includes/lite/features/star-rating/module.php:178, includes/pro/features/calculator/module.php:428, includes/pro/features/calculator/module.php:465, includes/pro/features/calculator/module.php:523, includes/pro/features/calculator/module.php:554, includes/pro/features/conditional/module.php:271, includes/pro/features/heading/module.php:230, includes/pro/features/multi-column/module.php:224, includes/pro/features/multi-column/module.php:270, includes/pro/features/multi-steps/module.php:230, includes/pro/features/phone-number/module.php:250, includes/pro/features/presets/module.php:162
+msgid "Insert Tag"
+msgstr ""
+
 #: includes/lite/features/icon/module.php:134
 msgid "icon"
 msgstr ""
@@ -778,10 +802,6 @@ msgstr ""
 msgid "Size (px)"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:183, includes/lite/features/image/module.php:154, includes/lite/features/range-slider/module.php:232, includes/lite/features/separator/module.php:162, includes/lite/features/star-rating/module.php:178, includes/pro/features/calculator/module.php:428, includes/pro/features/calculator/module.php:465, includes/pro/features/calculator/module.php:523, includes/pro/features/calculator/module.php:554, includes/pro/features/conditional/module.php:271, includes/pro/features/heading/module.php:230, includes/pro/features/multi-column/module.php:224, includes/pro/features/multi-column/module.php:270, includes/pro/features/multi-steps/module.php:230, includes/pro/features/phone-number/module.php:250, includes/pro/features/presets/module.php:162
-msgid "Insert Tag"
-msgstr ""
-
 #: includes/lite/features/image/module.php:114
 msgid "image"
 msgstr ""
@@ -810,24 +830,56 @@ msgstr ""
 msgid "Height"
 msgstr ""
 
+#: includes/lite/features/phone-number/module.php:146, includes/pro/features/phone-number/module.php:146
+msgid "Select country"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:155, includes/pro/features/phone-number/module.php:155
+msgid "Phone number"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:200, includes/pro/features/phone-number/module.php:200
+msgid "phone number"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:218, includes/lite/features/phone-number/module.php:234, includes/pro/features/phone-number/module.php:218, includes/pro/features/phone-number/module.php:234
+msgid "Phone Number"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:221, includes/lite/features/range-slider/module.php:195, includes/lite/features/star-rating/module.php:152, includes/pro/features/calculator/module.php:387, includes/pro/features/phone-number/module.php:221
+msgid "Field type"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:222, includes/lite/features/range-slider/module.php:196, includes/lite/features/star-rating/module.php:153, includes/pro/features/calculator/module.php:388, includes/pro/features/phone-number/module.php:222
+msgid "Required"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:225, includes/lite/features/range-slider/module.php:199, includes/lite/features/star-rating/module.php:156, includes/pro/features/calculator/module.php:391, includes/pro/features/phone-number/module.php:225
+msgid "Name"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:229, includes/pro/features/phone-number/module.php:229
+msgid "Default country"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:233, includes/pro/features/calculator/module.php:395, includes/pro/features/calculator/module.php:493, includes/pro/features/phone-number/module.php:233, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:52, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:622, includes/lite/builders/divi4/FluentForms/FluentForms.php:38, includes/lite/builders/divi4/FluentForms/FluentForms.php:287, includes/lite/builders/divi4/GravityForms/GravityForms.php:37, includes/lite/builders/divi4/GravityForms/GravityForms.php:291
+msgid "Label"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:237, includes/pro/features/phone-number/module.php:237
+msgid "Description"
+msgstr ""
+
+#: includes/lite/features/phone-number/module.php:238, includes/pro/features/phone-number/module.php:238
+msgid "Enter your phone number."
+msgstr ""
+
 #: includes/lite/features/range-slider/module.php:174
 msgid "range slider"
 msgstr ""
 
 #: includes/lite/features/range-slider/module.php:192
 msgid "Range Slider"
-msgstr ""
-
-#: includes/lite/features/range-slider/module.php:195, includes/lite/features/star-rating/module.php:152, includes/pro/features/calculator/module.php:387, includes/pro/features/phone-number/module.php:221
-msgid "Field type"
-msgstr ""
-
-#: includes/lite/features/range-slider/module.php:196, includes/lite/features/star-rating/module.php:153, includes/pro/features/calculator/module.php:388, includes/pro/features/phone-number/module.php:222
-msgid "Required"
-msgstr ""
-
-#: includes/lite/features/range-slider/module.php:199, includes/lite/features/star-rating/module.php:156, includes/pro/features/calculator/module.php:391, includes/pro/features/phone-number/module.php:225
-msgid "Name"
 msgstr ""
 
 #: includes/lite/features/range-slider/module.php:203, includes/pro/features/calculator/module.php:403
@@ -864,10 +916,6 @@ msgstr ""
 
 #: includes/lite/features/separator/module.php:137, includes/pro/features/presets/module.php:143
 msgid "Style"
-msgstr ""
-
-#: includes/lite/features/separator/module.php:149, includes/pro/features/heading/module.php:221
-msgid "Color"
 msgstr ""
 
 #: includes/lite/features/separator/module.php:153
@@ -921,10 +969,6 @@ msgstr ""
 
 #: includes/pro/features/calculator/module.php:384
 msgid "Number Field (Calculator)"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:395, includes/pro/features/calculator/module.php:493, includes/pro/features/phone-number/module.php:233, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:52, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:622, includes/lite/builders/divi4/FluentForms/FluentForms.php:38, includes/lite/builders/divi4/FluentForms/FluentForms.php:287, includes/lite/builders/divi4/GravityForms/GravityForms.php:37, includes/lite/builders/divi4/GravityForms/GravityForms.php:291
-msgid "Label"
 msgstr ""
 
 #: includes/pro/features/calculator/module.php:446
@@ -1208,22 +1252,6 @@ msgstr ""
 msgid "%1$s — %2$s"
 msgstr ""
 
-#: includes/pro/features/heading/module.php:193
-msgid "heading"
-msgstr ""
-
-#: includes/pro/features/heading/module.php:204
-msgid "Heading"
-msgstr ""
-
-#: includes/pro/features/heading/module.php:207, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:40, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:661
-msgid "Text"
-msgstr ""
-
-#: includes/pro/features/heading/module.php:211
-msgid "Tag"
-msgstr ""
-
 #: includes/pro/features/multi-column/module.php:190
 msgid "column"
 msgstr ""
@@ -1360,34 +1388,6 @@ msgstr ""
 
 #: includes/pro/features/partial-save/module.php:75
 msgid "Could not save progress."
-msgstr ""
-
-#: includes/pro/features/phone-number/module.php:146
-msgid "Select country"
-msgstr ""
-
-#: includes/pro/features/phone-number/module.php:155
-msgid "Phone number"
-msgstr ""
-
-#: includes/pro/features/phone-number/module.php:200
-msgid "phone number"
-msgstr ""
-
-#: includes/pro/features/phone-number/module.php:218, includes/pro/features/phone-number/module.php:234
-msgid "Phone Number"
-msgstr ""
-
-#: includes/pro/features/phone-number/module.php:229
-msgid "Default country"
-msgstr ""
-
-#: includes/pro/features/phone-number/module.php:237
-msgid "Description"
-msgstr ""
-
-#: includes/pro/features/phone-number/module.php:238
-msgid "Enter your phone number."
 msgstr ""
 
 #: includes/pro/features/presets/module.php:120

@@ -45,7 +45,11 @@ const RESOURCES = [
 	},
 ];
 
-const StepHelp = () => (
+const StepHelp = () => {
+	const isPro = typeof dcsOnboarding !== 'undefined' && !!dcsOnboarding.is_pro;
+	const resources = isPro ? RESOURCES.filter((r) => r.id !== 'pricing') : RESOURCES;
+
+	return (
 	<div className="cf7m-onboarding-step cf7m-step-help">
 		<div className="cf7m-step-header">
 			<span className="cf7m-step-label">{__('Step 3 of 4', 'cf7-styler-for-divi')}</span>
@@ -53,11 +57,13 @@ const StepHelp = () => (
 				{__('Help when you need it', 'cf7-styler-for-divi')}
 			</h2>
 			<p className="cf7m-onboarding-description">
-				{__('Docs, support, and pricing are always one click away.', 'cf7-styler-for-divi')}
+				{isPro
+					? __('Docs and support are always one click away.', 'cf7-styler-for-divi')
+					: __('Docs, support, and pricing are always one click away.', 'cf7-styler-for-divi')}
 			</p>
 		</div>
 		<div className="cf7m-help-list">
-			{RESOURCES.map((r) => (
+			{resources.map((r) => (
 				<a
 					key={r.id}
 					href={r.url}
@@ -82,6 +88,7 @@ const StepHelp = () => (
 			))}
 		</div>
 	</div>
-);
+	);
+};
 
 export default StepHelp;

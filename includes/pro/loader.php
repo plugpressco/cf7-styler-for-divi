@@ -158,17 +158,9 @@ class Premium_Loader
 
     public function enqueue_admin_app_scripts($app = 'settings')
     {
-        if ($app === 'analytics') {
-            $bundle = 'analytics-pro';
-            $parent = 'cf7m-analytics';
-        } elseif ($app === 'responses') {
-            $bundle = 'responses-pro';
-            $parent = 'cf7m-responses';
-        } else {
-            $bundle = 'settings-pro';
-            $parent = 'cf7m-settings';
-        }
-        $path        = CF7M_PLUGIN_PATH . 'dist/js/' . $bundle . '.js';
+        $bundle = 'admin-pro';
+        $parent = 'cf7m-admin';
+        $path   = CF7M_PLUGIN_PATH . 'dist/js/' . $bundle . '.js';
         if (! file_exists($path)) {
             return;
         }
@@ -177,7 +169,7 @@ class Premium_Loader
             'cf7m-' . $bundle,
             CF7M_PLUGIN_URL . 'dist/js/' . $bundle . '.js',
             [$parent],
-            CF7M_VERSION,
+            CF7M_VERSION . '.' . filemtime($path),
             true
         );
     }

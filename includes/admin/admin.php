@@ -100,28 +100,21 @@ class Admin
         $app          = isset($options['app']) ? $options['app'] : 'settings';
         $current_page = isset($options['current_page']) ? $options['current_page'] : 'settings';
 
-        if ($app === 'responses') {
-            $script_handle = 'cf7m-responses';
-            $script_file   = 'dist/js/responses.js';
-            $style_handle  = 'cf7m-responses';
-            $style_file    = 'dist/css/responses.css';
-        } elseif ($app === 'analytics') {
-            $script_handle = 'cf7m-analytics';
-            $script_file   = 'dist/js/analytics.js';
-            $style_handle  = 'cf7m-analytics';
-            $style_file    = 'dist/css/analytics.css';
-        } else {
-            $script_handle = 'cf7m-settings';
-            $script_file   = 'dist/js/settings.js';
-            $style_handle  = 'cf7m-settings';
-            $style_file    = 'dist/css/settings.css';
-        }
+        $script_handle = 'cf7m-admin';
+        $script_file   = 'dist/js/admin.js';
+        $style_handle  = 'cf7m-admin';
+        $style_file    = 'dist/css/admin.css';
+
+        $script_path = CF7M_PLUGIN_PATH . $script_file;
+        $style_path  = CF7M_PLUGIN_PATH . $style_file;
+        $script_ver  = CF7M_VERSION . (file_exists($script_path) ? '.' . filemtime($script_path) : '');
+        $style_ver   = CF7M_VERSION . (file_exists($style_path) ? '.' . filemtime($style_path) : '');
 
         wp_enqueue_script(
             $script_handle,
             CF7M_PLUGIN_URL . $script_file,
             ['wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-dom-ready', 'wp-components'],
-            CF7M_VERSION,
+            $script_ver,
             true
         );
 
@@ -129,7 +122,7 @@ class Admin
             $style_handle,
             CF7M_PLUGIN_URL . $style_file,
             ['wp-components'],
-            CF7M_VERSION
+            $style_ver
         );
 
         // Allow pro (or add-ons) to enqueue their own scripts/styles.

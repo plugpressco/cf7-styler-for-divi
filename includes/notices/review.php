@@ -88,7 +88,7 @@ class Admin_Review_Notice
     private function is_cf7_mate_page()
     {
         $page = isset($_GET['page']) ? sanitize_text_field(wp_unslash($_GET['page'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        return in_array($page, ['cf7-mate-settings', 'cf7-mate-responses', 'cf7-mate-analytics'], true);
+        return in_array($page, ['cf7-mate', 'cf7-mate-responses', 'cf7-mate-analytics'], true);
     }
 
     private function should_display_notice()

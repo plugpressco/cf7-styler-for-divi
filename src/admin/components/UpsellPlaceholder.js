@@ -57,7 +57,7 @@ const FEATURE_DATA = {
 export function UpsellPlaceholder({ feature }) {
 	const data = FEATURE_DATA[feature] || FEATURE_DATA.responses;
 	const pricingUrl = (typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.pricing_url) || '#';
-	const settingsUrl = (typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.settings_url) || 'admin.php?page=cf7-mate-settings';
+	const settingsUrl = (typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.dash_url) || 'admin.php?page=cf7-mate';
 	const freeVsProUrl = pricingUrl;
 	const IconComponent = FEATURE_ICONS[data.icon] || FEATURE_ICONS.module;
 	const checkClass = 'cf7m-upsell__check-icon';
