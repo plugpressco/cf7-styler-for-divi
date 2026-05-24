@@ -221,7 +221,7 @@ class Premium_Loader
 
     private function init_updater()
     {
-        if (!class_exists('CF7_Mate\License\Updater')) {
+        if (!class_exists('CF7_Mate\License\Updater') || !class_exists('CF7_Mate\License\License_Manager')) {
             return;
         }
 

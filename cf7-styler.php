@@ -21,46 +21,26 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('CF7M_VERSION', '3.0.3');
-define('CF7M_IS_PRO_VERSION', true);
-
-// Auto-deactivate the free build when the pro plugin is active.
-// Guard ensures this only runs on the free build; the pro plugin skips it entirely.
-if (!CF7M_IS_PRO_VERSION && !function_exists('cf7m_lite_maybe_self_deactivate')) {
-    function cf7m_lite_maybe_self_deactivate()
-    {
-        if (!function_exists('is_plugin_active')) {
-            require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        }
-
-        if (is_plugin_active('cf7-mate-pro/cf7-styler.php')) {
-            deactivate_plugins(plugin_basename(__FILE__));
-
-            if (isset($_GET['activate'])) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                unset($_GET['activate']); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-            }
-
-            add_action('admin_notices', function () {
-                echo '<div class="notice notice-warning is-dismissible"><p>';
-                echo esc_html__('CF7 Styler (Lite) has been deactivated because CF7 Mate Pro is active.', 'cf7-styler-for-divi');
-                echo '</p></div>';
-            });
-
-            return true;
-        }
-
-        return false;
+// Auto-deactivate the lite build when CF7 Mate Pro is also active.
+// Pro loads first (alphabetical), so we detect it via its main plugin file.
+if (in_array('cf7-mate-pro/cf7-mate-pro.php', (array) get_option('active_plugins', []), true)) {
+    if (!function_exists('is_plugin_active')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
     }
-
-    // Check on every admin load (covers edge cases like manual DB activation).
-    add_action('admin_init', 'cf7m_lite_maybe_self_deactivate');
-
-    // Immediate check when the pro plugin is activated.
-    add_action('activated_plugin', function ($plugin) {
-        if ($plugin === 'cf7-mate-pro/cf7-styler.php') {
-            cf7m_lite_maybe_self_deactivate();
-        }
+    deactivate_plugins(plugin_basename(__FILE__));
+    add_action('admin_notices', function () {
+        echo '<div class="notice notice-warning is-dismissible"><p>';
+        echo esc_html__('Styler Mate for Contact Form 7 (Lite) has been deactivated because CF7 Mate Pro is active.', 'cf7-styler-for-divi');
+        echo '</p></div>';
     });
+    return; // Stop loading the lite plugin in this request.
+}
+
+if (!defined('CF7M_VERSION')) {
+    define('CF7M_VERSION', '3.0.3');
+}
+if (!defined('CF7M_IS_PRO_VERSION')) {
+    define('CF7M_IS_PRO_VERSION', false);
 }
 define('CF7M_BASENAME', plugin_basename(__FILE__));
 define('CF7M_BASENAME_DIR', plugin_basename(__DIR__));

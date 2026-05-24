@@ -45,22 +45,28 @@ function cf7m_get_pricing_url($coupon = '')
 
 function cf7m_is_pro(): bool
 {
-    // Step 1: Must be the pro build
-    if (!defined('CF7M_IS_PRO_VERSION') || !CF7M_IS_PRO_VERSION) {
-        return false;
+    // Pro build = pro features unlocked (license gates updates, not access).
+    if (defined('CF7M_IS_PRO_VERSION') && CF7M_IS_PRO_VERSION) {
+        return true;
     }
-
-    // Step 2: Dev mode bypass (wp-config.php: define('CF7M_DEV_MODE', true))
+    // Local development bypass — wp-config.php: define('CF7M_DEV_MODE', true).
     if (defined('CF7M_DEV_MODE') && CF7M_DEV_MODE) {
         return true;
     }
+    return false;
+}
 
-    // Step 3: License check — ONLY reads transient/option, never makes HTTP calls
+function cf7m_has_valid_license(): bool
+{
+    if (!cf7m_is_pro()) {
+        return false;
+    }
+    if (defined('CF7M_DEV_MODE') && CF7M_DEV_MODE) {
+        return true;
+    }
     if (class_exists('CF7_Mate\License\License_Manager')) {
         return \CF7_Mate\License\License_Manager::instance()->is_valid();
     }
-
-    // License manager not yet loaded (very early boot) — deny
     return false;
 }
 

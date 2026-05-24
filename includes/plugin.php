@@ -99,7 +99,8 @@ class Plugin
 
     private function bootstrap_license_manager()
     {
-        if (!defined('CF7M_IS_PRO_VERSION') || !CF7M_IS_PRO_VERSION) {
+        // Bootstrap whenever pro code is available — pro build OR dev mode bypass.
+        if (!function_exists('cf7m_is_pro') || !cf7m_is_pro()) {
             return;
         }
 
