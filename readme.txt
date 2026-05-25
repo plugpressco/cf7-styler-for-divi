@@ -332,29 +332,20 @@ Form Entries stores submission data only in your own WordPress database — no t
 == Changelog ==
 
 = 3.0.4 =
-* Improved: Pro features now unlock automatically once the Pro build is installed. License activation gates only updates and support, not feature access.
-* Improved: Onboarding wizard hides Pro upsell sections for users on Pro (Welcome, Help, and Finish steps).
 * Improved: "More from PlugPress" sidebar redesigned with colored brand avatars, a "See all" link, and a curated product list.
 * Improved: Admin app bundles are now cache-busted by file modification time so source updates take effect without a manual hard reload.
-* Fixed: The free plugin now correctly auto-deactivates when CF7 Mate Pro is also active.
-* Fixed: Pro standalone build no longer triggers a fatal error on activation due to a missing constant.
+* Fixed: The free plugin now correctly auto-deactivates when CF7 Mate Pro is also active, with a one-time confirmation notice.
 * Fixed: "Go to CF7 Mate dashboard" button on the onboarding Finish step now actually navigates to the dashboard.
 * Fixed: Stale `cf7-mate-settings` admin slug references in onboarding redirects, the review notice, and the upsell placeholder now resolve to the current `cf7-mate` slug.
 * Fixed: Review link in the admin sidebar now uses the correct WordPress.org plugin slug.
-* Fixed: AI Form Generator, Conditional Logic, and Heading toggles are no longer silently dropped when completing the onboarding wizard.
+* Fixed: Onboarding feature toggles (including AI Form Generator and Heading) are no longer silently dropped when completing the wizard.
 
 = 3.0.3 =
 * New: AI Form Generator moved to the free plugin — available to all users with no Pro plan required.
-* New: Top-level CF7 Mate admin menu with dedicated Responses and Analytics pages.
-* New: Form Scheduling — set open and close dates for any form (Pro).
-* New: Email Routing — route notifications to different recipients based on field values (Pro).
-* New: Partial Save and Resume — let visitors save progress and complete long forms later (Pro).
-* New: White Label — Agency plan holders can replace CF7 Mate branding with their own (Pro).
-* New: Analytics page — track views, submissions, and conversion rates per form (Pro).
+* New: Top-level CF7 Mate admin menu replaces the prior Settings-submenu location.
 * Improved: Admin UI redesigned for a cleaner, faster, more focused layout.
 * Improved: Features page presents all modules in a single organized list.
 * Improved: Tools tab consolidates AI Generator settings.
-* Fixed: Public sync workflow now strips Pro-only JS bundles correctly.
 
 = 3.0.2 =
 * Fixed: Minor bug fixes and performance improvements.
@@ -384,10 +375,10 @@ Form Entries stores submission data only in your own WordPress database — no t
 == Upgrade Notice ==
 
 = 3.0.4 =
-Pro features now unlock automatically with the Pro build. Includes fixes for onboarding navigation, admin slug references, and a fatal error on Pro activation. Recommended update.
+Fixes for onboarding navigation, admin slug references, sidebar redesign, and auto-deactivation when CF7 Mate Pro is also active. Recommended update.
 
 = 3.0.3 =
-AI Form Generator is now free for all users. Adds a new top-level admin menu, Form Scheduling, Email Routing, and White Label for the Agency plan. Recommended update.
+AI Form Generator is now free for all users. New top-level CF7 Mate admin menu and a refreshed admin UI. Recommended update.
 
 = 3.0.0 =
 Major update. The plugin is now CF7 Mate, with Divi 5 support, a Gutenberg block, and integrations for Elementor and Bricks. Existing settings carry over automatically.

@@ -1,0 +1,34 @@
+== CF7 Mate Pro Changelog ==
+
+This file tracks changes that affect the CF7 Mate Pro plugin only.
+Free plugin changes are documented in readme.txt.
+
+= 1.0.0 (alongside Free 3.0.4) =
+* Improved: Pro features now unlock automatically when the Pro plugin is installed. License activation gates only updates and support; it no longer blocks feature access.
+* Improved: Onboarding wizard hides all Pro upsell sections (Welcome, Help, and Finish steps) for users on Pro.
+* Improved: License_Manager bootstrap respects the CF7M_DEV_MODE constant for local development.
+* Improved: Pro admin app bundle (admin-pro.js) cache-busted by file modification time so source updates take effect without a manual hard reload.
+* New: cf7m_has_valid_license() helper for future license-only gating (updates, support).
+* Fixed: Pro standalone activation no longer triggers a fatal error caused by the missing CF7M_URL_PRICING constant in the generated main plugin file.
+* Fixed: init_updater() now guards on License_Manager class existence so a partially loaded pro environment cannot fatal.
+* Fixed: White Label, Webhook, Analytics, Email Routing, Form Scheduling, Partial Save, and Conditional Logic features all load correctly under the new feature-gating model.
+
+= Pro 1.0.0 — initial Pro release (alongside Free 3.0.3) =
+* New: Top-level CF7 Mate admin menu with dedicated Responses and Analytics submenus.
+* New: Multi-Step Forms — split long Contact Form 7 forms into multiple steps with progress indicator, per-step validation, and back/next navigation.
+* New: Conditional Logic — show or hide fields, field groups, and entire steps based on user input, with AND/OR rule combinations.
+* New: Form Entries — save every Contact Form 7 submission to the WordPress database with search, filter, and CSV export.
+* New: Form Analytics — track per-form views, submissions, and conversion rate over time.
+* New: Form Scheduling — set start and end dates for any form with a custom closed-state message.
+* New: Conditional Email Routing — route notification emails to different recipients based on form field values.
+* New: Partial Save and Resume — let visitors save progress on long forms and return via a resume link.
+* New: Style Presets — save a styled form's design as a reusable preset.
+* New: Advanced Multi-Column Layouts — extended column configurations with per-breakpoint controls.
+* New: White Label (Agency plan only) — replace CF7 Mate branding, logo, and links in the admin with your own.
+* New: License Manager — license key entry, validation, expiry tracking, and automated updates.
+* New: REST API endpoints under cf7-styler/v1 for webhook, white-label, analytics, and entries data with capability-gated permission checks.
+
+== Upgrade Notice (Pro) ==
+
+= 1.0.0 (alongside Free 3.0.4) =
+Pro features now unlock automatically once the Pro plugin is installed. Includes a fix for a fatal error on Pro activation. Recommended update.

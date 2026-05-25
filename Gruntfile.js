@@ -58,6 +58,7 @@ module.exports = function (grunt) {
 		'!assets/pro/**',
 		'!dist/js/admin-pro.js',
 		'!cf7-mate-pro.php',
+		'!changelog-pro.txt',
 	];
 	const pro_src = ['**', ...commonExcludes, '!cf7-styler.php'];
 

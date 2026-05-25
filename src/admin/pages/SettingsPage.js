@@ -184,6 +184,15 @@ function UpgradeCard() {
 				{__('Get CF7 Mate Pro', 'cf7-styler-for-divi')}
 				<ArrowUpRightIcon aria-hidden="true" />
 			</a>
+
+			<a
+				href={`${pricingUrl}${pricingUrl.includes('?') ? '&' : '?'}plan=lifetime`}
+				target="_blank"
+				rel="noopener noreferrer"
+				className="cf7m-upgrade-card__lifetime"
+			>
+				{__('Lifetime deal available — pay once', 'cf7-styler-for-divi')}
+			</a>
 		</div>
 	);
 }
