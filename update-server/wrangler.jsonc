@@ -1,0 +1,46 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "cf7mate-updates",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-05-01",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"observability": {
+		"enabled": true
+	},
+	// Custom domain. After first deploy, run:
+	//   wrangler deploy
+	// then in the Cloudflare dashboard map updates.cf7mate.com to this Worker
+	// (Workers Routes or Workers Custom Domains).
+	"routes": [
+		{
+			"pattern": "updates.cf7mate.com",
+			"custom_domain": true
+		}
+	],
+	// R2 bucket holding the plugin zip files. One bucket can hold multiple plugins;
+	// keys are scoped by plugin slug, e.g. "cf7-mate-pro/cf7-mate-pro-1.0.0.zip".
+	"r2_buckets": [
+		{
+			"binding": "PLUGIN_ZIPS",
+			"bucket_name": "cf7mate-plugin-zips"
+		},
+		{
+			"bucket_name": "cf7mate-plugin-zips",
+			"binding": "cf7mate_pro"
+		}
+	],
+	// KV namespace holding the release manifest per plugin slug.
+	// Key: <plugin-slug>   Value: JSON ReleaseManifest (see src/index.ts).
+	"kv_namespaces": [
+		{
+			"binding": "RELEASES",
+			"id": "ef57f4ea968c4a7b94d6221ad837a7da"
+		}
+	],
+	"vars": {
+		// Comma-separated list of plugin slugs this Worker serves.
+		"ALLOWED_SLUGS": "cf7-mate-pro"
+	}
+}

@@ -77,6 +77,12 @@ class License_Manager {
             return new \WP_Error('activation_failed', __('License activation was not successful.', 'cf7-styler-for-divi'));
         }
 
+        // Verify the license belongs to this product / store (if configured).
+        $mismatch = $this->check_store_product_mismatch($data);
+        if ($mismatch) {
+            return $mismatch;
+        }
+
         // Store encrypted key
         update_option(self::OPT_LICENSE_KEY, $this->encrypt($license_key), false);
 
@@ -303,6 +309,38 @@ class License_Manager {
      * @param array $license_data The "license_key" sub-object from the response.
      * @return array
      */
+    /**
+     * Ensure the activated license belongs to this plugin's store and product.
+     *
+     * Reads CF7M_LS_STORE_ID and CF7M_LS_PRODUCT_ID. Empty constants skip the
+     * check (useful for local dev). Returns null on pass, WP_Error on mismatch.
+     */
+    private function check_store_product_mismatch(array $data) {
+        $meta_obj = isset($data['meta']) && is_array($data['meta']) ? $data['meta'] : [];
+
+        $expected_store_id   = defined('CF7M_LS_STORE_ID')   ? (string) CF7M_LS_STORE_ID   : '';
+        $expected_product_id = defined('CF7M_LS_PRODUCT_ID') ? (string) CF7M_LS_PRODUCT_ID : '';
+
+        $store_id   = isset($meta_obj['store_id'])   ? (string) $meta_obj['store_id']   : '';
+        $product_id = isset($meta_obj['product_id']) ? (string) $meta_obj['product_id'] : '';
+
+        if ($expected_store_id !== '' && $store_id !== '' && $store_id !== $expected_store_id) {
+            return new \WP_Error(
+                'wrong_store',
+                __('This license key belongs to a different store.', 'cf7-styler-for-divi')
+            );
+        }
+
+        if ($expected_product_id !== '' && $product_id !== '' && $product_id !== $expected_product_id) {
+            return new \WP_Error(
+                'wrong_product',
+                __('This license key is for a different product.', 'cf7-styler-for-divi')
+            );
+        }
+
+        return null;
+    }
+
     private function extract_meta(array $data, array $license_data): array {
         $meta_obj = isset($data['meta']) && is_array($data['meta']) ? $data['meta'] : [];
 
@@ -358,6 +396,17 @@ class License_Manager {
     }
 
     /**
+     * Derive a deterministic 256-bit key from this site's secret salts.
+     *
+     * Must be deterministic — same key on every call so encrypt() and a
+     * later decrypt() agree. wp_salt() is deterministic (sourced from the
+     * AUTH_KEY / SECURE_AUTH_KEY constants in wp-config.php).
+     */
+    private function get_encryption_key(): string {
+        return hash('sha256', wp_salt('secure_auth_key') . 'cf7m_license_v1', true);
+    }
+
+    /**
      * Encrypt a string using AES-256-CBC.
      *
      * @param string $value Value to encrypt.
@@ -365,18 +414,17 @@ class License_Manager {
      */
     private function encrypt(string $value): string {
         if (!function_exists('openssl_encrypt')) {
-            // Fallback: store as-is (still in DB only, not exposed to frontend)
             return $value;
         }
 
-        $key = wp_hash_password(wp_salt('secure_auth_key'));
-        $key = hash('sha256', $key, true);
+        $key       = $this->get_encryption_key();
+        $iv        = openssl_random_pseudo_bytes(16);
+        $cipher    = openssl_encrypt($value, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
+        if ($cipher === false) {
+            return $value;
+        }
 
-        $iv       = openssl_random_pseudo_bytes(16);
-        $cipher   = openssl_encrypt($value, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
-        $encrypted = base64_encode($iv . $cipher);
-
-        return $encrypted;
+        return base64_encode($iv . $cipher);
     }
 
     /**
@@ -387,20 +435,17 @@ class License_Manager {
      */
     private function decrypt(string $value) {
         if (!function_exists('openssl_decrypt')) {
-            // Fallback: return as-is if OpenSSL not available
             return $value;
         }
 
-        $key = wp_hash_password(wp_salt('secure_auth_key'));
-        $key = hash('sha256', $key, true);
-
         $data = base64_decode($value, true);
-        if (!$data || strlen($data) < 16) {
+        if (!$data || strlen($data) < 17) {
             return false;
         }
 
         $iv     = substr($data, 0, 16);
         $cipher = substr($data, 16);
+        $key    = $this->get_encryption_key();
 
         return openssl_decrypt($cipher, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
     }

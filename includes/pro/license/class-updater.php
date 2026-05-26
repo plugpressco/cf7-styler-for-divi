@@ -149,8 +149,9 @@ class Updater {
      */
     private function fetch_update_info() {
         $url = add_query_arg([
-            'site_url'     => home_url(),
-            'license_key'  => $this->get_masked_key(),
+            'slug'        => 'cf7-mate-pro',
+            'site_url'    => home_url(),
+            'license_key' => $this->get_masked_key(),
         ], self::UPDATE_SERVER);
 
         $response = wp_remote_get($url, [

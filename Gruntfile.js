@@ -17,6 +17,7 @@ module.exports = function (grunt) {
 		'!sass/**',
 		'!src/**',
 		'!tests/**',
+		'!update-server/**',
 		'!webpack/**',
 		'!.gitlab-ci.yml',
 		'!cghooks.lock',
