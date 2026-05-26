@@ -1,358 +1,316 @@
 /**
- * CF7 Mate – AI Form Generator Modal
+ * CF7 Mate — AI Form Generator modal.
  *
- * One-click presets, drag-drop image upload, editable result, regenerate.
+ * Two states: INPUT (textarea + presets + optional image) → RESULT (editable
+ * code + insert/copy). One single-column layout, no nested cards, all server
+ * logic via the existing /cf7-styler/v1/ai-generate REST endpoint.
  *
  * @package CF7_Mate
- * @since   3.0.0
+ * @since 3.0.5
  */
-(function ($) {
-  'use strict';
+( function ( $ ) {
+	'use strict';
 
-  var config = window.cf7mAI || {};
-  var strings = config.strings || {};
-  var presets = config.presets || {};
-  var categoryLabels = config.categoryLabels || {};
-  var modal = null;
+	var cfg     = window.cf7mAI || {};
+	var strings = cfg.strings || {};
+	var presets = cfg.presets || {};
 
-  // ───── Helpers ─────────────────────────────────────────────────────
-  function esc(s) {
-    var d = document.createElement('div');
-    d.textContent = s == null ? '' : s;
-    return d.innerHTML;
-  }
-  function escAttr(s) {
-    return esc(s).replace(/"/g, '&quot;');
-  }
+	var $modal       = null;
+	var $promptInput = null;
+	var $codeInput   = null;
+	var $imageInput  = null;
+	var imageData    = null; // { base64, mime }
 
-  function buildPresetGroups() {
-    // Group by category, preserve original order within each group.
-    var order = ['lead-contact', 'booking', 'application', 'calculators'];
-    var groups = {};
-    Object.keys(presets).forEach(function (key) {
-      var p = presets[key] || {};
-      var cat = p.category || 'other';
-      if (!groups[cat]) groups[cat] = [];
-      groups[cat].push({ key: key, preset: p });
-    });
+	function esc( s ) {
+		var d = document.createElement( 'div' );
+		d.textContent = s == null ? '' : String( s );
+		return d.innerHTML;
+	}
 
-    var html = '';
-    order.concat(Object.keys(groups).filter(function (c) {
-      return order.indexOf(c) === -1;
-    })).forEach(function (cat) {
-      if (!groups[cat] || !groups[cat].length) return;
-      var label = categoryLabels[cat] || cat;
-      html += '<div class="cf7m-ai__preset-group" data-category="' + esc(cat) + '">';
-      html += '<div class="cf7m-ai__group-title">' + esc(label) + '</div>';
-      html += '<div class="cf7m-ai__preset-row">';
-      groups[cat].forEach(function (item) {
-        html += '<button type="button" class="cf7m-preset-item" '
-          + 'data-preset="' + esc(item.key) + '" '
-          + 'data-prompt="' + escAttr(item.preset.prompt) + '" '
-          + 'title="' + escAttr(item.preset.description || '') + '">'
-          + esc(item.preset.name)
-          + '</button>';
-      });
-      html += '</div></div>';
-    });
-    return html;
-  }
+	// ── markup ──────────────────────────────────────────────────────────
+	function buildModal() {
+		var presetItems = Object.keys( presets ).map( function ( key ) {
+			var p = presets[ key ] || {};
+			return '<button type="button" class="cf7m-ai-preset" data-prompt="'
+				+ esc( p.prompt || '' )
+				+ '">'
+				+ esc( p.name || key )
+				+ '</button>';
+		} ).join( '' );
 
-  // ───── Modal markup ────────────────────────────────────────────────
-  function createModal() {
-    var presetsHtml = '';
-    if (Object.keys(presets).length > 0) {
-      presetsHtml = '<div class="cf7m-presets-section">'
-        + '<div class="cf7m-presets-label">' + esc(strings.presets || 'Quick presets') + '</div>'
-        + buildPresetGroups()
-        + '</div>';
-    }
+		var providerBadge = cfg.hasApiKey
+			? '<span class="cf7m-ai-provider">'
+				+ esc( cfg.provider || 'AI' )
+				+ ( cfg.model ? ' · ' + esc( cfg.model ) : '' )
+				+ ' <a href="' + esc( cfg.settingsUrl || '#' ) + '" target="_blank" rel="noopener">'
+				+ esc( strings.change || 'Change' )
+				+ '</a></span>'
+			: '<a class="cf7m-ai-provider cf7m-ai-provider--missing" href="'
+				+ esc( cfg.settingsUrl || '#' )
+				+ '" target="_blank" rel="noopener">'
+				+ esc( strings.configure || 'Configure AI provider' )
+				+ '</a>';
 
-    var providerRow = ''
-      + '<div class="cf7m-ai__provider-row">'
-        + '<span class="cf7m-ai__provider-name">' + esc(config.provider || 'AI') + '</span>'
-        + (config.model ? '<span class="cf7m-ai__provider-sep" aria-hidden="true">·</span>'
-          + '<span class="cf7m-ai__provider-model">' + esc(config.model) + '</span>' : '')
-        + '<a href="' + esc(config.dashUrl || config.settingsUrl || '#')
-        + '" target="_blank" rel="noopener" class="cf7m-ai__provider-change">'
-        + esc(strings.change || 'Change')
-        + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">'
-        + '<path d="M7 17L17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-        + '</a>'
-      + '</div>';
+		var html = [
+			'<div class="cf7m-ai-overlay" id="cf7m-ai-modal" role="dialog" aria-modal="true" aria-labelledby="cf7m-ai-title">',
+			'  <div class="cf7m-ai-modal">',
+			'    <header class="cf7m-ai-head">',
+			'      <h2 id="cf7m-ai-title" class="cf7m-ai-title">' + esc( strings.title || 'AI Form Generator' ) + '</h2>',
+			'      ' + providerBadge,
+			'      <button type="button" class="cf7m-ai-close" aria-label="Close">&times;</button>',
+			'    </header>',
+			// Input view ───────────────────────────────────
+			'    <section class="cf7m-ai-view cf7m-ai-view--input" data-view="input">',
+			'      <label for="cf7m-ai-prompt" class="screen-reader-text">' + esc( strings.custom || 'Describe your form' ) + '</label>',
+			'      <textarea id="cf7m-ai-prompt" class="cf7m-ai-textarea" rows="4" placeholder="'
+				+ esc( strings.placeholder || 'Describe the form you want…' )
+				+ '"></textarea>',
+			'      <div class="cf7m-ai-image" id="cf7m-ai-image-wrap" hidden>',
+			'        <img class="cf7m-ai-image__thumb" id="cf7m-ai-image-thumb" alt="">',
+			'        <button type="button" class="cf7m-ai-image__clear" id="cf7m-ai-image-clear" aria-label="'
+				+ esc( strings.removeImage || 'Remove image' )
+				+ '">&times;</button>',
+			'      </div>',
+			'      <p class="cf7m-ai-error" id="cf7m-ai-error" role="alert" hidden></p>',
+			'      <div class="cf7m-ai-actions">',
+			'        <label class="cf7m-ai-attach">',
+			'          <input type="file" id="cf7m-ai-image-input" accept="image/jpeg,image/png,image/gif,image/webp" hidden>',
+			'          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.93 8.83l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>',
+			'          ' + esc( strings.dropImage || 'Attach image' ),
+			'        </label>',
+			'        <span class="cf7m-ai-shortcut">' + esc( strings.shortcut || '⌘ + Enter' ) + '</span>',
+			'        <button type="button" class="cf7m-ai-btn cf7m-ai-btn--primary" id="cf7m-ai-generate">',
+			'          <span class="cf7m-ai-btn__label">' + esc( strings.generate || 'Generate' ) + '</span>',
+			'        </button>',
+			'      </div>',
+			presetItems
+				? '      <div class="cf7m-ai-presets"><span class="cf7m-ai-presets__label">'
+					+ esc( strings.presets || 'Quick presets' )
+					+ '</span><div class="cf7m-ai-presets__list">' + presetItems + '</div></div>'
+				: '',
+			'    </section>',
+			// Result view ───────────────────────────────────
+			'    <section class="cf7m-ai-view cf7m-ai-view--result" data-view="result" hidden>',
+			'      <label for="cf7m-ai-code" class="screen-reader-text">Form code</label>',
+			'      <textarea id="cf7m-ai-code" class="cf7m-ai-code" rows="14" spellcheck="false"></textarea>',
+			'      <div class="cf7m-ai-actions">',
+			'        <button type="button" class="cf7m-ai-btn cf7m-ai-btn--ghost" id="cf7m-ai-back">&larr; ' + esc( strings.regenerate || 'New prompt' ) + '</button>',
+			'        <span class="cf7m-ai-spacer"></span>',
+			'        <button type="button" class="cf7m-ai-btn cf7m-ai-btn--ghost" id="cf7m-ai-copy">' + esc( strings.copy || 'Copy' ) + '</button>',
+			'        <button type="button" class="cf7m-ai-btn cf7m-ai-btn--primary" id="cf7m-ai-insert">' + esc( strings.insert || 'Insert' ) + '</button>',
+			'      </div>',
+			'    </section>',
+			'  </div>',
+			'</div>'
+		].join( '\n' );
 
-    var noKey = !config.hasApiKey ? [
-      '<div class="cf7m-no-key">',
-        '<p>' + esc(strings.noKey || 'Configure AI provider.') + '</p>',
-        '<a href="' + esc(config.settingsUrl || '#') + '">' + esc(strings.configure || 'Configure') + '</a>',
-      '</div>'
-    ].join('') : '';
+		$( 'body' ).append( html );
+		$modal       = $( '#cf7m-ai-modal' );
+		$promptInput = $( '#cf7m-ai-prompt' );
+		$codeInput   = $( '#cf7m-ai-code' );
+		$imageInput  = $( '#cf7m-ai-image-input' );
 
-    var html = [
-      '<div class="cf7m-modal-overlay" id="cf7m-modal">',
-        '<div class="cf7m-modal cf7m-modal-chat">',
-          '<div class="cf7m-modal-header">',
-            '<h2 class="cf7m-modal-title">',
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>',
-              esc(strings.title || 'AI Form Generator'),
-            '</h2>',
-            providerRow,
-            '<button type="button" class="cf7m-modal-close" aria-label="Close">&times;</button>',
-          '</div>',
-          '<div class="cf7m-modal-body">',
-            noKey,
-            '<div class="cf7m-chat-input-area">',
-              '<textarea class="cf7m-prompt-input" id="cf7m-prompt" placeholder="' + escAttr(strings.placeholder || 'Describe the form…') + '"></textarea>',
-              '<div class="cf7m-ai__dropzone" id="cf7m-dropzone">',
-                '<input type="file" class="cf7m-image-input" id="cf7m-image" accept="image/jpeg,image/png,image/gif,image/webp" hidden>',
-                '<span class="cf7m-ai__dropzone-empty" id="cf7m-dropzone-empty">',
-                  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">',
-                    '<path d="M4 16l4-4 4 4 4-4 4 4M14 8a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round"/>',
-                    '<rect x="3" y="3" width="18" height="18" rx="2" stroke-linecap="round" stroke-linejoin="round"/>',
-                  '</svg>',
-                  '<span>' + esc(strings.dropImage || 'Drop an image, or click to upload') + '</span>',
-                '</span>',
-                '<div class="cf7m-ai__dropzone-preview" id="cf7m-image-preview"></div>',
-                '<button type="button" class="cf7m-image-clear" id="cf7m-image-clear" hidden aria-label="' + escAttr(strings.removeImage || 'Remove image') + '">&times;</button>',
-              '</div>',
-              '<div class="cf7m-error" id="cf7m-error" role="alert"></div>',
-              '<div class="cf7m-generate-row">',
-                '<span class="cf7m-ai__shortcut">' + esc(strings.shortcut || '') + '</span>',
-                '<button type="button" class="cf7m-generate-btn" id="cf7m-generate">',
-                  '<span class="btn-text">' + esc(strings.generate || 'Generate') + '</span>',
-                '</button>',
-              '</div>',
-            '</div>',
-            presetsHtml,
-            '<div class="cf7m-result" id="cf7m-result">',
-              '<div class="cf7m-result-header">',
-                '<span class="cf7m-result-title">Generated Form</span>',
-                '<div class="cf7m-result-actions">',
-                  '<button type="button" class="cf7m-regen-btn" id="cf7m-regen">' + esc(strings.regenerate || 'Regenerate') + '</button>',
-                  '<button type="button" class="cf7m-copy-btn" id="cf7m-copy">' + esc(strings.copy || 'Copy') + '</button>',
-                  '<button type="button" class="cf7m-insert-btn" id="cf7m-insert">' + esc(strings.insert || 'Insert') + '</button>',
-                '</div>',
-              '</div>',
-              '<div class="cf7m-code-box"><textarea id="cf7m-code" spellcheck="false"></textarea></div>',
-            '</div>',
-          '</div>',
-        '</div>',
-      '</div>'
-    ].join('');
+		bind();
+	}
 
-    $('body').append(html);
-    modal = $('#cf7m-modal');
-    bind();
-  }
+	// ── bindings ────────────────────────────────────────────────────────
+	function bind() {
+		$modal.on( 'click', function ( e ) {
+			if ( e.target === $modal[ 0 ] ) close();
+		} );
+		$modal.find( '.cf7m-ai-close' ).on( 'click', close );
 
-  // ───── Bindings ────────────────────────────────────────────────────
-  function bind() {
-    modal.find('.cf7m-modal-close').on('click', close);
-    modal.on('click', function (e) {
-      if ($(e.target).hasClass('cf7m-modal-overlay')) close();
-    });
-    $(document).on('keydown.cf7mAI', function (e) {
-      if (e.key === 'Escape' && modal.hasClass('open')) close();
-    });
+		$( document ).on( 'keydown.cf7mAI', function ( e ) {
+			if ( e.key === 'Escape' && $modal.hasClass( 'is-open' ) ) close();
+		} );
 
-    // One-click preset → fill prompt + generate.
-    modal.on('click', '.cf7m-preset-item', function () {
-      var prompt = $(this).data('prompt');
-      if (!prompt) return;
-      $('#cf7m-prompt').val(prompt);
-      modal.find('.cf7m-preset-item').removeClass('active');
-      $(this).addClass('active');
-      generate();
-    });
+		// Presets
+		$modal.on( 'click', '.cf7m-ai-preset', function () {
+			var prompt = $( this ).data( 'prompt' );
+			if ( ! prompt ) return;
+			$promptInput.val( prompt );
+			generate();
+		} );
 
-    // Generate / Regenerate buttons.
-    $('#cf7m-generate').on('click', generate);
-    $('#cf7m-regen').on('click', generate);
+		// Generate
+		$( '#cf7m-ai-generate' ).on( 'click', generate );
+		$promptInput.on( 'keydown', function ( e ) {
+			if ( e.key === 'Enter' && ( e.ctrlKey || e.metaKey ) ) generate();
+		} );
 
-    // Cmd / Ctrl + Enter.
-    $('#cf7m-prompt, #cf7m-code').on('keydown', function (e) {
-      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) generate();
-    });
+		// Image
+		$( '.cf7m-ai-attach' ).on( 'click', function ( e ) {
+			// Let the label handle it natively
+		} );
+		$imageInput.on( 'change', function () {
+			var file = this.files && this.files[ 0 ];
+			if ( file ) readImage( file );
+		} );
+		$( '#cf7m-ai-image-clear' ).on( 'click', clearImage );
 
-    // Track edits to result so Insert label flips.
-    $('#cf7m-code').on('input', function () {
-      $('#cf7m-insert').text(strings.insertEdited || 'Insert edited form');
-    });
+		// Drag-drop into the prompt area
+		var $promptZone = $promptInput;
+		$promptZone.on( 'dragover', function ( e ) {
+			e.preventDefault();
+			$promptZone.addClass( 'is-dragover' );
+		} );
+		$promptZone.on( 'dragleave dragend drop', function () {
+			$promptZone.removeClass( 'is-dragover' );
+		} );
+		$promptZone.on( 'drop', function ( e ) {
+			e.preventDefault();
+			var dt = e.originalEvent.dataTransfer;
+			if ( dt && dt.files && dt.files[ 0 ] ) readImage( dt.files[ 0 ] );
+		} );
 
-    $('#cf7m-copy').on('click', copy);
-    $('#cf7m-insert').on('click', insert);
+		// Result actions
+		$( '#cf7m-ai-back' ).on( 'click', function () { switchView( 'input' ); } );
+		$( '#cf7m-ai-copy' ).on( 'click', copy );
+		$( '#cf7m-ai-insert' ).on( 'click', insert );
+	}
 
-    // Image upload + drag/drop.
-    var $dz = $('#cf7m-dropzone');
-    var $input = $('#cf7m-image');
+	// ── views ───────────────────────────────────────────────────────────
+	function switchView( view ) {
+		$modal.find( '[data-view]' ).each( function () {
+			var $v = $( this );
+			$v.prop( 'hidden', $v.data( 'view' ) !== view );
+		} );
+		setTimeout( function () {
+			if ( view === 'input' ) $promptInput.trigger( 'focus' );
+			if ( view === 'result' ) $codeInput.trigger( 'focus' );
+		}, 30 );
+	}
 
-    $dz.on('click', function (e) {
-      // Don't reopen file picker when clicking the clear button.
-      if ($(e.target).closest('#cf7m-image-clear').length) return;
-      $input.trigger('click');
-    });
+	function open() {
+		if ( ! $modal ) buildModal();
+		$modal.addClass( 'is-open' );
+		switchView( 'input' );
+	}
 
-    $input.on('change', function () {
-      if (this.files && this.files[0]) showImagePreview(this.files[0]);
-    });
+	function close() {
+		if ( $modal ) $modal.removeClass( 'is-open' );
+	}
 
-    $dz.on('dragover', function (e) {
-      e.preventDefault();
-      $dz.addClass('is-dragover');
-    });
-    $dz.on('dragleave dragend drop', function () {
-      $dz.removeClass('is-dragover');
-    });
-    $dz.on('drop', function (e) {
-      e.preventDefault();
-      var dt = e.originalEvent.dataTransfer;
-      if (dt && dt.files && dt.files[0]) {
-        $input[0].files = dt.files;
-        showImagePreview(dt.files[0]);
-      }
-    });
+	// ── image ───────────────────────────────────────────────────────────
+	function readImage( file ) {
+		var reader = new FileReader();
+		reader.onload = function () {
+			var dataUrl = reader.result;
+			var comma   = dataUrl.indexOf( ',' );
+			imageData = {
+				base64: dataUrl.slice( comma + 1 ),
+				mime:   file.type || 'image/jpeg'
+			};
+			$( '#cf7m-ai-image-thumb' ).attr( 'src', dataUrl );
+			$( '#cf7m-ai-image-wrap' ).prop( 'hidden', false );
+		};
+		reader.readAsDataURL( file );
+	}
 
-    $('#cf7m-image-clear').on('click', function (e) {
-      e.stopPropagation();
-      clearImage();
-    });
-  }
+	function clearImage() {
+		imageData = null;
+		$imageInput.val( '' );
+		$( '#cf7m-ai-image-thumb' ).attr( 'src', '' );
+		$( '#cf7m-ai-image-wrap' ).prop( 'hidden', true );
+	}
 
-  function showImagePreview(file) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      $('#cf7m-image-preview').html(
-        '<img src="' + e.target.result + '" alt="" class="cf7m-image-thumb">'
-      );
-      $('#cf7m-dropzone').addClass('has-image');
-      $('#cf7m-image-clear').removeAttr('hidden');
-    };
-    reader.readAsDataURL(file);
-  }
+	// ── generate ────────────────────────────────────────────────────────
+	function generate() {
+		var prompt = ( $promptInput.val() || '' ).trim();
 
-  function clearImage() {
-    $('#cf7m-image').val('');
-    $('#cf7m-image-preview').empty();
-    $('#cf7m-dropzone').removeClass('has-image');
-    $('#cf7m-image-clear').attr('hidden', true);
-  }
+		if ( ! prompt && ! imageData ) {
+			showError( strings.emptyError || 'Please describe the form, pick a preset, or attach an image.' );
+			return;
+		}
+		if ( ! cfg.hasApiKey ) {
+			showError( strings.noKey || 'Configure AI provider first.' );
+			return;
+		}
 
-  // ───── Open / Close ────────────────────────────────────────────────
-  function open() {
-    if (!modal) createModal();
-    modal.addClass('open');
-    setTimeout(function () { $('#cf7m-prompt').focus(); }, 50);
-  }
+		hideError();
 
-  function close() {
-    if (modal) modal.removeClass('open');
-  }
+		var $btn = $( '#cf7m-ai-generate' );
+		var orig = $btn.find( '.cf7m-ai-btn__label' ).text();
+		$btn.prop( 'disabled', true );
+		$btn.find( '.cf7m-ai-btn__label' ).html(
+			'<span class="cf7m-ai-spinner" aria-hidden="true"></span>'
+			+ ( strings.generating || 'Generating…' )
+		);
+		$modal.find( '.cf7m-ai-preset' ).prop( 'disabled', true );
 
-  // ───── Generate ────────────────────────────────────────────────────
-  function generate() {
-    var prompt = $('#cf7m-prompt').val().trim();
-    var imageInput = document.getElementById('cf7m-image');
-    var hasImage = imageInput && imageInput.files && imageInput.files[0];
+		var payload = { prompt: prompt };
+		if ( imageData ) {
+			payload.prompt     = prompt || 'Convert this form design or screenshot into valid Contact Form 7 form code. Output only the form code.';
+			payload.image      = imageData.base64;
+			payload.image_type = imageData.mime;
+		}
 
-    if (!prompt && !hasImage) {
-      showError(strings.emptyError || 'Please describe the form, pick a preset, or upload an image.');
-      return;
-    }
+		$.ajax( {
+			url:         cfg.generateUrl,
+			method:      'POST',
+			headers:     { 'X-WP-Nonce': cfg.nonce },
+			contentType: 'application/json',
+			data:        JSON.stringify( payload )
+		} ).done( function ( r ) {
+			if ( r && r.success && r.form ) {
+				$codeInput.val( r.form );
+				switchView( 'result' );
+			} else {
+				showError( ( r && r.message ) || strings.error );
+			}
+		} ).fail( function ( xhr ) {
+			var msg = xhr.responseJSON && xhr.responseJSON.message;
+			showError( msg || strings.error || 'Error generating form.' );
+		} ).always( function () {
+			$btn.prop( 'disabled', false );
+			$btn.find( '.cf7m-ai-btn__label' ).text( orig );
+			$modal.find( '.cf7m-ai-preset' ).prop( 'disabled', false );
+		} );
+	}
 
-    var $genBtn = $('#cf7m-generate');
-    var $regenBtn = $('#cf7m-regen');
-    var origGenHtml = $genBtn.html();
-    var origRegenText = $regenBtn.text();
-    var loadingHtml = '<span class="spinner"></span> ' + esc(strings.generating || 'Generating…');
+	// ── result actions ──────────────────────────────────────────────────
+	function copy() {
+		var code = $codeInput.val();
+		if ( ! code ) return;
+		var done = function () {
+			var $b = $( '#cf7m-ai-copy' );
+			var t  = $b.text();
+			$b.text( strings.copied || 'Copied!' );
+			setTimeout( function () { $b.text( t ); }, 1400 );
+		};
+		if ( navigator.clipboard && navigator.clipboard.writeText ) {
+			navigator.clipboard.writeText( code ).then( done );
+		} else {
+			$codeInput.trigger( 'select' );
+			document.execCommand( 'copy' );
+			done();
+		}
+	}
 
-    $genBtn.prop('disabled', true).html(loadingHtml);
-    $regenBtn.prop('disabled', true).html(loadingHtml);
-    modal.find('.cf7m-preset-item').prop('disabled', true);
-    hideError();
+	function insert() {
+		var code = $codeInput.val();
+		var $ta  = $( '#wpcf7-form' );
+		if ( ! $ta.length ) {
+			showError( strings.noEditor || 'Form editor not found.' );
+			return;
+		}
+		$ta.val( code ).trigger( 'change' );
+		close();
+		$( 'html, body' ).animate( { scrollTop: $ta.offset().top - 80 }, 200 );
+	}
 
-    function done() {
-      $genBtn.prop('disabled', false).html(origGenHtml);
-      $regenBtn.prop('disabled', false).text(origRegenText);
-      modal.find('.cf7m-preset-item').prop('disabled', false);
-    }
+	function showError( msg ) {
+		$( '#cf7m-ai-error' ).text( msg ).prop( 'hidden', false );
+	}
+	function hideError() {
+		$( '#cf7m-ai-error' ).text( '' ).prop( 'hidden', true );
+	}
 
-    function doRequest(payload) {
-      $.ajax({
-        url: config.generateUrl,
-        method: 'POST',
-        headers: { 'X-WP-Nonce': config.nonce },
-        contentType: 'application/json',
-        data: JSON.stringify(payload),
-        success: function (r) {
-          if (r.success && r.form) {
-            $('#cf7m-code').val(r.form);
-            $('#cf7m-insert').text(strings.insert || 'Insert');
-            $('#cf7m-result').addClass('show');
-            modal.find('.cf7m-modal-body').animate({
-              scrollTop: modal.find('.cf7m-result').position().top
-            }, 300);
-          } else {
-            showError(r.message || strings.error);
-          }
-        },
-        error: function (xhr) {
-          showError((xhr.responseJSON && xhr.responseJSON.message) || strings.error);
-        },
-        complete: done
-      });
-    }
-
-    if (hasImage) {
-      var file = imageInput.files[0];
-      var reader = new FileReader();
-      reader.onload = function () {
-        var base64 = reader.result.split(',')[1];
-        var mediaType = file.type || 'image/jpeg';
-        var textPrompt = prompt || 'Convert this form design or screenshot into valid Contact Form 7 form code. Output only the form code.';
-        doRequest({ prompt: textPrompt, image: base64, image_type: mediaType });
-      };
-      reader.readAsDataURL(file);
-    } else {
-      doRequest({ prompt: prompt });
-    }
-  }
-
-  // ───── Result actions ──────────────────────────────────────────────
-  function copy() {
-    var code = $('#cf7m-code').val();
-    if (!code) return;
-    navigator.clipboard.writeText(code).then(function () {
-      var $btn = $('#cf7m-copy');
-      var orig = $btn.text();
-      $btn.text(strings.copied || 'Copied!');
-      setTimeout(function () { $btn.text(orig); }, 1500);
-    });
-  }
-
-  function insert() {
-    var code = $('#cf7m-code').val();
-    var ta = $('#wpcf7-form');
-    if (ta.length) {
-      ta.val(code).trigger('change');
-      close();
-      $('html, body').animate({ scrollTop: ta.offset().top - 80 }, 200);
-    } else {
-      showError(strings.noEditor || 'Form editor not found.');
-    }
-  }
-
-  function showError(msg) {
-    $('#cf7m-error').text(msg).addClass('show');
-  }
-  function hideError() {
-    $('#cf7m-error').removeClass('show').text('');
-  }
-
-  // ───── Init ────────────────────────────────────────────────────────
-  $(document).ready(function () {
-    $(document).on('click', '#cf7m-ai-btn', function (e) {
-      e.preventDefault();
-      open();
-    });
-  });
-})(jQuery);
+	// ── init ────────────────────────────────────────────────────────────
+	$( document ).ready( function () {
+		$( document ).on( 'click', '#cf7m-ai-btn', function ( e ) {
+			e.preventDefault();
+			open();
+		} );
+	} );
+} )( jQuery );

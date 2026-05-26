@@ -114,18 +114,23 @@ class AI_Form_Generator extends Feature_Base
 			return;
 		}
 
+		$css_path = CF7M_PLUGIN_PATH . 'assets/pro/css/cf7m-ai-generator.css';
+		$js_path  = CF7M_PLUGIN_PATH . 'assets/pro/js/cf7m-ai-generator.js';
+		$css_ver  = CF7M_VERSION . ( file_exists( $css_path ) ? '.' . filemtime( $css_path ) : '' );
+		$js_ver   = CF7M_VERSION . ( file_exists( $js_path ) ? '.' . filemtime( $js_path ) : '' );
+
 		wp_enqueue_style(
 			'cf7m-ai-generator',
 			CF7M_PLUGIN_URL . 'assets/pro/css/cf7m-ai-generator.css',
 			array(),
-			CF7M_VERSION
+			$css_ver
 		);
 
 		wp_enqueue_script(
 			'cf7m-ai-generator',
 			CF7M_PLUGIN_URL . 'assets/pro/js/cf7m-ai-generator.js',
 			array('jquery'),
-			CF7M_VERSION,
+			$js_ver,
 			true
 		);
 

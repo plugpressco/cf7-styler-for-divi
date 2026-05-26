@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: PlugPress <support@plugpress.io>\n"
-"POT-Creation-Date: 2026-05-26 14:02+0000\n"
+"POT-Creation-Date: 2026-05-26 14:21+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -554,103 +554,103 @@ msgstr ""
 msgid "AI Generate"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:157
+#: includes/lite/features/ai-form-generator/module.php:162
 msgid "Lead & contact"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:158
+#: includes/lite/features/ai-form-generator/module.php:163
 msgid "Booking"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:161
+#: includes/lite/features/ai-form-generator/module.php:166
 msgid "AI Form Generator"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:162
+#: includes/lite/features/ai-form-generator/module.php:167
 msgid "Quick presets"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:163
+#: includes/lite/features/ai-form-generator/module.php:168
 msgid "Describe your form"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:164
+#: includes/lite/features/ai-form-generator/module.php:169
 msgid "Generate"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:165
+#: includes/lite/features/ai-form-generator/module.php:170
 msgid "Regenerate"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:166, includes/lite/features/grid/module.php:154
+#: includes/lite/features/ai-form-generator/module.php:171, includes/lite/features/grid/module.php:154
 msgid "Insert"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:167
+#: includes/lite/features/ai-form-generator/module.php:172
 msgid "Insert edited form"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:168
+#: includes/lite/features/ai-form-generator/module.php:173
 msgid "Copy"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:169
+#: includes/lite/features/ai-form-generator/module.php:174
 msgid "Generating…"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:170
+#: includes/lite/features/ai-form-generator/module.php:175
 msgid "Error generating form."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:171
+#: includes/lite/features/ai-form-generator/module.php:176
 msgid "Copied!"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:172
+#: includes/lite/features/ai-form-generator/module.php:177
 msgid "Configure"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:173
+#: includes/lite/features/ai-form-generator/module.php:178
 msgid "Configure AI provider first."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:174
+#: includes/lite/features/ai-form-generator/module.php:179
 msgid "Change"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:175
+#: includes/lite/features/ai-form-generator/module.php:180
 msgid "⌘ + Enter to generate"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:176
+#: includes/lite/features/ai-form-generator/module.php:181
 msgid "Describe the form you want to create, or pick a preset below…"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:177
+#: includes/lite/features/ai-form-generator/module.php:182
 msgid "Drop an image here, or click to upload"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:178
+#: includes/lite/features/ai-form-generator/module.php:183
 msgid "Remove image"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:179
+#: includes/lite/features/ai-form-generator/module.php:184
 msgid "Please describe the form, pick a preset, or upload an image."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:180
+#: includes/lite/features/ai-form-generator/module.php:185
 msgid "Form editor not found."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:217
+#: includes/lite/features/ai-form-generator/module.php:222
 msgid "Please describe the form or upload an image."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:225
+#: includes/lite/features/ai-form-generator/module.php:230
 msgid "Invalid image data."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:231
+#: includes/lite/features/ai-form-generator/module.php:236
 msgid "Convert this form design or screenshot into valid Contact Form 7 form code. Output only the form code."
 msgstr ""
 
