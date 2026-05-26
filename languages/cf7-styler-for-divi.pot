@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: PlugPress <support@plugpress.io>\n"
-"POT-Creation-Date: 2026-05-25 18:10+0000\n"
+"POT-Creation-Date: 2026-05-26 14:02+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -153,12 +153,20 @@ msgstr ""
 msgid "License activation was not successful."
 msgstr ""
 
-#: includes/pro/license/class-license-manager.php:124
+#: includes/pro/license/class-license-manager.php:130
 msgid "No active license to deactivate."
 msgstr ""
 
-#: includes/pro/license/class-license-manager.php:130
+#: includes/pro/license/class-license-manager.php:136
 msgid "Could not decrypt license key."
+msgstr ""
+
+#: includes/pro/license/class-license-manager.php:330
+msgid "This license key belongs to a different store."
+msgstr ""
+
+#: includes/pro/license/class-license-manager.php:337
+msgid "This license key is for a different product."
 msgstr ""
 
 #: includes/pro/license/class-updater.php:106
@@ -1604,6 +1612,10 @@ msgstr ""
 
 #: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:562
 msgid "Error Message Background Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:745
+msgid "Please select a Contact Form 7."
 msgstr ""
 
 #: includes/lite/builders/divi4/FluentForms/FluentForms.php:18

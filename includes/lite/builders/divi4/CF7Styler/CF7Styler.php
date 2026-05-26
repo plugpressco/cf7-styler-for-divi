@@ -736,19 +736,22 @@ class DCS_CF7Styler extends ET_Builder_Module
 
 	public function get_cf7_shortcode($args)
 	{
+		// Divi stores all module props as strings — coerce to int so we
+		// reliably detect "no form selected" (empty string / "0") and pass
+		// a clean integer to CF7's shortcode handler.
+		$cf7_id = isset($this->props['cf7']) ? absint($this->props['cf7']) : 0;
 
-		$cf7_id = $this->props['cf7'];
-
-		$cf7_shortcode = '';
-
-		if (0 === $cf7_id) {
-			$cf7_shortcode = 'Please select a Contact Form 7.';
-		} else {
-			$cf7_shortcode = do_shortcode(sprintf('[contact-form-7 id="%1$s"]', $cf7_id));
-			if (strpos($cf7_shortcode, '[cf7m-presets') !== false || strpos($cf7_shortcode, '[/cf7m-presets]') !== false) {
-				$cf7_shortcode = preg_replace('/\[cf7m-presets[^\]]*\]|\[\/cf7m-presets\]/i', '', $cf7_shortcode);
-			}
+		if (!$cf7_id) {
+			return esc_html__('Please select a Contact Form 7.', 'cf7-styler-for-divi');
 		}
+
+		$cf7_shortcode = do_shortcode(sprintf('[contact-form-7 id="%d"]', $cf7_id));
+
+		// Strip pro-only [cf7m-presets] wrapper tags if the pro module is inactive.
+		if (strpos($cf7_shortcode, '[cf7m-presets') !== false || strpos($cf7_shortcode, '[/cf7m-presets]') !== false) {
+			$cf7_shortcode = preg_replace('/\[cf7m-presets[^\]]*\]|\[\/cf7m-presets\]/i', '', $cf7_shortcode);
+		}
+
 		return $cf7_shortcode;
 	}
 
@@ -763,6 +766,19 @@ class DCS_CF7Styler extends ET_Builder_Module
 
 	public function render($attrs, $content, $render_slug)
 	{
+
+		// Ensure the frontend stylesheet loads even when the module renders
+		// from a Divi Theme Builder layout, Divi Library global module, or
+		// any other context where the shortcode is not in $post->post_content
+		// (the Assets::enqueue_scripts has_shortcode() check misses those).
+		if ( ! wp_style_is( 'cf7-styler-for-divi', 'enqueued' ) && defined( 'CF7M_PLUGIN_URL' ) ) {
+			wp_enqueue_style(
+				'cf7-styler-for-divi',
+				CF7M_PLUGIN_URL . 'dist/css/bundle-4.css',
+				array(),
+				defined( 'CF7M_VERSION' ) ? CF7M_VERSION : false
+			);
+		}
 
 		$this->apply_css($render_slug);
 

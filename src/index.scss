@@ -38,6 +38,43 @@
 }
 
 /** deprecated Css **/
+.dfs-row {
+	margin-left: -15px;
+	margin-right: -15px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.dfs-col {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+@for $i from 1 through 12 {
+	.dfs-col-#{$i} {
+		flex: 0 0 (8.333333% * $i);
+		max-width: (8.333333% * $i);
+	}
+}
+
+@media (min-width: 768px) {
+	@for $i from 1 through 12 {
+		.dfs-col-md-#{$i} {
+			flex: 0 0 (8.333333% * $i);
+			max-width: (8.333333% * $i);
+		}
+	}
+}
+
+@media (min-width: 981px) {
+	@for $i from 1 through 12 {
+		.dfs-col-lg-#{$i} {
+			flex: 0 0 (8.333333% * $i);
+			max-width: (8.333333% * $i);
+		}
+	}
+}
+
 .tfs-row {
 	margin-left: -15px;
 	margin-right: -15px;

@@ -214,22 +214,6 @@ const PRODUCTS = [
 		tag: 'Divi',
 		url: 'https://divitorque.com/?utm_source=cf7mate&utm_medium=sidebar&utm_campaign=products',
 	},
-	{
-		name: 'Formyard',
-		initial: 'F',
-		color: '#10b981',
-		desc: __('Forms & submissions, without the bloat.', 'cf7-styler-for-divi'),
-		tag: 'Forms',
-		url: 'https://formyard.co/?utm_source=cf7mate&utm_medium=sidebar&utm_campaign=products',
-	},
-	{
-		name: 'Mailyard',
-		initial: 'M',
-		color: '#f59e0b',
-		desc: __('Transactional email for your forms.', 'cf7-styler-for-divi'),
-		tag: 'Email',
-		url: 'https://mailyard.co/?utm_source=cf7mate&utm_medium=sidebar&utm_campaign=products',
-	},
 ];
 
 function ProductsCard() {
