@@ -41,18 +41,21 @@ class Scheduling_Editor_Panel {
 		$start_input = $start ? str_replace( ' ', 'T', substr( $start, 0, 16 ) ) : '';
 		$end_input   = $end   ? str_replace( ' ', 'T', substr( $end, 0, 16 ) )   : '';
 		?>
-		<fieldset style="margin-top:20px;">
-		<legend><?php esc_html_e( 'Form Scheduling', 'cf7-styler-for-divi' ); ?></legend>
+		<section class="cf7m-feat">
+			<header class="cf7m-feat__header">
+				<h3 class="cf7m-feat__title"><?php esc_html_e( 'Form Scheduling', 'cf7-styler-for-divi' ); ?></h3>
+				<p class="cf7m-feat__desc">
+					<?php esc_html_e( 'Open and close the form on specific dates. Visitors outside the window see a custom closed-state message.', 'cf7-styler-for-divi' ); ?>
+				</p>
+			</header>
+			<div class="cf7m-feat__body">
 
 		<?php wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME ); ?>
 
-		<fieldset>
-			<p>
-				<label>
-					<input type="checkbox" name="cf7m_schedule_enabled" value="1" <?php checked( $enabled ); ?> />
-					<?php esc_html_e( 'Enable scheduling for this form', 'cf7-styler-for-divi' ); ?>
-				</label>
-			</p>
+		<label class="cf7m-feat-check" style="margin-bottom: 12px;">
+			<input type="checkbox" name="cf7m_schedule_enabled" value="1" <?php checked( $enabled ); ?> />
+			<span><?php esc_html_e( 'Enable scheduling for this form', 'cf7-styler-for-divi' ); ?></span>
+		</label>
 
 			<table class="form-table">
 				<tr>
@@ -98,8 +101,8 @@ class Scheduling_Editor_Panel {
 					</td>
 				</tr>
 			</table>
-		</fieldset>
-		</fieldset>
+			</div>
+		</section>
 		<?php
 	}
 

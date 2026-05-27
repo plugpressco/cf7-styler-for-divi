@@ -37,15 +37,18 @@ class Email_Routing_Editor_Panel {
 			'contains' => __( 'contains', 'cf7-styler-for-divi' ),
 		];
 		?>
-		<fieldset style="margin-top:20px;">
-		<legend><?php esc_html_e( 'Email Routing', 'cf7-styler-for-divi' ); ?></legend>
-		<p class="description">
-			<?php esc_html_e( 'Override the notification recipient based on a field value. Rules are evaluated in order — the first match wins.', 'cf7-styler-for-divi' ); ?>
-		</p>
+		<section class="cf7m-feat">
+			<header class="cf7m-feat__header">
+				<h3 class="cf7m-feat__title"><?php esc_html_e( 'Email Routing', 'cf7-styler-for-divi' ); ?></h3>
+				<p class="cf7m-feat__desc">
+					<?php esc_html_e( 'Override the notification recipient based on a field value. Rules are evaluated in order — the first match wins.', 'cf7-styler-for-divi' ); ?>
+				</p>
+			</header>
+			<div class="cf7m-feat__body">
 
 		<?php wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME ); ?>
 
-		<div id="cf7m-routing-rules" style="margin-top:12px;">
+		<div id="cf7m-routing-rules">
 			<table class="widefat" id="cf7m-routing-table">
 				<thead>
 					<tr>
@@ -75,13 +78,14 @@ class Email_Routing_Editor_Panel {
 				</tbody>
 			</table>
 
-			<p style="margin-top:8px;">
+			<p>
 				<button type="button" id="cf7m-add-rule" class="button">
 					<?php esc_html_e( '+ Add rule', 'cf7-styler-for-divi' ); ?>
 				</button>
 			</p>
 		</div>
-		</fieldset>
+			</div>
+		</section>
 
 		<?php
 	}

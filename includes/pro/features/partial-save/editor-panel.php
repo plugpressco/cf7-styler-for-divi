@@ -27,21 +27,21 @@ class Partial_Save_Editor_Panel {
 		$form_id = $contact_form ? (int) $contact_form->id() : 0;
 		$enabled = $form_id ? get_post_meta( $form_id, self::META_KEY, true ) === '1' : false;
 		?>
-		<fieldset style="margin-top:20px;">
-			<legend><?php esc_html_e( 'Save & Continue', 'cf7-styler-for-divi' ); ?></legend>
-
-			<?php wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME ); ?>
-
-			<p>
-				<label>
+		<section class="cf7m-feat">
+			<header class="cf7m-feat__header">
+				<h3 class="cf7m-feat__title"><?php esc_html_e( 'Save & Continue', 'cf7-styler-for-divi' ); ?></h3>
+				<p class="cf7m-feat__desc">
+					<?php esc_html_e( 'When enabled, a "Save progress" button appears in the form. Progress is saved for 7 days using a browser token — no account required.', 'cf7-styler-for-divi' ); ?>
+				</p>
+			</header>
+			<div class="cf7m-feat__body">
+				<?php wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME ); ?>
+				<label class="cf7m-feat-check">
 					<input type="checkbox" name="cf7m_partial_save_enabled" value="1" <?php checked( $enabled ); ?> />
-					<?php esc_html_e( 'Allow users to save their progress and return later.', 'cf7-styler-for-divi' ); ?>
+					<span><?php esc_html_e( 'Allow users to save their progress and return later', 'cf7-styler-for-divi' ); ?></span>
 				</label>
-			</p>
-			<p class="description">
-				<?php esc_html_e( 'When enabled, a "Save progress" button appears in the form. Progress is saved for 7 days using a browser token — no account required.', 'cf7-styler-for-divi' ); ?>
-			</p>
-		</fieldset>
+			</div>
+		</section>
 		<?php
 	}
 

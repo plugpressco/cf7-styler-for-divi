@@ -61,66 +61,69 @@ class Redirect_Editor_Panel {
 			'contains' => __( 'contains', 'cf7-styler-for-divi' ),
 		];
 		?>
-		<fieldset style="margin-top:20px;">
-		<legend><?php esc_html_e( 'Redirect after submission', 'cf7-styler-for-divi' ); ?></legend>
-		<p class="description">
-			<?php esc_html_e( 'Send visitors to a thank-you page after the form sends successfully. You can reference submitted values in the URL using [field_name] placeholders, e.g. /thanks/?email=[your-email].', 'cf7-styler-for-divi' ); ?>
-		</p>
+		<section class="cf7m-feat">
+			<header class="cf7m-feat__header">
+				<h3 class="cf7m-feat__title"><?php esc_html_e( 'Redirect after submission', 'cf7-styler-for-divi' ); ?></h3>
+				<p class="cf7m-feat__desc">
+					<?php esc_html_e( 'Send visitors to a thank-you page after the form sends successfully. Reference submitted values in the URL using [field_name] placeholders.', 'cf7-styler-for-divi' ); ?>
+				</p>
+			</header>
+			<div class="cf7m-feat__body">
 
 		<?php wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME ); ?>
 
-		<table class="form-table" role="presentation">
-			<tbody>
-				<tr>
-					<th scope="row"><?php esc_html_e( 'Enable redirect', 'cf7-styler-for-divi' ); ?></th>
-					<td>
-						<label>
-							<input type="checkbox" name="cf7m_redirect_enabled" value="1" <?php checked( $cfg['enabled'] ); ?> />
-							<?php esc_html_e( 'Redirect after a successful submission', 'cf7-styler-for-divi' ); ?>
-						</label>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="cf7m-redirect-url"><?php esc_html_e( 'Redirect URL', 'cf7-styler-for-divi' ); ?></label></th>
-					<td>
-						<input type="text" id="cf7m-redirect-url" name="cf7m_redirect_url"
-							value="<?php echo esc_attr( $cfg['url'] ); ?>"
-							class="regular-text"
-							placeholder="https://example.com/thank-you/?email=[your-email]" />
-						<p class="description">
-							<?php esc_html_e( 'Relative ("/thank-you/") or absolute URL. Placeholders like [field_name] are replaced with submitted values (URL-encoded).', 'cf7-styler-for-divi' ); ?>
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><?php esc_html_e( 'Open in new tab', 'cf7-styler-for-divi' ); ?></th>
-					<td>
-						<label>
-							<input type="checkbox" name="cf7m_redirect_new_tab" value="1" <?php checked( $cfg['new_tab'] ); ?> />
-							<?php esc_html_e( 'Open the target URL in a new browser tab', 'cf7-styler-for-divi' ); ?>
-						</label>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row"><label for="cf7m-redirect-delay"><?php esc_html_e( 'Delay (ms)', 'cf7-styler-for-divi' ); ?></label></th>
-					<td>
-						<input type="number" id="cf7m-redirect-delay" name="cf7m_redirect_delay_ms"
-							value="<?php echo (int) $cfg['delay_ms']; ?>"
-							min="0" max="60000" step="100" class="small-text" />
-						<p class="description">
-							<?php esc_html_e( 'Optional pause before the redirect fires. Useful if you want the CF7 success message to be visible for a moment first.', 'cf7-styler-for-divi' ); ?>
-						</p>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="cf7m-feat-row">
+			<div class="cf7m-feat-row__label"><?php esc_html_e( 'Enable redirect', 'cf7-styler-for-divi' ); ?></div>
+			<div class="cf7m-feat-row__control">
+				<label class="cf7m-feat-check">
+					<input type="checkbox" name="cf7m_redirect_enabled" value="1" <?php checked( $cfg['enabled'] ); ?> />
+					<span><?php esc_html_e( 'Redirect after a successful submission', 'cf7-styler-for-divi' ); ?></span>
+				</label>
+			</div>
+		</div>
 
-		<h4 style="margin-top:24px;"><?php esc_html_e( 'Conditional redirects', 'cf7-styler-for-divi' ); ?></h4>
-		<p class="description">
-			<?php esc_html_e( 'Override the default redirect URL when a field matches a rule. Rules are evaluated in order — the first match wins. If no rule matches, the default URL above is used.', 'cf7-styler-for-divi' ); ?>
-		</p>
+		<div class="cf7m-feat-row">
+			<div class="cf7m-feat-row__label"><label for="cf7m-redirect-url"><?php esc_html_e( 'Redirect URL', 'cf7-styler-for-divi' ); ?></label></div>
+			<div class="cf7m-feat-row__control">
+				<input type="text" id="cf7m-redirect-url" name="cf7m_redirect_url"
+					value="<?php echo esc_attr( $cfg['url'] ); ?>"
+					class="regular-text"
+					placeholder="https://example.com/thank-you/?email=[your-email]" />
+				<p class="description">
+					<?php esc_html_e( 'Relative ("/thank-you/") or absolute URL. Placeholders like [field_name] are replaced with submitted values (URL-encoded).', 'cf7-styler-for-divi' ); ?>
+				</p>
+			</div>
+		</div>
 
-		<table class="widefat" id="cf7m-redirect-table" style="margin-top:8px;">
+		<div class="cf7m-feat-row">
+			<div class="cf7m-feat-row__label"><?php esc_html_e( 'Open in new tab', 'cf7-styler-for-divi' ); ?></div>
+			<div class="cf7m-feat-row__control">
+				<label class="cf7m-feat-check">
+					<input type="checkbox" name="cf7m_redirect_new_tab" value="1" <?php checked( $cfg['new_tab'] ); ?> />
+					<span><?php esc_html_e( 'Open the target URL in a new browser tab', 'cf7-styler-for-divi' ); ?></span>
+				</label>
+			</div>
+		</div>
+
+		<div class="cf7m-feat-row">
+			<div class="cf7m-feat-row__label"><label for="cf7m-redirect-delay"><?php esc_html_e( 'Delay (ms)', 'cf7-styler-for-divi' ); ?></label></div>
+			<div class="cf7m-feat-row__control">
+				<input type="number" id="cf7m-redirect-delay" name="cf7m_redirect_delay_ms"
+					value="<?php echo (int) $cfg['delay_ms']; ?>"
+					min="0" max="60000" step="100" class="small-text" />
+				<p class="description">
+					<?php esc_html_e( 'Optional pause before the redirect fires. Useful if you want the CF7 success message to be visible for a moment first.', 'cf7-styler-for-divi' ); ?>
+				</p>
+			</div>
+		</div>
+
+		<div class="cf7m-feat__sub">
+			<h4 class="cf7m-feat__sub-title"><?php esc_html_e( 'Conditional redirects', 'cf7-styler-for-divi' ); ?></h4>
+			<p class="cf7m-feat__sub-desc">
+				<?php esc_html_e( 'Override the default redirect URL when a field matches a rule. Rules are evaluated in order — the first match wins. If no rule matches, the default URL above is used.', 'cf7-styler-for-divi' ); ?>
+			</p>
+
+		<table class="widefat" id="cf7m-redirect-table">
 			<thead>
 				<tr>
 					<th><?php esc_html_e( 'Field name', 'cf7-styler-for-divi' ); ?></th>
@@ -149,12 +152,14 @@ class Redirect_Editor_Panel {
 			</tbody>
 		</table>
 
-		<p style="margin-top:8px;">
+		<p>
 			<button type="button" id="cf7m-add-redirect-rule" class="button">
 				<?php esc_html_e( '+ Add rule', 'cf7-styler-for-divi' ); ?>
 			</button>
 		</p>
-		</fieldset>
+		</div>
+			</div>
+		</section>
 		<?php
 	}
 
