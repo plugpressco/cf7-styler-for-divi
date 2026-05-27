@@ -5,7 +5,7 @@ Tags: contact form 7, cf7, form styler, ai form generator, multi-step form
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -181,6 +181,18 @@ Form Entries stores submission data only in your own WordPress database — no t
 
 == Changelog ==
 
+= 3.0.5 =
+* Fixed: forms saved with the pre-3.0 plugin (using `[dcs_row]` / `[dcs_col_half]` / `[dcs_col_full]` shortcodes) now render correctly again. The legacy column shortcodes are translated into the current grid markup on the fly, including any custom class attribute on the row or column.
+* Fixed: international phone field no longer drops the digits the user typed when JavaScript is unavailable on the page. The visible input is now the submitted field; emails contain the full number every time.
+* Fixed: required validation for Star Rating, Range Slider, and Phone Number now actually fails server-side when the user skips the field. Previously the `*` suffix only added a marker without enforcing anything.
+* Improved: AI Form Generator modal redesigned. Smaller footprint, two clean states (write your prompt → review and insert), single-row preset list, lighter image-attach affordance.
+* Improved: Star Rating supports keyboard navigation (Arrow keys, Home, End) and uses a single CSS mask sprite instead of repeating inline SVG for every star.
+* Improved: Range Slider accepts decimal `step` values (e.g. `step:0.5`) and announces the new value to screen readers as the user drags.
+* Improved: free fields (star, range, phone) share a single focus ring and baseline so they line up with native CF7 text inputs in the same form.
+* Improved: review notice and Pro upgrade notice now only appear on CF7 Mate's own admin pages, never site-wide on Dashboard, Plugins list, or post editors. Both are dismissible with sensible re-show cadences (review: 30 days → 90 days → never; upgrade: 90 days → never).
+* Improved: "More from PlugPress" sidebar now uses the real DiviPeople and DiviTorque brand logos.
+* Internal: author and URLs updated to the new PlugPress organisation.
+
 = 3.0.4 =
 * Improved: "More from PlugPress" sidebar redesigned with colored brand avatars, a "See all" link, and a curated product list.
 * Improved: Admin app bundles are now cache-busted by file modification time so source updates take effect without a manual hard reload.
@@ -223,6 +235,9 @@ Form Entries stores submission data only in your own WordPress database — no t
 * Improved: Form styling performance and mobile responsiveness.
 
 == Upgrade Notice ==
+
+= 3.0.5 =
+Fixes legacy [dcs_row] / [dcs_col_*] shortcodes in forms saved with the pre-3.0 plugin, a phone-number bug that dropped user input from email notifications, and required validation for Star/Range/Phone. AI generator modal redesigned. Recommended update.
 
 = 3.0.4 =
 Fixes for onboarding navigation, admin slug references, sidebar redesign, and auto-deactivation when CF7 Mate Pro is also active. Recommended update.
