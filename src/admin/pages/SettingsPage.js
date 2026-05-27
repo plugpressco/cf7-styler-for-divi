@@ -200,16 +200,14 @@ function UpgradeCard() {
 const PRODUCTS = [
 	{
 		name: 'DiviPeople',
-		initial: 'D',
-		color: '#7c3aed',
+		logo: 'assets/images/products/divi-people.svg',
 		desc: __('Premium plugins for Divi.', 'cf7-styler-for-divi'),
 		tag: 'Divi',
 		url: 'https://divipeople.com/?utm_source=cf7mate&utm_medium=sidebar&utm_campaign=products',
 	},
 	{
 		name: 'DiviTorque',
-		initial: 'T',
-		color: '#0ea5e9',
+		logo: 'assets/images/products/divi-torque.svg',
 		desc: __('Toolkit for Divi designers & agencies.', 'cf7-styler-for-divi'),
 		tag: 'Divi',
 		url: 'https://divitorque.com/?utm_source=cf7mate&utm_medium=sidebar&utm_campaign=products',
@@ -217,6 +215,7 @@ const PRODUCTS = [
 ];
 
 function ProductsCard() {
+	const pluginUrl = cfg('pluginUrl', '');
 	return (
 		<div className="cf7m-sidebar-card cf7m-sidebar-card--products">
 			<div className="cf7m-sidebar-card__header">
@@ -234,7 +233,7 @@ function ProductsCard() {
 				</a>
 			</div>
 			<div className="cf7m-products-list">
-				{PRODUCTS.map(({ name, initial, color, tag, desc, url }) => (
+				{PRODUCTS.map(({ name, logo, tag, desc, url }) => (
 					<a
 						key={name}
 						href={url}
@@ -242,12 +241,14 @@ function ProductsCard() {
 						rel="noopener noreferrer"
 						className="cf7m-product-item"
 					>
-						<span
-							className="cf7m-product-item__avatar"
-							style={{ background: color }}
-							aria-hidden="true"
-						>
-							{initial}
+						<span className="cf7m-product-item__avatar" aria-hidden="true">
+							<img
+								src={pluginUrl + logo}
+								alt=""
+								width="30"
+								height="30"
+								loading="lazy"
+							/>
 						</span>
 						<span className="cf7m-product-item__body">
 							<span className="cf7m-product-item__head">
