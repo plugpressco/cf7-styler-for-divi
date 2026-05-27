@@ -28,6 +28,7 @@ class Premium_Loader
         'analytics'         => true,
         'form_scheduling'   => true,
         'email_routing'     => true,
+        'redirect'          => true,
         'partial_save'      => false,
     ];
 
@@ -72,6 +73,10 @@ class Premium_Loader
         'email_routing'     => [
             'file'  => 'email-routing/module.php',
             'class' => 'CF7_Mate\Features\Email_Routing\Email_Routing',
+        ],
+        'redirect'          => [
+            'file'  => 'redirect/module.php',
+            'class' => 'CF7_Mate\Features\Redirect\Redirect',
         ],
         'partial_save'      => [
             'file'  => 'partial-save/module.php',

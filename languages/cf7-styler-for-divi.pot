@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: PlugPress <support@plugpress.io>\n"
-"POT-Creation-Date: 2026-05-27 13:33+0000\n"
+"POT-Creation-Date: 2026-05-27 13:41+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -138,11 +138,11 @@ msgstr ""
 msgid "See plans"
 msgstr ""
 
-#: includes/pro/loader.php:124, includes/pro/loader.php:125, includes/pro/features/entries/editor-panel.php:51
+#: includes/pro/loader.php:129, includes/pro/loader.php:130, includes/pro/features/entries/editor-panel.php:51
 msgid "Responses"
 msgstr ""
 
-#: includes/pro/loader.php:133, includes/pro/loader.php:134
+#: includes/pro/loader.php:138, includes/pro/loader.php:139
 msgid "Analytics"
 msgstr ""
 
@@ -1084,7 +1084,7 @@ msgstr ""
 msgid "less than or equal"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:251, includes/pro/features/email-routing/editor-panel.php:37, includes/pro/features/email-routing/editor-panel.php:97
+#: includes/pro/features/conditional/module.php:251, includes/pro/features/email-routing/editor-panel.php:37, includes/pro/features/email-routing/editor-panel.php:97, includes/pro/features/redirect/editor-panel.php:61, includes/pro/features/redirect/editor-panel.php:169
 msgid "contains"
 msgstr ""
 
@@ -1100,7 +1100,7 @@ msgstr ""
 msgid "matches any"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:259, includes/pro/features/email-routing/editor-panel.php:54
+#: includes/pro/features/conditional/module.php:259, includes/pro/features/email-routing/editor-panel.php:54, includes/pro/features/redirect/editor-panel.php:128
 msgid "Value"
 msgstr ""
 
@@ -1108,11 +1108,11 @@ msgstr ""
 msgid "For \"any\": comma-separated values. For \"empty/checked\": true or false."
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:35, includes/pro/features/email-routing/editor-panel.php:95
+#: includes/pro/features/email-routing/editor-panel.php:35, includes/pro/features/email-routing/editor-panel.php:95, includes/pro/features/redirect/editor-panel.php:59, includes/pro/features/redirect/editor-panel.php:167
 msgid "is"
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:36, includes/pro/features/email-routing/editor-panel.php:96
+#: includes/pro/features/email-routing/editor-panel.php:36, includes/pro/features/email-routing/editor-panel.php:96, includes/pro/features/redirect/editor-panel.php:60, includes/pro/features/redirect/editor-panel.php:168
 msgid "is not"
 msgstr ""
 
@@ -1124,11 +1124,11 @@ msgstr ""
 msgid "Override the notification recipient based on a field value. Rules are evaluated in order — the first match wins."
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:52
+#: includes/pro/features/email-routing/editor-panel.php:52, includes/pro/features/redirect/editor-panel.php:126
 msgid "Field name"
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:53
+#: includes/pro/features/email-routing/editor-panel.php:53, includes/pro/features/redirect/editor-panel.php:127
 msgid "Operator"
 msgstr ""
 
@@ -1136,11 +1136,11 @@ msgstr ""
 msgid "Send to (comma-separated emails)"
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:72, includes/pro/features/email-routing/editor-panel.php:107
+#: includes/pro/features/email-routing/editor-panel.php:72, includes/pro/features/email-routing/editor-panel.php:107, includes/pro/features/redirect/editor-panel.php:146, includes/pro/features/redirect/editor-panel.php:179
 msgid "Remove"
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:80
+#: includes/pro/features/email-routing/editor-panel.php:80, includes/pro/features/redirect/editor-panel.php:154
 msgid "+ Add rule"
 msgstr ""
 
@@ -1441,6 +1441,58 @@ msgstr ""
 
 #: includes/pro/features/presets/module.php:154
 msgid "Wrap your form fields in this shortcode to apply a preset style. Put all fields inside the opening and closing tags."
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:65
+msgid "Redirect after submission"
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:67
+msgid "Send visitors to a thank-you page after the form sends successfully. You can reference submitted values in the URL using [field_name] placeholders, e.g. /thanks/?email=[your-email]."
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:75
+msgid "Enable redirect"
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:79
+msgid "Redirect after a successful submission"
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:84
+msgid "Redirect URL"
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:91
+msgid "Relative (\"/thank-you/\") or absolute URL. Placeholders like [field_name] are replaced with submitted values (URL-encoded)."
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:96
+msgid "Open in new tab"
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:100
+msgid "Open the target URL in a new browser tab"
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:105
+msgid "Delay (ms)"
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:111
+msgid "Optional pause before the redirect fires. Useful if you want the CF7 success message to be visible for a moment first."
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:118
+msgid "Conditional redirects"
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:120
+msgid "Override the default redirect URL when a field matches a rule. Rules are evaluated in order — the first match wins. If no rule matches, the default URL above is used."
+msgstr ""
+
+#: includes/pro/features/redirect/editor-panel.php:129
+msgid "Redirect to"
 msgstr ""
 
 #: includes/pro/features/scheduling/editor-panel.php:37, includes/pro/features/scheduling/module.php:53
