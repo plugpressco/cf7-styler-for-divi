@@ -146,14 +146,27 @@ class AI_Settings
 			'grok_model'      => sanitize_text_field($params['grok_model'] ?? $current['grok_model']),
 		);
 
-		// Process API keys - only update if new value provided (not masked).
+		// Process API keys.
+		// Three distinct intents from the client:
+		//   1. Field NOT in payload         → preserve existing value
+		//   2. Field is the masked dots     → preserve existing value (user didn't retype the key)
+		//   3. Field is an explicit empty   → CLEAR the stored value
+		//   4. Field is a real value        → encrypt and store
 		$key_fields = array('openai_key', 'anthropic_key', 'kimi_key', 'grok_key');
 		foreach ($key_fields as $key) {
-			$new_value = $params[$key] ?? '';
-			if (! empty($new_value) && false === strpos($new_value, '••')) {
-				$settings[$key] = $this->encrypt_key(sanitize_text_field($new_value));
-			} else {
+			if (! array_key_exists($key, $params)) {
 				$settings[$key] = $current[$key];
+				continue;
+			}
+			$new_value = is_string($params[$key]) ? $params[$key] : '';
+			if ($new_value !== '' && false !== strpos($new_value, '••')) {
+				// Masked placeholder — keep stored key.
+				$settings[$key] = $current[$key];
+			} elseif ($new_value === '') {
+				// Explicit clear.
+				$settings[$key] = '';
+			} else {
+				$settings[$key] = $this->encrypt_key(sanitize_text_field($new_value));
 			}
 		}
 
