@@ -1,207 +1,409 @@
 /**
- * CF7 Mate – form field styles (star-rating, range-slider, separator).
- * Free fields; enqueued when form uses these fields.
+ * CF7 Mate — frontend form-field styles.
+ *
+ * Single sheet shared across the seven free fields (star rating, range
+ * slider, phone number, separator, heading, image, icon). Anchors each
+ * control to a common baseline so star/range/phone sit cleanly next to
+ * native CF7 inputs.
  *
  * @package CF7_Mate
- * @since 3.0.0
+ * @since 3.0.5
  */
 
-/* Star rating [cf7m-star] */
+/* ──────────────────────────────────────────────────────────────────
+ * Design tokens — fall back to fixed values when CF7 doesn't set them.
+ * ────────────────────────────────────────────────────────────────── */
+.cf7m-star-rating,
+.cf7m-range-slider,
+.cf7m-phone-field,
+.cf7m-phone-number {
+	--cf7m-primary: #3044d7;
+	--cf7m-primary-soft: rgba(48, 68, 215, 0.18);
+	--cf7m-border: #d1d5db;
+	--cf7m-border-strong: #9ca3af;
+	--cf7m-bg: #ffffff;
+	--cf7m-text: #111827;
+	--cf7m-text-muted: #6b7280;
+	--cf7m-radius: 6px;
+	--cf7m-focus-ring: 0 0 0 3px var(--cf7m-primary-soft);
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * Star rating [cf7m-star]
+ * ────────────────────────────────────────────────────────────────── */
 .cf7m-star-rating {
-  --cf7m-star-size: 28px;
-  --cf7m-star-off: #e5e7eb;
-  --cf7m-star-on: #f59e0b;
-  --cf7m-star-hover: #fbbf24;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  flex-wrap: wrap;
-  padding: 0 !important;
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  width: auto;
-  height: auto;
+	--cf7m-star-size: 28px;
+	--cf7m-star-off: #e5e7eb;
+	--cf7m-star-on: #f59e0b;
+	--cf7m-star-hover: #fbbf24;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	flex-wrap: wrap;
+	padding: 0 !important;
+	border: none !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	vertical-align: middle;
 }
 
 .cf7m-star {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--cf7m-star-size);
-  height: var(--cf7m-star-size);
-  padding: 0 !important;
-  border: none !important;
-  background: none !important;
-  cursor: pointer;
-  color: var(--cf7m-star-off);
-  transition: color 0.2s ease, transform 0.15s ease;
-  -webkit-tap-highlight-color: transparent;
-  box-shadow: none !important;
+	display: inline-block;
+	width: var(--cf7m-star-size);
+	height: var(--cf7m-star-size);
+	padding: 0 !important;
+	border: 0 !important;
+	background: var(--cf7m-star-off);
+	-webkit-mask: var(--cf7m-star-shape) center / contain no-repeat;
+	        mask: var(--cf7m-star-shape) center / contain no-repeat;
+	--cf7m-star-shape: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/></svg>");
+	cursor: pointer;
+	transition: background-color 0.15s ease, transform 0.15s ease;
+	-webkit-tap-highlight-color: transparent;
+	box-shadow: none !important;
 }
 
 .cf7m-star:hover {
-  color: var(--cf7m-star-hover);
-  transform: scale(1.1);
+	background: var(--cf7m-star-hover);
+	transform: scale(1.1);
 }
 
-.cf7m-star:focus {
-  outline: 2px solid var(--cf7m-star-on);
-  outline-offset: 2px;
-  border: none !important;
-  box-shadow: none !important;
+.cf7m-star:focus-visible {
+	outline: 0;
+	box-shadow: var(--cf7m-focus-ring);
 }
 
 .cf7m-star.cf7m-star--on,
 .cf7m-star-rating:hover .cf7m-star.cf7m-star--on {
-  color: var(--cf7m-star-on);
+	background: var(--cf7m-star-on);
 }
 
-.cf7m-star-svg {
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+.cf7m-star-rating input[type="hidden"] {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
 }
 
-.cf7m-star-rating input[type="hidden"],
-.cf7m-star-rating input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-}
-
-.cf7m-star {
-  cursor: pointer;
-  color: #ddd;
-  transition: color 0.15s;
-}
-
-.cf7m-star:hover,
-.cf7m-star.active {
-  color: #ffc107;
-}
-
-.cf7m-star svg {
-  width: 24px;
-  height: 24px;
-}
-
-/* Range slider [cf7m-range] */
+/* ──────────────────────────────────────────────────────────────────
+ * Range slider [cf7m-range]
+ * ────────────────────────────────────────────────────────────────── */
 .cf7m-range-slider {
-  --cf7m-range-track: #e5e7eb;
-  --cf7m-range-thumb: #3044D7;
-  --cf7m-range-value-bg: #f3f4f6;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  width: 100%;
+	--cf7m-range-track: #e5e7eb;
+	--cf7m-range-thumb: var(--cf7m-primary);
+	--cf7m-range-value-bg: #f3f4f6;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+	width: 100%;
 }
 
 .cf7m-range-input {
-  flex: 1;
-  min-width: 120px;
-  height: 8px;
-  -webkit-appearance: none;
-  appearance: none;
-  background: var(--cf7m-range-track) !important;
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  box-shadow: none !important;
+	flex: 1;
+	min-width: 120px;
+	height: 8px;
+	-webkit-appearance: none;
+	appearance: none;
+	background: var(--cf7m-range-track) !important;
+	border-radius: 4px;
+	outline: none;
+	cursor: pointer;
+	border: 0 !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	box-shadow: none !important;
 }
 
 .cf7m-range-input:focus {
-  outline: 2px solid var(--cf7m-range-thumb);
-  outline-offset: 2px;
-  border: none !important;
-  box-shadow: none !important;
+	outline: 0;
+	box-shadow: var(--cf7m-focus-ring);
 }
 
 .cf7m-range-input::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--cf7m-range-thumb);
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-  transition: transform 0.15s ease;
-  border: none;
+	-webkit-appearance: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--cf7m-range-thumb);
+	cursor: pointer;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+	transition: transform 0.15s ease;
+	border: 0;
 }
 
 .cf7m-range-input::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
+	transform: scale(1.1);
 }
 
 .cf7m-range-input::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--cf7m-range-thumb);
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--cf7m-range-thumb);
+	cursor: pointer;
+	border: 0;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .cf7m-range-value {
-  min-width: 50px;
-  padding: 6px 12px;
-  background: var(--cf7m-range-value-bg);
-  border-radius: 6px;
-  text-align: center;
-  font-weight: 500;
-  font-size: 14px;
-  border: none;
+	min-width: 56px;
+	padding: 6px 12px;
+	background: var(--cf7m-range-value-bg);
+	border-radius: var(--cf7m-radius);
+	text-align: center;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	border: 0;
+	color: var(--cf7m-text);
 }
 
-/* Integration with CF7 Styler container */
+/* ──────────────────────────────────────────────────────────────────
+ * Phone number [cf7m-phone]
+ * ────────────────────────────────────────────────────────────────── */
+.cf7m-phone-field {
+	display: block;
+}
+
+.cf7m-phone-label {
+	display: block;
+	margin: 0 0 6px;
+	font-weight: 500;
+	color: var(--cf7m-text);
+}
+
+.cf7m-phone-required {
+	color: #dc2626;
+}
+
+.cf7m-phone-description {
+	margin: 0 0 8px;
+	font-size: 13px;
+	color: var(--cf7m-text-muted);
+}
+
+.cf7m-phone-number {
+	display: block;
+}
+
+.cf7m-phone-combo {
+	display: flex;
+	align-items: stretch;
+	width: 100%;
+	border: 1px solid var(--cf7m-border);
+	border-radius: var(--cf7m-radius);
+	background: var(--cf7m-bg);
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+	overflow: visible; /* let the dropdown escape */
+	position: relative;
+}
+
+.cf7m-phone-combo:focus-within {
+	border-color: var(--cf7m-primary);
+	box-shadow: var(--cf7m-focus-ring);
+}
+
+.cf7m-phone-trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 0 12px;
+	border: 0;
+	border-right: 1px solid var(--cf7m-border);
+	background: transparent;
+	cursor: pointer;
+	font: inherit;
+	color: var(--cf7m-text);
+	line-height: 1;
+}
+
+.cf7m-phone-trigger:hover,
+.cf7m-phone-trigger:focus {
+	background: #f9fafb;
+	outline: 0;
+}
+
+.cf7m-phone-flag {
+	font-size: 18px;
+	line-height: 1;
+}
+
+.cf7m-phone-dial {
+	font-variant-numeric: tabular-nums;
+	color: var(--cf7m-text-muted);
+}
+
+.cf7m-phone-caret {
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 5px solid var(--cf7m-text-muted);
+	margin-left: 2px;
+}
+
+.cf7m-phone-input {
+	flex: 1;
+	min-width: 0;
+	padding: 8px 12px;
+	border: 0 !important;
+	background: transparent;
+	outline: 0 !important;
+	font: inherit;
+	color: var(--cf7m-text);
+	box-shadow: none !important;
+}
+
+/* Dropdown */
+.cf7m-phone-dropdown {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	margin-top: 4px;
+	max-height: 280px;
+	overflow-y: auto;
+	background: var(--cf7m-bg);
+	border: 1px solid var(--cf7m-border);
+	border-radius: var(--cf7m-radius);
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+	z-index: 50;
+}
+
+.cf7m-phone-dropdown--hidden {
+	display: none;
+}
+
+.cf7m-phone-search {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 8px 12px;
+	border: 0;
+	border-bottom: 1px solid var(--cf7m-border);
+	font: inherit;
+	background: var(--cf7m-bg);
+	position: sticky;
+	top: 0;
+	outline: 0;
+}
+
+.cf7m-phone-option {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 7px 12px;
+	cursor: pointer;
+	color: var(--cf7m-text);
+}
+
+.cf7m-phone-option:hover,
+.cf7m-phone-option[aria-selected="true"] {
+	background: #f3f4f6;
+}
+
+.cf7m-phone-option .cf7m-phone-flag {
+	font-size: 16px;
+}
+
+.cf7m-phone-option-dial {
+	margin-left: auto;
+	color: var(--cf7m-text-muted);
+	font-variant-numeric: tabular-nums;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * Decorative fields — separator / heading / image / icon
+ * ────────────────────────────────────────────────────────────────── */
+.cf7m-separator {
+	display: block;
+	width: 100%;
+	border: 0;
+	border-top: 1px solid var(--cf7m-border, #e5e7eb);
+	margin: 16px 0;
+}
+
+.cf7m-separator--space {
+	border-top: 0;
+}
+
+.cf7m-heading {
+	margin: 0 0 12px;
+	font-weight: 600;
+	color: var(--cf7m-text);
+}
+
+.cf7m-image-wrap {
+	display: inline-block;
+	line-height: 0;
+}
+
+.cf7m-image {
+	max-width: 100%;
+	height: auto;
+}
+
+.cf7m-icon {
+	display: inline-block;
+	vertical-align: middle;
+	width: var(--cf7m-icon-size, 24px);
+	height: var(--cf7m-icon-size, 24px);
+	font-size: var(--cf7m-icon-size, 24px);
+	line-height: 1;
+}
+
+.cf7m-icon--img .cf7m-icon-img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * Styler-container overrides — keep colours inherited from the form.
+ * ────────────────────────────────────────────────────────────────── */
 .dipe-cf7 .cf7m-range-slider,
 .cf7m-cf7-styler .cf7m-range-slider {
-  --cf7m-range-thumb: currentColor;
+	--cf7m-range-thumb: currentColor;
 }
 
 .dipe-cf7 .cf7m-range-value,
 .cf7m-cf7-styler .cf7m-range-value {
-  border-radius: inherit;
+	border-radius: inherit;
 }
 
 .dipe-cf7 .cf7m-star-rating,
 .cf7m-cf7-styler .cf7m-star-rating {
-  padding: 0;
-  border: none;
-  background: transparent;
+	padding: 0;
+	border: 0;
+	background: transparent;
 }
 
 .dipe-cf7 .cf7m-range-input,
 .cf7m-cf7-styler .cf7m-range-input {
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+	background: transparent !important;
 }
 
 .dipe-cf7 .cf7m-separator,
 .cf7m-cf7-styler .cf7m-separator {
-  border-color: inherit;
-  opacity: 0.3;
+	border-color: inherit;
+	opacity: 0.3;
 }
 
+/* CF7 control-wrap collapses when these fields are inside it. */
 .cf7m-range-slider .wpcf7-form-control-wrap,
 .cf7m-star-rating .wpcf7-form-control-wrap {
-  display: contents;
+	display: contents;
 }
 
 .cf7m-range-slider label,
 .cf7m-star-rating label {
-  display: contents;
+	display: contents;
 }
 
 .cf7m-range-slider p {
-  margin: 0;
-  display: contents;
+	margin: 0;
+	display: contents;
 }

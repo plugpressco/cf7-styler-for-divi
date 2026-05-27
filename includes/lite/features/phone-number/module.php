@@ -45,8 +45,53 @@ class Phone_Number extends Feature_Base
     protected function init()
     {
         add_filter('wpcf7_form_elements', [$this, 'process_shortcodes'], 20, 1);
+        add_filter('wpcf7_validate', [$this, 'validate_submission'], 20, 2);
         add_action('wpcf7_admin_init', [$this, 'add_tag_generators'], 25);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
+    }
+
+    /**
+     * Server-side validation for [cf7m-phone*] fields. We re-parse the form
+     * markup for required phone shortcodes because they're not registered as
+     * real form-tags, so wpcf7_validate_<tag> filters don't fire.
+     *
+     * @param \WPCF7_Validation $result
+     * @param array             $tags
+     * @return \WPCF7_Validation
+     */
+    public function validate_submission($result, $tags)
+    {
+        $form = \WPCF7_ContactForm::get_current();
+        if (!$form) {
+            return $result;
+        }
+
+        $markup = $form->prop('form');
+        if (!is_string($markup) || strpos($markup, '[cf7m-phone*') === false) {
+            return $result;
+        }
+
+        if (preg_match_all('/\[cf7m-phone\*\s+([^\]]+)\]/', $markup, $m, PREG_SET_ORDER)) {
+            foreach ($m as $match) {
+                $parts = preg_split('/\s+/', trim($match[1]));
+                $name  = !empty($parts[0]) ? sanitize_key($parts[0]) : '';
+                if (!$name) {
+                    continue;
+                }
+                $posted = isset($_POST[$name]) ? trim(wp_unslash($_POST[$name])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                // Strip the dial prefix ("+1 ") and any whitespace — count
+                // only digits when deciding whether the user supplied a value.
+                $digits = preg_replace('/[^0-9]/', '', $posted);
+                if ($digits === '') {
+                    $result->invalidate(
+                        ['name' => $name, 'type' => 'cf7m-phone*'],
+                        wpcf7_get_message('invalid_required')
+                    );
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -117,7 +162,8 @@ class Phone_Number extends Feature_Base
         $label_id = $field_id . '-lbl';
         $desc_id = $field_id . '-desc';
 
-        $required_attr = $is_required ? ' data-required="true"' : '';
+        $required_attr    = $is_required ? ' data-required="true" required' : '';
+        $aria_required    = $is_required ? ' aria-required="true"' : '';
         $placeholder_attr = $placeholder !== '' ? ' placeholder="' . esc_attr($placeholder) . '"' : '';
 
         $default_iso2 = strtoupper($default_country);
@@ -140,29 +186,37 @@ class Phone_Number extends Feature_Base
         if ($description !== '') {
             $html .= '<div class="cf7m-phone-description" id="' . esc_attr($desc_id) . '">' . esc_html($description) . '</div>';
         }
-        $html .= '<span class="cf7m-phone-number" data-name="' . esc_attr($name) . '"' . $required_attr . '>';
+        $html .= '<span class="cf7m-phone-number" data-name="' . esc_attr($name) . '">';
         $html .= '<span class="cf7m-phone-combo">';
-        $html .= '<span class="cf7m-phone-wrap">';
         $html .= '<button type="button" class="cf7m-phone-trigger" aria-haspopup="listbox" aria-expanded="false" aria-label="' . esc_attr__('Select country', 'cf7-styler-for-divi') . '">';
         $html .= '<span class="cf7m-phone-flag">' . $initial_flag . '</span>';
         $html .= '<span class="cf7m-phone-dial">' . esc_html($initial_dial) . '</span>';
         $html .= '<span class="cf7m-phone-caret" aria-hidden="true"></span>';
         $html .= '</button>';
+
+        // Single visible & submitted input. Pre-filled with the dial code + a
+        // space so the user types digits directly after; without JS, this still
+        // posts whatever they type.
         $aria_desc = $description !== '' ? ' aria-describedby="' . esc_attr($desc_id) . '"' : '';
         $html .= sprintf(
-            '<input type="tel" id="%s" class="cf7m-phone-input" autocomplete="tel-national" aria-label="%s"%s%s>',
+            '<input type="tel" id="%s" name="%s" value="%s " class="cf7m-phone-input wpcf7-form-control" autocomplete="tel" inputmode="tel" data-default-country="%s" aria-label="%s"%s%s%s>',
             esc_attr($input_id),
-            esc_attr($label !== '' ? $label : __('Phone number', 'cf7-styler-for-divi')),
-            $aria_desc,
-            $placeholder_attr
-        );
-        $html .= '</span>';
-        $html .= sprintf(
-            '<input type="hidden" name="%s" value="%s" class="cf7m-phone-hidden" data-default-country="%s">',
             esc_attr($name),
             esc_attr($initial_dial),
+            esc_attr($default_country),
+            esc_attr($label !== '' ? $label : __('Phone number', 'cf7-styler-for-divi')),
+            $aria_desc,
+            $aria_required,
+            $placeholder_attr . $required_attr
+        );
+
+        // Sidecar so server-side code can route on country if it wants.
+        $html .= sprintf(
+            '<input type="hidden" name="%s__country" value="%s" class="cf7m-phone-country">',
+            esc_attr($name),
             esc_attr($default_country)
         );
+
         $html .= '</span></span></span></span>';
 
         return $html;
@@ -262,18 +316,32 @@ class Phone_Number extends Feature_Base
             return;
         }
 
-        $version = defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0';
+        $base    = defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0';
+        $shared  = CF7M_PLUGIN_PATH . 'assets/lite/css/cf7m-lite-forms.css';
+        $css     = CF7M_PLUGIN_PATH . 'assets/lite/css/cf7m-phone-number.css';
+        $js      = CF7M_PLUGIN_PATH . 'assets/lite/js/cf7m-phone-number.js';
+        $shared_ver = $base . (file_exists($shared) ? '.' . filemtime($shared) : '');
+        $css_ver    = $base . (file_exists($css) ? '.' . filemtime($css) : '');
+        $js_ver     = $base . (file_exists($js) ? '.' . filemtime($js) : '');
+
+        // Shared field tokens (focus ring, baseline) live in cf7m-lite-forms.css.
+        wp_enqueue_style(
+            'cf7m-lite-forms',
+            CF7M_PLUGIN_URL . 'assets/lite/css/cf7m-lite-forms.css',
+            [],
+            $shared_ver
+        );
         wp_enqueue_style(
             'cf7m-phone-number',
             CF7M_PLUGIN_URL . 'assets/lite/css/cf7m-phone-number.css',
-            [],
-            $version
+            ['cf7m-lite-forms'],
+            $css_ver
         );
         wp_enqueue_script(
             'cf7m-phone-number',
             CF7M_PLUGIN_URL . 'assets/lite/js/cf7m-phone-number.js',
             [],
-            $version,
+            $js_ver,
             true
         );
     }

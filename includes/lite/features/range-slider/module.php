@@ -30,8 +30,48 @@ class Range_Slider extends Feature_Base
     protected function init()
     {
         add_filter('wpcf7_form_elements', [$this, 'process_shortcodes'], 20, 1);
+        add_filter('wpcf7_validate', [$this, 'validate_submission'], 20, 2);
         add_action('wpcf7_admin_init', [$this, 'add_tag_generators'], 25);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
+    }
+
+    /**
+     * Server-side validation for [cf7m-range*] fields. A submission missing
+     * the field entirely (e.g. JS removed it) counts as empty.
+     *
+     * @param \WPCF7_Validation $result
+     * @param array             $tags
+     * @return \WPCF7_Validation
+     */
+    public function validate_submission($result, $tags)
+    {
+        $form = \WPCF7_ContactForm::get_current();
+        if (!$form) {
+            return $result;
+        }
+
+        $markup = $form->prop('form');
+        if (!is_string($markup) || strpos($markup, '[cf7m-range*') === false) {
+            return $result;
+        }
+
+        if (preg_match_all('/\[cf7m-range\*\s+([^\]]+)\]/', $markup, $m, PREG_SET_ORDER)) {
+            foreach ($m as $match) {
+                $parts = preg_split('/\s+/', trim($match[1]));
+                $name  = !empty($parts[0]) ? sanitize_key($parts[0]) : '';
+                if (!$name) {
+                    continue;
+                }
+                if (!isset($_POST[$name]) || trim(wp_unslash($_POST[$name])) === '') { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                    $result->invalidate(
+                        ['name' => $name, 'type' => 'cf7m-range*'],
+                        wpcf7_get_message('invalid_required')
+                    );
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -71,10 +111,10 @@ class Range_Slider extends Feature_Base
         $parts = preg_split('/\s+/', $raw_atts);
         $name = !empty($parts[0]) ? sanitize_key($parts[0]) : 'amount';
 
-        $min = 0;
-        $max = 100;
-        $step = 1;
-        $default = 50;
+        $min = 0.0;
+        $max = 100.0;
+        $step = 1.0;
+        $default = 50.0;
         $prefix = '';
         $suffix = '';
         $track_color = '';
@@ -83,13 +123,13 @@ class Range_Slider extends Feature_Base
         for ($i = 1; $i < count($parts); $i++) {
             $part = $parts[$i];
             if (strpos($part, 'min:') === 0) {
-                $min = (int) substr($part, 4);
+                $min = (float) substr($part, 4);
             } elseif (strpos($part, 'max:') === 0) {
-                $max = (int) substr($part, 4);
+                $max = (float) substr($part, 4);
             } elseif (strpos($part, 'step:') === 0) {
-                $step = (int) substr($part, 5);
+                $step = (float) substr($part, 5);
             } elseif (strpos($part, 'default:') === 0) {
-                $default = (int) substr($part, 8);
+                $default = (float) substr($part, 8);
             } elseif (strpos($part, 'prefix:') === 0) {
                 $prefix = substr($part, 7);
             } elseif (strpos($part, 'suffix:') === 0) {
@@ -101,10 +141,26 @@ class Range_Slider extends Feature_Base
             }
         }
 
-        $step = max(1, $step);
+        if ($step <= 0) {
+            $step = 1.0;
+        }
         $default = max($min, min($default, $max));
         $track_color = $this->sanitize_color($track_color);
         $thumb_color = $this->sanitize_color($thumb_color);
+
+        // Normalise numeric output: integer if value is whole, else trim
+        // trailing zeros so step=1 → "50" and step=0.5 → "2.5".
+        $fmt = function ($n) {
+            $n = (float) $n;
+            if (floor($n) === $n) {
+                return (string) (int) $n;
+            }
+            return rtrim(rtrim(sprintf('%.4F', $n), '0'), '.');
+        };
+        $min_s     = $fmt($min);
+        $max_s     = $fmt($max);
+        $step_s    = $fmt($step);
+        $default_s = $fmt($default);
 
         // Build style attribute
         $style_parts = [];
@@ -132,16 +188,16 @@ class Range_Slider extends Feature_Base
             $style
         );
         $html .= sprintf(
-            '<input type="range" name="%s" min="%d" max="%d" step="%d" value="%d" class="cf7m-range-input">',
+            '<input type="range" name="%s" min="%s" max="%s" step="%s" value="%s" class="cf7m-range-input wpcf7-form-control">',
             esc_attr($name),
-            $min,
-            $max,
-            $step,
-            $default
+            esc_attr($min_s),
+            esc_attr($max_s),
+            esc_attr($step_s),
+            esc_attr($default_s)
         );
         $html .= sprintf(
-            '<span class="cf7m-range-value">%s</span>',
-            esc_html($prefix . $default . $suffix)
+            '<span class="cf7m-range-value" aria-live="polite">%s</span>',
+            esc_html($prefix . $default_s . $suffix)
         );
         $html .= '</span></span>';
 
@@ -244,18 +300,23 @@ class Range_Slider extends Feature_Base
             return;
         }
 
-        $version = defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0';
+        $base    = defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0';
+        $css     = CF7M_PLUGIN_PATH . 'assets/lite/css/cf7m-lite-forms.css';
+        $js      = CF7M_PLUGIN_PATH . 'assets/lite/js/cf7m-range-slider.js';
+        $css_ver = $base . (file_exists($css) ? '.' . filemtime($css) : '');
+        $js_ver  = $base . (file_exists($js) ? '.' . filemtime($js) : '');
+
         wp_enqueue_style(
             'cf7m-lite-forms',
             CF7M_PLUGIN_URL . 'assets/lite/css/cf7m-lite-forms.css',
             [],
-            $version
+            $css_ver
         );
         wp_enqueue_script(
             'cf7m-range-slider',
             CF7M_PLUGIN_URL . 'assets/lite/js/cf7m-range-slider.js',
             [],
-            $version,
+            $js_ver,
             true
         );
     }

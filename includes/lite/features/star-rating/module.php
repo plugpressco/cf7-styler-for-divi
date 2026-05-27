@@ -23,8 +23,49 @@ class Star_Rating extends Feature_Base
     protected function init()
     {
         add_filter('wpcf7_form_elements', [$this, 'process_shortcodes'], 20, 1);
+        add_filter('wpcf7_validate', [$this, 'validate_submission'], 20, 2);
         add_action('wpcf7_admin_init', [$this, 'add_tag_generators'], 25);
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
+    }
+
+    /**
+     * Server-side validation for [cf7m-star*] fields. A value of "0" (the
+     * default for the hidden input) means "no rating chosen" — treat as empty.
+     *
+     * @param \WPCF7_Validation $result
+     * @param array             $tags
+     * @return \WPCF7_Validation
+     */
+    public function validate_submission($result, $tags)
+    {
+        $form = \WPCF7_ContactForm::get_current();
+        if (!$form) {
+            return $result;
+        }
+
+        $markup = $form->prop('form');
+        if (!is_string($markup) || strpos($markup, '[cf7m-star*') === false) {
+            return $result;
+        }
+
+        if (preg_match_all('/\[cf7m-star\*\s+([^\]]+)\]/', $markup, $m, PREG_SET_ORDER)) {
+            foreach ($m as $match) {
+                $parts = preg_split('/\s+/', trim($match[1]));
+                $name  = !empty($parts[0]) ? sanitize_key($parts[0]) : '';
+                if (!$name) {
+                    continue;
+                }
+                $posted = isset($_POST[$name]) ? trim(wp_unslash($_POST[$name])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                if ($posted === '' || $posted === '0') {
+                    $result->invalidate(
+                        ['name' => $name, 'type' => 'cf7m-star*'],
+                        wpcf7_get_message('invalid_required')
+                    );
+                }
+            }
+        }
+
+        return $result;
     }
 
     public function process_shortcodes($form)
@@ -71,16 +112,13 @@ class Star_Rating extends Feature_Base
         $default = max(0, min($default, $max));
         $color = $this->sanitize_color($color);
 
-        // Build star SVG
-        $star_svg = '<svg class="cf7m-star-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
-
-        // Style attribute for custom color
+        // Custom-colour escape hatch — applied via CSS custom properties so
+        // CSS can draw the star sprite from a single mask-image asset.
         $style = '';
         if ($color !== '') {
             $style = ' style="--cf7m-star-on:' . esc_attr($color) . ';--cf7m-star-hover:' . esc_attr($color) . ';"';
         }
 
-        // Build HTML
         $required_attr = $is_required ? ' data-required="true"' : '';
 
         $html = sprintf(
@@ -88,7 +126,7 @@ class Star_Rating extends Feature_Base
             esc_attr($name)
         );
         $html .= sprintf(
-            '<span class="cf7m-star-rating" data-max="%d" data-value="%d" data-name="%s"%s%s role="group" aria-label="%s">',
+            '<span class="cf7m-star-rating" data-max="%d" data-value="%d" data-name="%s"%s%s role="radiogroup" aria-label="%s">',
             $max,
             $default,
             esc_attr($name),
@@ -103,14 +141,17 @@ class Star_Rating extends Feature_Base
         );
 
         for ($i = 1; $i <= $max; $i++) {
-            $active = $i <= $default ? ' cf7m-star--on' : '';
+            $active   = $i <= $default ? ' cf7m-star--on' : '';
+            $checked  = $i === $default ? 'true' : 'false';
+            $tabindex = ($default === 0 && $i === 1) || $i === $default ? '0' : '-1';
             $html .= sprintf(
-                '<button type="button" class="cf7m-star%s" data-value="%d" aria-label="%s">%s</button>',
+                '<button type="button" class="cf7m-star%s" data-value="%d" role="radio" aria-checked="%s" tabindex="%s" aria-label="%s"></button>',
                 $active,
                 $i,
+                $checked,
+                $tabindex,
                 /* translators: %d: star rating number (e.g. 1, 2, 3) */
-                sprintf(esc_attr__('Rate %d star', 'cf7-styler-for-divi'), $i),
-                $star_svg
+                sprintf(esc_attr__('Rate %d star', 'cf7-styler-for-divi'), $i)
             );
         }
 
@@ -190,18 +231,23 @@ class Star_Rating extends Feature_Base
             return;
         }
 
-        $version = defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0';
+        $base    = defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0';
+        $css     = CF7M_PLUGIN_PATH . 'assets/lite/css/cf7m-lite-forms.css';
+        $js      = CF7M_PLUGIN_PATH . 'assets/lite/js/cf7m-star-rating.js';
+        $css_ver = $base . (file_exists($css) ? '.' . filemtime($css) : '');
+        $js_ver  = $base . (file_exists($js) ? '.' . filemtime($js) : '');
+
         wp_enqueue_style(
             'cf7m-lite-forms',
             CF7M_PLUGIN_URL . 'assets/lite/css/cf7m-lite-forms.css',
             [],
-            $version
+            $css_ver
         );
         wp_enqueue_script(
             'cf7m-star-rating',
             CF7M_PLUGIN_URL . 'assets/lite/js/cf7m-star-rating.js',
             [],
-            $version,
+            $js_ver,
             true
         );
     }

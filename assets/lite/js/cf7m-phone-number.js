@@ -107,14 +107,13 @@
 		if (root.dataset.cf7mPhoneInit) return;
 		root.dataset.cf7mPhoneInit = '1';
 
-		var wrap    = root.querySelector('.cf7m-phone-wrap');
-		var trigger = root.querySelector('.cf7m-phone-trigger');
-		var input   = root.querySelector('.cf7m-phone-input');
-		var hidden  = root.querySelector('.cf7m-phone-hidden');
+		var trigger     = root.querySelector('.cf7m-phone-trigger');
+		var input       = root.querySelector('.cf7m-phone-input');
+		var countryEl   = root.querySelector('.cf7m-phone-country');
 
-		if (!wrap || !trigger || !input || !hidden) return;
+		if (!trigger || !input) return;
 
-		var selectedIso = (hidden.dataset.defaultCountry || 'US').toUpperCase();
+		var selectedIso = ((input.dataset.defaultCountry || (countryEl && countryEl.value) || 'US')).toUpperCase();
 		var dropdown    = null;
 		var searchInput = null;
 		var listEl      = null;
@@ -124,10 +123,30 @@
 			return findCountry(selectedIso);
 		}
 
-		function syncHidden() {
-			var val  = (input.value || '').trim().replace(/\s/g, '');
-			var dial = getSelected().dial;
-			hidden.value = val ? dial + ' ' + val : dial;
+		/**
+		 * Replace the dial prefix in the visible input's value with the
+		 * currently-selected country's dial code. We preserve everything after
+		 * the first space ("the rest"), so user-typed digits aren't lost.
+		 */
+		function setDial(newDial) {
+			var val = input.value || '';
+			var rest;
+			var firstSpace = val.indexOf(' ');
+
+			if (val === '' || /^\s*$/.test(val)) {
+				input.value = newDial + ' ';
+				return;
+			}
+			if (val.charAt(0) === '+' && firstSpace !== -1) {
+				rest = val.slice(firstSpace + 1);
+			} else if (val.charAt(0) === '+') {
+				// dial-only, no space yet (e.g. "+1")
+				rest = '';
+			} else {
+				// user typed without a prefix — prepend the dial.
+				rest = val.trim();
+			}
+			input.value = rest ? newDial + ' ' + rest : newDial + ' ';
 		}
 
 		function closeDropdown() {
@@ -141,7 +160,8 @@
 			selectedIso = country.iso2;
 			trigger.querySelector('.cf7m-phone-flag').textContent = flagEmoji(country.iso2);
 			trigger.querySelector('.cf7m-phone-dial').textContent = country.dial;
-			syncHidden();
+			setDial(country.dial);
+			if (countryEl) countryEl.value = country.iso2;
 			closeDropdown();
 		}
 
@@ -232,18 +252,16 @@
 			}
 		});
 
-		input.addEventListener('input', syncHidden);
-		input.addEventListener('blur', syncHidden);
+		// No syncHidden needed — the visible input is the submitted field.
 
 		document.addEventListener('click', function (e) {
 			if (!root.contains(e.target)) closeDropdown();
 		});
 
-		// Set initial state
+		// Set initial trigger label.
 		var initial = getSelected();
 		trigger.querySelector('.cf7m-phone-flag').textContent = flagEmoji(initial.iso2);
 		trigger.querySelector('.cf7m-phone-dial').textContent = initial.dial;
-		syncHidden();
 	}
 
 	/* ── Bootstrap ─────────────────────────────────────────────────── */

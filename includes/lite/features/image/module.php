@@ -88,19 +88,23 @@ class Image extends Feature_Base
             return '';
         }
 
-        $attr = ['src' => $src, 'alt' => $alt, 'class' => $class];
+        // Build the <img> tag from a fixed attribute whitelist — never use
+        // user-supplied keys (only values), so an attacker can't sneak in
+        // `onclick` etc. via the shortcode.
+        $dims = '';
         if ($width > 0) {
-            $attr['width'] = $width;
+            $dims .= sprintf(' width="%d"', $width);
         }
         if ($height > 0) {
-            $attr['height'] = $height;
+            $dims .= sprintf(' height="%d"', $height);
         }
-
-        $html = '<img ';
-        foreach ($attr as $k => $v) {
-            $html .= esc_attr($k) . '="' . esc_attr($v) . '" ';
-        }
-        $html .= '/>';
+        $html = sprintf(
+            '<img src="%s" alt="%s" class="%s" loading="lazy"%s />',
+            esc_url($src),
+            esc_attr($alt),
+            esc_attr($class),
+            $dims
+        );
 
         return '<span class="cf7m-image-wrap">' . $html . '</span>';
     }

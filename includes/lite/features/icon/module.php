@@ -84,15 +84,19 @@ class Icon extends Feature_Base
         if ($size < 8 || $size > 96) {
             $size = 24;
         }
-        $size_attr = sprintf('width="%d" height="%d"', $size, $size);
+
+        // Layout/size lives in CSS via a single --cf7m-icon-size custom prop;
+        // visual rules (display, vertical-align) are in cf7m-lite-forms.css.
+        $size_var = sprintf(' style="--cf7m-icon-size:%dpx;"', $size);
+
         $src = isset($atts['src']) ? esc_url($atts['src']) : '';
         if ($src !== '') {
-            $style = sprintf('width:%dpx;height:%dpx;display:inline-block;vertical-align:middle;', $size, $size);
             return sprintf(
-                '<span class="cf7m-icon cf7m-icon--img"><img src="%s" alt="" class="cf7m-icon-img" %s style="%s" loading="lazy" /></span>',
+                '<span class="cf7m-icon cf7m-icon--img"%s><img src="%s" alt="" class="cf7m-icon-img" width="%d" height="%d" loading="lazy" /></span>',
+                $size_var,
                 $src,
-                $size_attr,
-                esc_attr($style)
+                $size,
+                $size
             );
         }
 
@@ -100,9 +104,12 @@ class Icon extends Feature_Base
         if (strpos($name, 'dashicons-') !== 0) {
             $name = 'dashicons-star-filled';
         }
-        $class = 'cf7m-icon dashicons ' . esc_attr($name);
-        $style = sprintf('font-size: %dpx; width: %dpx; height: %dpx;', $size, $size, $size);
-        return sprintf('<span class="%s" style="%s" aria-hidden="true"></span>', esc_attr($class), esc_attr($style));
+
+        return sprintf(
+            '<span class="cf7m-icon cf7m-icon--font dashicons %s"%s aria-hidden="true"></span>',
+            esc_attr($name),
+            $size_var
+        );
     }
 
     private static function get_browser_icons()

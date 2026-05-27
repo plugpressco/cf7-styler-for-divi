@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: PlugPress <support@plugpress.io>\n"
-"POT-Creation-Date: 2026-05-27 06:17+0000\n"
+"POT-Creation-Date: 2026-05-27 08:54+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -433,7 +433,7 @@ msgstr ""
 msgid "Labels"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:900, includes/lite/builders/elementor/elementor-widget.php:456, includes/lite/features/phone-number/module.php:241, includes/pro/features/phone-number/module.php:241, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:56, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:632
+#: includes/lite/builders/bricks/bricks-element.php:900, includes/lite/builders/elementor/elementor-widget.php:456, includes/lite/features/phone-number/module.php:295, includes/pro/features/phone-number/module.php:241, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:56, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:632
 msgid "Placeholder"
 msgstr ""
 
@@ -762,155 +762,155 @@ msgstr ""
 msgid "Color"
 msgstr ""
 
-#: includes/lite/features/heading/module.php:225, includes/lite/features/icon/module.php:183, includes/lite/features/image/module.php:154, includes/lite/features/phone-number/module.php:250, includes/lite/features/range-slider/module.php:232, includes/lite/features/separator/module.php:162, includes/lite/features/star-rating/module.php:178, includes/pro/features/calculator/module.php:428, includes/pro/features/calculator/module.php:465, includes/pro/features/calculator/module.php:523, includes/pro/features/calculator/module.php:554, includes/pro/features/conditional/module.php:271, includes/pro/features/heading/module.php:230, includes/pro/features/multi-column/module.php:224, includes/pro/features/multi-column/module.php:270, includes/pro/features/multi-steps/module.php:230, includes/pro/features/phone-number/module.php:250, includes/pro/features/presets/module.php:162
+#: includes/lite/features/heading/module.php:225, includes/lite/features/icon/module.php:190, includes/lite/features/image/module.php:158, includes/lite/features/phone-number/module.php:304, includes/lite/features/range-slider/module.php:288, includes/lite/features/separator/module.php:162, includes/lite/features/star-rating/module.php:219, includes/pro/features/calculator/module.php:428, includes/pro/features/calculator/module.php:465, includes/pro/features/calculator/module.php:523, includes/pro/features/calculator/module.php:554, includes/pro/features/conditional/module.php:271, includes/pro/features/heading/module.php:230, includes/pro/features/multi-column/module.php:224, includes/pro/features/multi-column/module.php:270, includes/pro/features/multi-steps/module.php:230, includes/pro/features/phone-number/module.php:250, includes/pro/features/presets/module.php:162
 msgid "Insert Tag"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:134
+#: includes/lite/features/icon/module.php:141
 msgid "icon"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:145
+#: includes/lite/features/icon/module.php:152
 msgid "Icon"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:148
+#: includes/lite/features/icon/module.php:155
 msgid "Icon type"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:150
+#: includes/lite/features/icon/module.php:157
 msgid "Dashicon (browse below)"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:152
+#: includes/lite/features/icon/module.php:159
 msgid "Custom image (upload)"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:156
+#: includes/lite/features/icon/module.php:163
 msgid "Icon browser"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:158
+#: includes/lite/features/icon/module.php:165
 msgid "Choose an icon"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:163
+#: includes/lite/features/icon/module.php:170
 msgid "Click an icon to select it."
 msgstr ""
 
-#: includes/lite/features/icon/module.php:168, includes/lite/features/image/module.php:128
+#: includes/lite/features/icon/module.php:175, includes/lite/features/image/module.php:132
 msgid "Image URL"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:171, includes/lite/features/image/module.php:131
+#: includes/lite/features/icon/module.php:178, includes/lite/features/image/module.php:135
 msgid "Select Image"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:175
+#: includes/lite/features/icon/module.php:182
 msgid "Size (px)"
 msgstr ""
 
-#: includes/lite/features/image/module.php:114
+#: includes/lite/features/image/module.php:118
 msgid "image"
 msgstr ""
 
-#: includes/lite/features/image/module.php:124
+#: includes/lite/features/image/module.php:128
 msgid "Image"
 msgstr ""
 
-#: includes/lite/features/image/module.php:132
+#: includes/lite/features/image/module.php:136
 msgid "Enter a URL or use \"Select Image\" to choose from the media library."
 msgstr ""
 
-#: includes/lite/features/image/module.php:137
+#: includes/lite/features/image/module.php:141
 msgid "Alt text"
 msgstr ""
 
-#: includes/lite/features/image/module.php:138
+#: includes/lite/features/image/module.php:142
 msgid "Describe the image"
 msgstr ""
 
-#: includes/lite/features/image/module.php:141, includes/pro/features/multi-column/module.php:238
+#: includes/lite/features/image/module.php:145, includes/pro/features/multi-column/module.php:238
 msgid "Width"
 msgstr ""
 
-#: includes/lite/features/image/module.php:145
+#: includes/lite/features/image/module.php:149
 msgid "Height"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:146, includes/pro/features/phone-number/module.php:146
+#: includes/lite/features/phone-number/module.php:191, includes/pro/features/phone-number/module.php:146
 msgid "Select country"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:155, includes/pro/features/phone-number/module.php:155
+#: includes/lite/features/phone-number/module.php:207, includes/pro/features/phone-number/module.php:155
 msgid "Phone number"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:200, includes/pro/features/phone-number/module.php:200
+#: includes/lite/features/phone-number/module.php:254, includes/pro/features/phone-number/module.php:200
 msgid "phone number"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:218, includes/lite/features/phone-number/module.php:234, includes/pro/features/phone-number/module.php:218, includes/pro/features/phone-number/module.php:234
+#: includes/lite/features/phone-number/module.php:272, includes/lite/features/phone-number/module.php:288, includes/pro/features/phone-number/module.php:218, includes/pro/features/phone-number/module.php:234
 msgid "Phone Number"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:221, includes/lite/features/range-slider/module.php:195, includes/lite/features/star-rating/module.php:152, includes/pro/features/calculator/module.php:387, includes/pro/features/phone-number/module.php:221
+#: includes/lite/features/phone-number/module.php:275, includes/lite/features/range-slider/module.php:251, includes/lite/features/star-rating/module.php:193, includes/pro/features/calculator/module.php:387, includes/pro/features/phone-number/module.php:221
 msgid "Field type"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:222, includes/lite/features/range-slider/module.php:196, includes/lite/features/star-rating/module.php:153, includes/pro/features/calculator/module.php:388, includes/pro/features/phone-number/module.php:222
+#: includes/lite/features/phone-number/module.php:276, includes/lite/features/range-slider/module.php:252, includes/lite/features/star-rating/module.php:194, includes/pro/features/calculator/module.php:388, includes/pro/features/phone-number/module.php:222
 msgid "Required"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:225, includes/lite/features/range-slider/module.php:199, includes/lite/features/star-rating/module.php:156, includes/pro/features/calculator/module.php:391, includes/pro/features/phone-number/module.php:225
+#: includes/lite/features/phone-number/module.php:279, includes/lite/features/range-slider/module.php:255, includes/lite/features/star-rating/module.php:197, includes/pro/features/calculator/module.php:391, includes/pro/features/phone-number/module.php:225
 msgid "Name"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:229, includes/pro/features/phone-number/module.php:229
+#: includes/lite/features/phone-number/module.php:283, includes/pro/features/phone-number/module.php:229
 msgid "Default country"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:233, includes/pro/features/calculator/module.php:395, includes/pro/features/calculator/module.php:493, includes/pro/features/phone-number/module.php:233, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:52, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:622, includes/lite/builders/divi4/FluentForms/FluentForms.php:38, includes/lite/builders/divi4/FluentForms/FluentForms.php:287, includes/lite/builders/divi4/GravityForms/GravityForms.php:37, includes/lite/builders/divi4/GravityForms/GravityForms.php:291
+#: includes/lite/features/phone-number/module.php:287, includes/pro/features/calculator/module.php:395, includes/pro/features/calculator/module.php:493, includes/pro/features/phone-number/module.php:233, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:52, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:622, includes/lite/builders/divi4/FluentForms/FluentForms.php:38, includes/lite/builders/divi4/FluentForms/FluentForms.php:287, includes/lite/builders/divi4/GravityForms/GravityForms.php:37, includes/lite/builders/divi4/GravityForms/GravityForms.php:291
 msgid "Label"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:237, includes/pro/features/phone-number/module.php:237
+#: includes/lite/features/phone-number/module.php:291, includes/pro/features/phone-number/module.php:237
 msgid "Description"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:238, includes/pro/features/phone-number/module.php:238
+#: includes/lite/features/phone-number/module.php:292, includes/pro/features/phone-number/module.php:238
 msgid "Enter your phone number."
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:174
+#: includes/lite/features/range-slider/module.php:230
 msgid "range slider"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:192
+#: includes/lite/features/range-slider/module.php:248
 msgid "Range Slider"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:203, includes/pro/features/calculator/module.php:403
+#: includes/lite/features/range-slider/module.php:259, includes/pro/features/calculator/module.php:403
 msgid "Min"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:207, includes/pro/features/calculator/module.php:407
+#: includes/lite/features/range-slider/module.php:263, includes/pro/features/calculator/module.php:407
 msgid "Max"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:211, includes/pro/features/calculator/module.php:411
+#: includes/lite/features/range-slider/module.php:267, includes/pro/features/calculator/module.php:411
 msgid "Step"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:215, includes/lite/features/star-rating/module.php:164, includes/pro/features/calculator/module.php:399
+#: includes/lite/features/range-slider/module.php:271, includes/lite/features/star-rating/module.php:205, includes/pro/features/calculator/module.php:399
 msgid "Default Value"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:219, includes/pro/features/calculator/module.php:415, includes/pro/features/calculator/module.php:506
+#: includes/lite/features/range-slider/module.php:275, includes/pro/features/calculator/module.php:415, includes/pro/features/calculator/module.php:506
 msgid "Prefix"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:223, includes/pro/features/calculator/module.php:419, includes/pro/features/calculator/module.php:510
+#: includes/lite/features/range-slider/module.php:279, includes/pro/features/calculator/module.php:419, includes/pro/features/calculator/module.php:510
 msgid "Suffix"
 msgstr ""
 
@@ -930,28 +930,28 @@ msgstr ""
 msgid "Margin (px)"
 msgstr ""
 
-#: includes/lite/features/star-rating/module.php:97
+#: includes/lite/features/star-rating/module.php:135
 msgid "Star rating"
 msgstr ""
 
 #. translators: %d: star rating number (e.g. 1, 2, 3)
-#: includes/lite/features/star-rating/module.php:112
+#: includes/lite/features/star-rating/module.php:154
 msgid "Rate %d star"
 msgstr ""
 
-#: includes/lite/features/star-rating/module.php:136
+#: includes/lite/features/star-rating/module.php:177
 msgid "star rating"
 msgstr ""
 
-#: includes/lite/features/star-rating/module.php:148
+#: includes/lite/features/star-rating/module.php:189
 msgid "Star Rating"
 msgstr ""
 
-#: includes/lite/features/star-rating/module.php:160
+#: includes/lite/features/star-rating/module.php:201
 msgid "Max Stars"
 msgstr ""
 
-#: includes/lite/features/star-rating/module.php:168
+#: includes/lite/features/star-rating/module.php:209
 msgid "Star Color"
 msgstr ""
 
