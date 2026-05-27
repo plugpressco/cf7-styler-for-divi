@@ -8,25 +8,22 @@
  */
 
 /* ── trigger button (page-title-action) ──────────────────────────── */
-/* WordPress's .page-title-action uses inline-block + vertical-align: top.
- * Match those so our button sits on the same baseline as "Add New". */
-.cf7m-ai-btn.page-title-action {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	vertical-align: top;
-}
+/* Use WP's default .page-title-action layout (inline-block + line-height) —
+ * don't override display, padding, or vertical-align. Just style the icon
+ * as an inline element so it sits on the text baseline. */
 .cf7m-ai-btn__icon {
-	display: inline-flex;
-	align-items: center;
+	display: inline-block;
 	width: 14px;
 	height: 14px;
-	flex-shrink: 0;
+	margin-right: 4px;
+	vertical-align: text-bottom;
+	line-height: 0;
 }
 .cf7m-ai-btn__icon svg {
-	width: 100%;
-	height: 100%;
-	display: block;
+	width: 14px;
+	height: 14px;
+	display: inline-block;
+	vertical-align: top;
 }
 
 /* ── overlay ─────────────────────────────────────────────────────── */
