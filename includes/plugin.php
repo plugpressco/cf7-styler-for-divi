@@ -43,6 +43,7 @@ class Plugin
             'assets.php',
             'rest-api.php',
             'notices/review.php',
+            'notices/upgrade.php',
 
             'admin/admin.php',
             'admin/onboarding.php',
@@ -259,11 +260,15 @@ class Plugin
 
     private function init_components()
     {
-        // Initialize review notice (star rating)
+        // Review request notice (free only — gated on dismissal state internally).
         if (class_exists(__NAMESPACE__ . '\Admin_Review_Notice')) {
             Admin_Review_Notice::instance();
         }
 
+        // Subtle Pro upgrade notice (free only — self-skips when cf7m_is_pro()).
+        if (class_exists(__NAMESPACE__ . '\Admin_Upgrade_Notice')) {
+            Admin_Upgrade_Notice::instance();
+        }
 
         // Initialize onboarding
         if (class_exists(__NAMESPACE__ . '\Onboarding')) {
