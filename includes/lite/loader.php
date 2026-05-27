@@ -178,7 +178,7 @@ class Lite_Loader
             '/\[dcs_row\b([^\]]*)\]/i',
             function ($m) use ($extract_class) {
                 $extra = $extract_class($m[1]);
-                $cls   = 'cf7m-row dfs-row' . ($extra !== '' ? ' ' . esc_attr($extra) : '');
+                $cls   = 'cf7m-row' . ($extra !== '' ? ' ' . esc_attr($extra) : '');
                 return '<div class="' . $cls . '">';
             },
             $form
@@ -200,10 +200,7 @@ class Lite_Loader
                 '/\[dcs_col_' . preg_quote($name, '/') . '\b([^\]]*)\]/i',
                 function ($m) use ($extract_class, $cols) {
                     $extra = $extract_class($m[1]);
-                    // Emit both new (cf7m-*) and legacy (dfs-*) class aliases so
-                    // any user CSS targeting the old names keeps working.
-                    $cls = 'cf7m-col cf7m-col-md-' . $cols
-                         . ' dfs-col dfs-col-md-' . $cols;
+                    $cls   = 'cf7m-col cf7m-col-md-' . $cols;
                     if ($extra !== '') {
                         $cls .= ' ' . esc_attr($extra);
                     }
