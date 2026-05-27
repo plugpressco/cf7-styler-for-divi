@@ -85,6 +85,11 @@ class Lite_Loader
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
 
         add_filter('wpcf7_form_elements', [$this, 'strip_unprocessed_preset_tags'], 15);
+
+        // Backward compat for forms saved with the pre-3.0 plugin (dcs_ prefix).
+        // Runs at priority 5 — earlier than star/range/phone (20) so any
+        // [cf7m-*] tags inside legacy columns still get processed afterwards.
+        add_filter('wpcf7_form_elements', [$this, 'transform_legacy_dcs_shortcodes'], 5);
     }
 
     public function enqueue_admin_scripts($hook)
@@ -114,6 +119,106 @@ class Lite_Loader
             return $form;
         }
         return preg_replace('/\[cf7m-presets[^\]]*\]|\[\/cf7m-presets\]/i', '', $form);
+    }
+
+    /**
+     * Translate legacy [dcs_row] / [dcs_col_*] shortcodes (used by CF7 Styler
+     * for Divi 2.x and earlier) into the current cf7m-row / cf7m-col-* div
+     * markup. Forms saved with the old version otherwise render the shortcode
+     * brackets as plain text on the front-end.
+     *
+     * Maps:
+     *   [dcs_row class:foo]              -> <div class="cf7m-row dfs-row foo">
+     *   [dcs_col_half]…[/dcs_col_half]   -> <div class="cf7m-col-md-6 …">…</div>
+     *   [dcs_col_third]                  -> cf7m-col-md-4
+     *   [dcs_col_two_third]              -> cf7m-col-md-8
+     *   [dcs_col_quarter]                -> cf7m-col-md-3
+     *   [dcs_col_three_quarter]          -> cf7m-col-md-9
+     *   [dcs_col_full]                   -> cf7m-col-12
+     *
+     * Both class:NAME (CF7 form-tag syntax) and class="NAME" attribute
+     * forms are recognised; smart quotes are normalised first so forms
+     * saved by a rich-text editor still parse.
+     */
+    public function transform_legacy_dcs_shortcodes($form)
+    {
+        if (strpos($form, '[dcs_') === false) {
+            return $form;
+        }
+
+        // Normalise smart quotes inside bracketed tags so class="x" parses
+        // even when a WYSIWYG saved curly quotes.
+        $form = preg_replace_callback(
+            '/\[[^\[\]]*\]/',
+            function ($m) {
+                return str_replace(
+                    ["\xe2\x80\x9c", "\xe2\x80\x9d", "\xe2\x80\x98", "\xe2\x80\x99"],
+                    ['"', '"', "'", "'"],
+                    $m[0]
+                );
+            },
+            $form
+        );
+
+        $extract_class = function ($attr_str) {
+            if (preg_match('/class\s*=\s*"([^"]+)"/i', $attr_str, $m)) {
+                return trim($m[1]);
+            }
+            if (preg_match("/class\\s*=\\s*'([^']+)'/i", $attr_str, $m)) {
+                return trim($m[1]);
+            }
+            if (preg_match('/class\s*:\s*([^\s\]]+)/i', $attr_str, $m)) {
+                return trim($m[1]);
+            }
+            return '';
+        };
+
+        // Row open / close.
+        $form = preg_replace_callback(
+            '/\[dcs_row\b([^\]]*)\]/i',
+            function ($m) use ($extract_class) {
+                $extra = $extract_class($m[1]);
+                $cls   = 'cf7m-row dfs-row' . ($extra !== '' ? ' ' . esc_attr($extra) : '');
+                return '<div class="' . $cls . '">';
+            },
+            $form
+        );
+        $form = preg_replace('/\[\/dcs_row\]/i', '</div>', $form);
+
+        // Column open / close — sizes mapped to a 12-column grid.
+        $col_sizes = [
+            'half'          => '6',
+            'third'         => '4',
+            'two_third'     => '8',
+            'quarter'       => '3',
+            'three_quarter' => '9',
+            'full'          => '12',
+        ];
+
+        foreach ($col_sizes as $name => $cols) {
+            $form = preg_replace_callback(
+                '/\[dcs_col_' . preg_quote($name, '/') . '\b([^\]]*)\]/i',
+                function ($m) use ($extract_class, $cols) {
+                    $extra = $extract_class($m[1]);
+                    // Emit both new (cf7m-*) and legacy (dfs-*) class aliases so
+                    // any user CSS targeting the old names keeps working.
+                    $cls = 'cf7m-col cf7m-col-md-' . $cols
+                         . ' dfs-col dfs-col-md-' . $cols;
+                    if ($extra !== '') {
+                        $cls .= ' ' . esc_attr($extra);
+                    }
+                    return '<div class="' . $cls . '">';
+                },
+                $form
+            );
+            $form = preg_replace(
+                '/\[\/dcs_col_' . preg_quote($name, '/') . '\]/i',
+                '</div>',
+                $form
+            );
+        }
+
+        return $form;
     }
 
     private function load_bootstrap()
