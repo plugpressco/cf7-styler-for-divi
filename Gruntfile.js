@@ -171,7 +171,7 @@ Plugin URI: https://cf7mate.com
 Description: Pro features for CF7 Mate for Divi.
 Version: ${v}
 Author: PlugPress
-Author URI: https://plugpress.io
+Author URI: https://plugpress.co
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: cf7-styler-for-divi
