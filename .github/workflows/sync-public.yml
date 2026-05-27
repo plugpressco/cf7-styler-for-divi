@@ -28,21 +28,27 @@ jobs:
               run: |
                   rm -rf includes/pro
                   rm -rf assets/pro
+                  rm -rf update-server
+                  rm -f dist/js/admin-pro.js
                   rm -f dist/js/settings-pro.js
                   rm -f dist/js/responses-pro.js
                   rm -f dist/js/analytics-pro.js
+                  rm -f cf7-mate-pro.php
+                  rm -f changelog-pro.txt
 
             - name: Commit and push to public repo
               run: |
                   git config user.name "github-actions[bot]"
                   git config user.email "github-actions[bot]@users.noreply.github.com"
-                  git remote add public git@github.com:plugpress-io/cf7-styler-for-divi.git
+                  # Org renamed plugpress-io -> plugpressco; SSH deploy keys do
+                  # not always follow GitHub's org-rename redirect on push.
+                  git remote add public git@github.com:plugpressco/cf7-styler-for-divi.git
 
                   git add -A
                   git diff --cached --quiet && echo "No changes to sync" && exit 0
 
                   git commit -m "Sync free version – $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-                  GIT_SSH_COMMAND="ssh -i ~/.ssh/deploy_key" git push public main --force
+                  GIT_SSH_COMMAND="ssh -i ~/.ssh/deploy_key" git push public HEAD:main --force
 
             - name: Push tag to public repo
               if: startsWith(github.ref, 'refs/tags/')
