@@ -9,222 +9,72 @@ Stable tag: 3.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Style Contact Form 7 visually, generate forms with AI, and add multi-step, conditional logic, entries, analytics, and more on top of CF7.
+Contact Form 7 add-on with an AI form generator, visual styling for every major page builder, and extra field types.
 
 == Description ==
 
-CF7 Mate (formerly CF7 Styler for Divi) is a complete toolkit for Contact Form 7. It adds visual styling for every major page builder, an AI form generator that writes CF7 forms from a plain-English prompt, new field types, layout tools, and a full set of advanced features such as multi-step forms, conditional logic, form entries storage, form analytics, scheduling, and conditional email routing.
+Contact Form 7 is rock-solid but plain. CF7 Mate fills in the parts most people end up writing CSS or shopping around for: a clean visual styler that lives inside your page builder, an AI generator that writes a working CF7 form from a one-sentence description, and a few extra field types CF7 doesn't ship — star ratings, range sliders, an international phone field.
 
-CF7 Mate works alongside Contact Form 7. You continue to create and manage forms inside the regular CF7 editor — CF7 Mate adds the styling controls, additional fields, and advanced functionality on top, with no shortcodes to memorize and no custom CSS required.
+Nothing replaces CF7. You still build and manage forms in the regular CF7 editor. CF7 Mate just makes the result look the way you want and adds the things power users keep asking for.
 
-Supported builders: Divi 4, Divi 5, the WordPress block editor (Gutenberg), Elementor, and Bricks.
+Works with **Divi 4 & 5**, the **WordPress block editor**, **Elementor**, and **Bricks**.
 
-Useful links: [Product site](https://cf7mate.com) | [Documentation](https://cf7mate.com/docs) | [Pricing and Pro features](https://cf7mate.com/pricing) | [Source on GitHub](https://github.com/plugpress-io/cf7-styler-for-divi)
+[Product site](https://cf7mate.com) · [Documentation](https://cf7mate.com/docs) · [Pricing](https://cf7mate.com/pricing) · [GitHub](https://github.com/plugpressco/cf7-styler-for-divi)
 
-= AI Form Generator for Contact Form 7 (Free) =
+= AI Form Generator (free) =
 
-Build any Contact Form 7 form in seconds by describing it in plain English. The CF7 Mate AI form builder reads your prompt, generates a valid CF7 form tag block, and inserts it directly into a new Contact Form 7 form for you to save, edit, and embed.
+Describe the form you want in plain English — "a booking form with name, date, time slot, and a notes box" — and CF7 Mate writes the Contact Form 7 markup for you. The result is a normal CF7 form you can save, edit field-by-field, or extend with any other CF7 plugin. There's no proprietary format and no lock-in.
 
-Because the output is standard Contact Form 7 markup, every generated form remains fully editable in the regular CF7 editor. You can rename fields, change validation, add custom CSS classes, or extend the form with any other CF7 plugin or add-on you already use. There is no lock-in and no proprietary format.
+You bring your own OpenAI (or compatible) API key. Generation costs a fraction of a cent per form, and your key is stored only in your own WordPress database.
 
-What you can generate:
+Useful for contact forms, booking forms, surveys, NPS questionnaires, quote requests, job applications, and anything else you'd normally build by hand.
 
-* Contact and inquiry forms with name, email, subject, and message
-* Booking and appointment request forms with date, time, and service selection
-* Registration and signup forms with conditional fields
-* Survey, feedback, and Net Promoter Score (NPS) forms
-* Quote request forms for service businesses and agencies
-* Job application forms with file upload fields
-* Multi-section forms with grouped questions
+= Visual styling that lives in your builder =
 
-Field type coverage: text, email, URL, telephone, number, date, dropdown (select), radio buttons, checkboxes, acceptance, file upload, textarea, and submit button — every standard Contact Form 7 field type is supported.
+Open a CF7 form inside Divi, Elementor, Bricks, or the WordPress block editor and you get the same point-and-click styling controls you already use for the rest of your page — colors, typography, spacing, focus states, responsive breakpoints. No CSS file to maintain, no shortcode to remember.
 
-Provider support: Bring your own API key from OpenAI (GPT models) or any OpenAI-compatible provider. You pay only your provider's usage cost (typically a fraction of a cent per generated form). Your API key is stored in your own WordPress database and never sent to PlugPress.
+The integrations are real builder modules, not generic shortcode wrappers, so they pick up your theme's global colors, presets, and breakpoints automatically.
 
-= Visual CF7 Form Styler (Free) =
+= Extra field types CF7 doesn't ship =
 
-CF7 Mate replaces hand-written CSS with a complete visual styling system for Contact Form 7 forms. Every control is exposed inside the page builder you already use, with separate values for desktop, tablet, and mobile breakpoints.
+* **Star rating** for reviews, feedback, and CSAT-style questions.
+* **Range slider** for budgets, quantities, and quote calculators.
+* **International phone number** with a country flag picker and dial-code prefixing.
+* **Heading**, **separator**, **image**, and **icon** decorative elements to break up long forms.
 
-Field styling:
+Each one is registered as a real CF7 form tag — the values land in your notification emails like any built-in field.
 
-* Background color, border color, border width, and border radius
-* Text color, font family, font size, font weight, and letter spacing
-* Field height, internal padding, and outer margin
-* Focus-state background, border, and text color so you can clearly indicate active fields
-* Disabled-state styling
+= Grid layout for CF7 =
 
-Button styling:
+Arrange fields into responsive multi-column rows so your forms don't look like a stack of inputs on desktop. Per-breakpoint column counts mean a 3-column lead form on desktop still stacks cleanly on phones.
 
-* Text color, background color, hover-state color and background
-* Padding, height, border, and border radius
-* Typography (font family, weight, size)
-* Full-width or auto-width button layout
+= Pro features =
 
-Label and placeholder styling:
+The Pro plan ([cf7mate.com/pricing](https://cf7mate.com/pricing)) adds the heavyweight features most form-building plugins charge extra for:
 
-* Label typography, color, and spacing above the field
-* Placeholder text color
-* Required-mark color and position
+* **Multi-step forms** — split long forms into a guided wizard so visitors don't bounce.
+* **Conditional logic** — show, hide, or skip fields and steps based on what the user enters.
+* **Form entries** — save every submission to your own WordPress database with search, filter, and CSV export. Never lose a lead to a missed email.
+* **Form analytics** — per-form views, submissions, and conversion rate, stored locally, no third-party tracker.
+* **Form scheduling** — open and close any form on a date/time window with a custom closed-state message.
+* **Conditional email routing** — send notifications to different recipients based on what the user picked.
+* **Save and continue later** — let visitors resume long forms from an email link.
+* **Style presets** — save a styled form as a reusable preset and apply it to other forms in one click.
+* **White label** (Agency plan) — replace CF7 Mate branding with your own for client sites.
 
-Radio button and checkbox styling:
+Everything stays inside the standard CF7 workflow. Pro doesn't fork CF7 or hide your data — entries live in your database, schedules in post meta, analytics in your database.
 
-* Custom box and circle size
-* Border and background color
-* Checked-state color and icon
-* Spacing between options
+= Who this is for =
 
-Validation messages:
+Anyone who uses Contact Form 7 and wants modern styling, smarter forms, or both. We hear most often from agencies and freelancers building branded forms for clients, service businesses capturing leads, and event organizers running registration windows.
 
-* Success banner background, text color, and padding
-* Inline error message color, font, and spacing
-* Custom border styling for fields in an error state
+= Privacy =
 
-Responsive design:
+The free plugin sends nothing off your site. The AI generator sends only your design prompt (not user submissions) to the AI provider you configure. The Pro license check exchanges your license key with our licensing server — no form data, no submissions. Form Entries stores submissions only in your own database.
 
-* Independent values for desktop, tablet, and mobile
-* Standard page-builder breakpoints inherited from Divi, Elementor, or Bricks
-* Per-breakpoint visibility for individual fields (where the builder supports it)
+= Source =
 
-= Page Builder Integrations (Free) =
-
-CF7 Mate ships native integrations for every supported builder. These are first-class modules and elements — not generic shortcode wrappers — so they integrate with the builder's own design controls, presets, responsive system, and global styles.
-
-**Divi 4 Module for Contact Form 7**
-A full Divi Builder module with the standard Divi controls panel. Pick a CF7 form from the dropdown, then style every part of it using the same Design tab and responsive controls you already use for other Divi modules. Works with Divi Theme Options, presets, global colors, and the Divi visual builder.
-
-**Divi 5 Module for Contact Form 7**
-A dedicated module purpose-built for the new Divi 5 architecture. Uses the new module API, supports the Divi 5 visual builder, and is forward-compatible with the upcoming Divi 5 features.
-
-**Gutenberg Block for Contact Form 7**
-A WordPress block with a live server-rendered preview directly inside the block editor. Insert the block, choose your CF7 form, configure styling in the block sidebar, and see the styled output as you edit. Works in posts, pages, full site editing templates, and inside any block-based theme.
-
-**Elementor Widget for Contact Form 7**
-A dedicated Elementor widget with native Elementor controls. All styling options appear in the standard Elementor side panel under Content and Style tabs. Compatible with the free Elementor builder and Elementor Pro.
-
-**Bricks Element for Contact Form 7**
-A custom element built for the Bricks Builder, fully integrated with Bricks' Style tab and class system. Supports Bricks global styles and templates.
-
-= Extra Form Fields (Free) =
-
-CF7 Mate registers additional field types as standard Contact Form 7 form tags, so they save, validate, and email exactly like CF7's built-in fields. Each field has its own visual styling controls and can be combined with grid layout and conditional logic.
-
-* **Star Rating field** — Collect numeric ratings (1 to 5 or 1 to 10) with a clickable star widget. Useful for reviews, feedback forms, and customer satisfaction surveys.
-* **Range Slider field** — Numeric input rendered as a slider with configurable minimum, maximum, and step values. Useful for budget selectors, quantity pickers, and quote calculators.
-* **International Phone Number field** — Phone input with a country flag picker, country-code prefixing, and per-country number formatting and validation.
-* **Heading field** — Visual section headings inside a form, with full typography control. Useful for breaking long forms into clear sections.
-* **Separator field** — A visual divider line between field groups for clearer form structure.
-* **Image field** — Embed a static image inside the form (logo, illustration, or example image).
-* **Icon field** — Insert an icon element for visual labeling or section markers.
-
-= Form Layout Tools (Free) =
-
-* **Grid Layout** — Arrange fields into responsive multi-column grids with independent column counts for desktop, tablet, and mobile. Avoids the common "stacked single column" look of default CF7 forms.
-
-= Pro Features =
-
-The following advanced features require a CF7 Mate Pro license. See [cf7mate.com/pricing](https://cf7mate.com/pricing) for plans.
-
-**Multi-Step Forms for Contact Form 7 (Pro)**
-Convert any long Contact Form 7 form into a guided, wizard-style multi-step experience. Reduces visible complexity, improves perceived progress, and is shown to reduce abandonment rates on long forms.
-
-* Split fields into as many steps as you need with simple drag-and-drop step markers
-* Configurable progress indicator (numbered, bar, or hidden)
-* Per-step validation — users cannot advance until the current step is valid
-* Back and Next button styling and labels
-* Optional review step that summarizes the user's answers before submission
-* Works with Conditional Logic to skip entire steps based on user input
-
-**Conditional Logic for Contact Form 7 (Pro)**
-Build smart, dynamic Contact Form 7 forms that adapt to user input in real time. Show or hide individual fields, groups of fields, and entire steps based on the values entered or selected earlier in the form.
-
-* Per-field rules: show if, hide if, equals, not equals, contains, is empty
-* Group fields with conditional containers
-* AND / OR logic for compound rules
-* Browser-side evaluation — no page reloads, no flicker
-* Conditional steps in multi-step forms
-
-**Form Entries: Save Contact Form 7 Submissions to Database (Pro)**
-Stop losing leads when an email fails to deliver. CF7 Mate Pro saves every Contact Form 7 submission to your own WordPress database, where you can view, search, and export it from a dedicated admin page.
-
-* Every submission stored with timestamp, source page URL, and user IP (configurable)
-* Search by field value, filter by date range, sort by any column
-* One-click CSV export of any filtered selection
-* Per-form storage toggle — you decide which forms save entries
-* File-upload attachments stored in the WordPress uploads directory and linked from the entry
-* GDPR-friendly: delete individual entries or bulk-delete by date range
-
-**Form Analytics for Contact Form 7 (Pro)**
-Measure how each of your Contact Form 7 forms is performing. CF7 Mate Pro tracks views and submissions per form and computes the conversion rate so you can see which forms convert and which need attention.
-
-* Per-form view counter (page impressions where the form was rendered)
-* Per-form submission counter
-* Conversion rate computed automatically (submissions / views)
-* Time-series view across the last 7, 30, or 90 days
-* No external analytics service required — data is stored in your own database
-
-**Form Scheduling: Open and Close Forms by Date (Pro)**
-Set start and end dates for any Contact Form 7 form. Outside of the scheduled window, visitors see a custom message instead of the form. Ideal for time-limited registrations, event sign-ups, and seasonal offers.
-
-* Per-form start date, end date, and timezone
-* Custom "form closed" message with full HTML support
-* Optional "opens soon" message before the start date
-* Schedule preview from the admin so you can verify the open and closed states
-
-**Conditional Email Routing for Contact Form 7 (Pro)**
-Send Contact Form 7 notification emails to different recipients based on what the user submitted. For example, route sales inquiries to one address and support requests to another, without setting up multiple separate forms.
-
-* Route rules based on any field value (dropdown, radio, checkbox, or text)
-* Multiple rules per form
-* Fallback recipient if no rule matches
-* Works alongside standard CF7 Mail and Mail (2) settings
-
-**Partial Save and Resume (Pro)**
-Let visitors save their progress on a long Contact Form 7 form and return to complete it later. The form sends them a resume link by email; opening that link restores their saved answers exactly as they left them.
-
-* "Save and continue later" button on long or multi-step forms
-* Resume link sent to the user's email address
-* Configurable retention period for saved drafts
-* Recommended for application forms, surveys, and onboarding flows
-
-**Style Presets for Contact Form 7 (Pro)**
-Save any styled form as a reusable preset and apply it to other forms in one click. Build your library once and reuse a consistent design across every form on your site.
-
-* Save the current form's styling as a named preset
-* Apply a preset to any other CF7 Mate form
-* Manage and delete presets from the admin
-* Works across all supported page builders
-
-**Advanced Multi-Column Layouts (Pro)**
-Extends the free Grid Layout tool with advanced configurations: nested rows, asymmetric column widths, and granular per-breakpoint controls for complex layouts.
-
-**White Label for Agencies (Pro, Agency plan only)**
-Replace CF7 Mate's branding, logo, and links inside the WordPress admin with your own. Your clients see your agency's brand instead of the plugin's. Useful for agencies delivering forms as part of a client engagement.
-
-* Replace plugin name and menu label
-* Replace logo in the CF7 Mate admin dashboard
-* Replace documentation and support links with your own URLs
-* Hide upgrade prompts and external links from the admin UI
-
-= Who Should Use CF7 Mate =
-
-* **Agencies and freelancers** building branded, pixel-perfect Contact Form 7 forms for clients across multiple builders
-* **eCommerce stores** that need styled inquiry, pre-order, and quote-request forms
-* **Service businesses** capturing leads with multi-step and conditional Contact Form 7 forms
-* **Membership and community sites** running registration, application, and onboarding forms
-* **Event organizers** that need scheduled open and close windows for registration
-* **WordPress developers** extending Contact Form 7 with new fields and advanced behavior
-* **Anyone using Contact Form 7** who wants modern styling and advanced features without writing code
-
-= Privacy and Data Handling =
-
-* The free plugin does not send form submissions or personal data to any external service.
-* The AI form generator sends only your design prompt (not user submissions) to the AI provider you configure. You provide your own API key and remain in control of every request.
-* The Pro license check exchanges your license key with the CF7 Mate licensing server to validate the key. No site content, form data, or submission data is transmitted.
-* When the Form Entries Pro feature is enabled, submissions are stored only in your own WordPress database. They are never sent to PlugPress or any third party.
-
-= Source Code =
-
-The free plugin source is publicly available on [GitHub](https://github.com/plugpress-io/cf7-styler-for-divi). Issues and pull requests are welcome.
+The free plugin is open source: [github.com/plugpressco/cf7-styler-for-divi](https://github.com/plugpressco/cf7-styler-for-divi). Issues and PRs welcome.
 
 == Installation ==
 
