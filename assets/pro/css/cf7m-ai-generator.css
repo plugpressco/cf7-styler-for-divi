@@ -8,22 +8,41 @@
  */
 
 /* ── trigger button (page-title-action) ──────────────────────────── */
-/* Use WP's default .page-title-action layout (inline-block + line-height) —
- * don't override display, padding, or vertical-align. Just style the icon
- * as an inline element so it sits on the text baseline. */
+/* Visually distinct from WP's gray "Add Contact Form" button so the two
+ * actions don't get confused. Same display/sizing as .page-title-action;
+ * only colors and the icon span change. */
+.cf7m-ai-btn.page-title-action {
+	background: #3044d7;
+	border-color: #3044d7;
+	color: #fff;
+}
+.cf7m-ai-btn.page-title-action:hover,
+.cf7m-ai-btn.page-title-action:focus {
+	background: #253ab8;
+	border-color: #253ab8;
+	color: #fff;
+	box-shadow: 0 0 0 1px #253ab8;
+}
+.cf7m-ai-btn.page-title-action:active {
+	background: #1e2f99;
+	border-color: #1e2f99;
+	color: #fff;
+}
 .cf7m-ai-btn__icon {
 	display: inline-block;
 	width: 14px;
 	height: 14px;
-	margin-right: 4px;
+	margin-right: 5px;
 	vertical-align: text-bottom;
 	line-height: 0;
+	color: #fff;
 }
 .cf7m-ai-btn__icon svg {
 	width: 14px;
 	height: 14px;
 	display: inline-block;
 	vertical-align: top;
+	stroke: currentColor;
 }
 
 /* ── overlay ─────────────────────────────────────────────────────── */
