@@ -3,6 +3,25 @@
 This file tracks changes that affect the CF7 Mate Pro plugin only.
 Free plugin changes are documented in readme.txt.
 
+= 1.0.1 (alongside Free 3.0.5) =
+* New: Redirect after submission. Per-form thank-you redirect with [field_name] placeholders, "open in new tab", optional delay, and conditional rules that route different submitters to different URLs.
+* Improved: CF7 Mate tab inside the CF7 form editor redesigned as cards — every Pro feature (Responses, Email Routing, Redirect, Form Scheduling, Save & Continue) now has its own bordered section with a title and short description, instead of stacked plain fieldsets.
+* Fixed: AI Generator "Remove" button now actually clears the saved API key. The previous handler treated an explicit empty value as "no change" and silently restored the old key.
+* Fixed: License Manager encryption is now deterministic. The previous key-derivation used `wp_hash_password()`, which seeds a fresh salt on every call, so decryption silently failed and license state appeared "never activated" after the first request. Existing keys re-encrypt on the next sync.
+* Fixed: License activation now verifies the key belongs to the configured store / product via the previously-unused CF7M_LS_STORE_ID and CF7M_LS_PRODUCT_ID constants — keys from another Lemon Squeezy store can't activate Pro.
+* Fixed: Updater no longer fatals when License_Manager is not yet loaded — explicit class_exists guard.
+* Improved: Updater now sends slug=cf7-mate-pro to the update server so a single Worker can serve multiple plugins.
+* Improved: Author / URLs updated to the new PlugPress organisation.
+
+All Free 3.0.5 fixes also ship in this build, including:
+- Legacy [dcs_row] / [dcs_col_*] shortcodes restored.
+- Phone number no longer drops user input from notification emails.
+- Server-side required validation for Star, Range, and Phone fields.
+- AI Form Generator modal redesigned.
+- Star keyboard navigation + sprite; Range decimal step.
+- Visual alignment of free fields with native CF7 inputs.
+- Compliant review + upgrade admin notices (plugin pages only).
+
 = 1.0.0 (alongside Free 3.0.4) =
 * Improved: Pro features now unlock automatically when the Pro plugin is installed. License activation gates only updates and support; it no longer blocks feature access.
 * Improved: Onboarding wizard hides all Pro upsell sections (Welcome, Help, and Finish steps) for users on Pro.
