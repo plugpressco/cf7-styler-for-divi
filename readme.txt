@@ -3,9 +3,9 @@
 Contributors: badhonrocks, plugpressco
 Tags: contact form 7, cf7, form styler, ai form generator, multi-step form
 Requires at least: 6.0
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.5
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -181,6 +181,10 @@ Form Entries stores submission data only in your own WordPress database — no t
 
 == Changelog ==
 
+= 3.0.6 =
+* Compatibility: tested up to WordPress 7.0.
+* Maintenance: housekeeping pass — PHP lint clean across the codebase, no unsanitised superglobals on the free side.
+
 = 3.0.5 =
 * Fixed: forms saved with the pre-3.0 plugin (using `[dcs_row]` / `[dcs_col_half]` / `[dcs_col_full]` shortcodes) now render correctly again. The legacy column shortcodes are translated into the current grid markup on the fly, including any custom class attribute on the row or column.
 * Fixed: international phone field no longer drops the digits the user typed when JavaScript is unavailable on the page. The visible input is now the submitted field; emails contain the full number every time.
@@ -235,6 +239,9 @@ Form Entries stores submission data only in your own WordPress database — no t
 * Improved: Form styling performance and mobile responsiveness.
 
 == Upgrade Notice ==
+
+= 3.0.6 =
+WordPress 7.0 compatibility confirmed. Maintenance release.
 
 = 3.0.5 =
 Fixes legacy [dcs_row] / [dcs_col_*] shortcodes in forms saved with the pre-3.0 plugin, a phone-number bug that dropped user input from email notifications, and required validation for Star/Range/Phone. AI generator modal redesigned. Recommended update.
