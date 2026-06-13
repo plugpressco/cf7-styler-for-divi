@@ -261,7 +261,7 @@ class Entries_API
         header('Content-Disposition: attachment; filename=cf7-mate-entries-' . gmdate('Y-m-d') . '.csv');
         $out = fopen('php://output', 'w');
         fprintf($out, chr(0xEF) . chr(0xBB) . chr(0xBF));
-        fputcsv($out, ['ID', 'Form ID', 'Form Title', 'Status', 'Created', 'IP', 'Data (JSON)']);
+        fputcsv($out, ['ID', 'Form ID', 'Form Title', 'Status', 'Created', 'IP', 'Data (JSON)'], ',', '"', '\\');
 
         foreach ($query->posts as $post) {
             $e = $this->format_entry($post);
@@ -273,7 +273,7 @@ class Entries_API
                 $e['created'],
                 $e['ip'],
                 wp_json_encode($e['data'], JSON_UNESCAPED_UNICODE),
-            ]);
+            ], ',', '"', '\\');
         }
         wp_reset_postdata();
         fclose($out); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- writing to php://output stream

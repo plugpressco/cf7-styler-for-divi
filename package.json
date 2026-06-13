@@ -1,7 +1,7 @@
 {
   "name": "cf7-mate",
-  "version": "3.0.6",
-  "proVersion": "1.0.1",
+  "version": "3.0.7",
+  "proVersion": "1.0.2",
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.1",

@@ -44,6 +44,7 @@ class Plugin
             'rest-api.php',
             'notices/review.php',
             'notices/upgrade.php',
+            'notices/dotyard.php',
 
             'admin/admin.php',
             'admin/onboarding.php',
@@ -268,6 +269,11 @@ class Plugin
         // Subtle Pro upgrade notice (free only — self-skips when cf7m_is_pro()).
         if (class_exists(__NAMESPACE__ . '\Admin_Upgrade_Notice')) {
             Admin_Upgrade_Notice::instance();
+        }
+
+        // dotyard service nudge (settings page only, 2h after install, dismiss = forever).
+        if (class_exists(__NAMESPACE__ . '\Admin_Dotyard_Nudge')) {
+            Admin_Dotyard_Nudge::instance();
         }
 
         // Initialize onboarding

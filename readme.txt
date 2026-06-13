@@ -5,7 +5,7 @@ Tags: contact form 7, cf7, form styler, ai form generator, multi-step form
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.6
+Stable tag: 3.0.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -181,6 +181,12 @@ Form Entries stores submission data only in your own WordPress database — no t
 
 == Changelog ==
 
+= 3.0.7 =
+* Fixed: fatal parse error on PHP 7.4 (`syntax error, unexpected '|'` in includes/rest-api.php). Version 3.0.6 accidentally used PHP 8.0-only syntax; the plugin now runs on PHP 7.4 again as advertised.
+* Fixed: AI Form Generator modal was unstyled and non-functional in the free plugin — its CSS/JS still lived under the Pro asset path, which the free package doesn't ship. The assets now live with the other free features.
+* Internal: every release is now scanned against PHP 7.4 with PHPCompatibility so this class of error can't ship again.
+* New: the settings sidebar links to dotyard, our studio for custom plugin and MVP work, with a small one-time note on the settings page (shown only there, dismissible forever with one click).
+
 = 3.0.6 =
 * Compatibility: tested up to WordPress 7.0.
 * Maintenance: housekeeping pass — PHP lint clean across the codebase, no unsanitised superglobals on the free side.
@@ -239,6 +245,9 @@ Form Entries stores submission data only in your own WordPress database — no t
 * Improved: Form styling performance and mobile responsiveness.
 
 == Upgrade Notice ==
+
+= 3.0.7 =
+Fixes a fatal error on PHP 7.4 introduced in 3.0.6. If your site runs PHP 7.4, update immediately (or first if the plugin is currently deactivated).
 
 = 3.0.6 =
 WordPress 7.0 compatibility confirmed. Maintenance release.

@@ -5,6 +5,8 @@ module.exports = function (grunt) {
 
 	const commonExcludes = [
 		'!node_modules/**',
+		'!vendor/**',
+		'!release/**',
 		'!build/**',
 		'!css/sourcemap/**',
 		'!.git/**',
@@ -43,6 +45,7 @@ module.exports = function (grunt) {
 		'!package.json',
 		'!package-lock.json',
 		'!phpcs.xml.dist',
+		'!phpcs.compat.xml',
 		'!phpunit.xml',
 		'!postcss.config.js',
 		'!README.md',

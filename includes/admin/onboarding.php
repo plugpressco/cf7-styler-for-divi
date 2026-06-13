@@ -13,8 +13,6 @@ class Onboarding
     const ONBOARDING_COMPLETED_OPTION = 'cf7m_onboarding_completed';
     const ONBOARDING_SKIPPED_OPTION = 'cf7m_onboarding_skipped';
     const ONBOARDING_STEP_OPTION = 'cf7m_onboarding_step';
-    const REBRAND_SEEN_OPTION = 'cf7m_rebrand_seen';
-    const REBRAND_VERSION = '3.0.0';
 
     public static function instance()
     {
@@ -40,7 +38,6 @@ class Onboarding
         add_action('wp_ajax_cf7m_skip_onboarding', [$this, 'skip_onboarding']);
         add_action('wp_ajax_cf7m_skip_setup_notice', [$this, 'skip_setup_notice']);
         add_action('wp_ajax_cf7m_next_onboarding_step', [$this, 'next_step']);
-        add_action('wp_ajax_cf7m_dismiss_rebrand', [$this, 'dismiss_rebrand']);
     }
 
     /**
@@ -109,7 +106,6 @@ class Onboarding
             'dashboard_url' => admin_url('admin.php?page=cf7-mate'),
             'pricing_url' => defined('CF7M_URL_PRICING') ? CF7M_URL_PRICING : '',
             'is_pro' => function_exists('cf7m_is_pro') && cf7m_is_pro(),
-            'rebrand_seen' => $this->is_rebrand_seen(),
             'onboarding_completed' => $this->is_onboarding_completed(),
             'version' => defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0',
         ]);
@@ -127,13 +123,19 @@ class Onboarding
 
     /**
      * Display a non-intrusive admin notice prompting the user to run the setup wizard.
-     * Shown on all admin pages until the user completes or skips onboarding.
+     * Restricted to CF7 Mate's own admin pages (per WordPress.org guideline §11:
+     * notices must not appear site-wide across unrelated admin screens).
      *
      * @since 3.0.1
      */
     public function display_setup_notice()
     {
         if (!current_user_can('manage_options')) {
+            return;
+        }
+
+        $page = isset($_GET['page']) ? sanitize_key(wp_unslash($_GET['page'])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        if (strpos($page, 'cf7-mate') !== 0) {
             return;
         }
 
@@ -311,27 +313,6 @@ class Onboarding
         wp_send_json_success();
     }
 
-    /**
-     * Dismiss rebrand notification.
-     *
-     * @since 3.0.0
-     */
-    public function dismiss_rebrand()
-    {
-        $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
-        if (!$nonce || !wp_verify_nonce($nonce, 'cf7m_onboarding_nonce')) {
-            wp_send_json_error(['message' => 'Security check failed']);
-        }
-
-        if (!current_user_can('manage_options')) {
-            wp_send_json_error(['message' => 'Insufficient permissions']);
-        }
-
-        update_option(self::REBRAND_SEEN_OPTION, '1');
-
-        wp_send_json_success();
-    }
-
     private function is_onboarding_completed()
     {
         return get_option(self::ONBOARDING_COMPLETED_OPTION, false) === '1';
@@ -340,17 +321,6 @@ class Onboarding
     private function is_onboarding_skipped()
     {
         return get_option(self::ONBOARDING_SKIPPED_OPTION, false) === '1';
-    }
-
-    /**
-     * Check if rebrand notification has been seen.
-     *
-     * @since 3.0.0
-     * @return bool
-     */
-    private function is_rebrand_seen()
-    {
-        return get_option(self::REBRAND_SEEN_OPTION, false) === '1';
     }
 
     private function get_current_step()

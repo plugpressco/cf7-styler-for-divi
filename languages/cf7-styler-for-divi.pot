@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language-Team: PlugPress <support@plugpress.io>\n"
-"POT-Creation-Date: 2026-05-28 08:11+0000\n"
+"POT-Creation-Date: 2026-06-13 09:08+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -64,7 +64,7 @@ msgstr ""
 msgid "License manager is not available."
 msgstr ""
 
-#: includes/rest-api.php:748
+#: includes/rest-api.php:750
 msgid "An Agency plan license is required."
 msgstr ""
 
@@ -76,20 +76,48 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/onboarding.php:153
+#: includes/admin/onboarding.php:155
 msgid "You are nearly ready to start using CF7 Mate"
 msgstr ""
 
-#: includes/admin/onboarding.php:156
+#: includes/admin/onboarding.php:158
 msgid "Go through the setup to configure your plugin."
 msgstr ""
 
-#: includes/admin/onboarding.php:161
+#: includes/admin/onboarding.php:163
 msgid "Run Setup Wizard"
 msgstr ""
 
-#: includes/admin/onboarding.php:164
+#: includes/admin/onboarding.php:166
 msgid "Skip Setup"
+msgstr ""
+
+#: includes/notices/dotyard.php:78
+msgid "dotyard — custom development service"
+msgstr ""
+
+#: includes/notices/dotyard.php:79, includes/notices/review.php:134, includes/notices/upgrade.php:106
+msgid "Dismiss"
+msgstr ""
+
+#: includes/notices/dotyard.php:83
+msgid "From the makers of CF7 Mate"
+msgstr ""
+
+#: includes/notices/dotyard.php:85
+msgid "Need a custom plugin or MVP built?"
+msgstr ""
+
+#: includes/notices/dotyard.php:88
+msgid "dotyard is our lean product studio. Custom WordPress plugins and SaaS MVPs — fixed scope, fixed price, one commission at a time."
+msgstr ""
+
+#: includes/notices/dotyard.php:93
+msgid "Start a project"
+msgstr ""
+
+#: includes/notices/dotyard.php:97
+msgid "No thanks"
 msgstr ""
 
 #. translators: %s: plugin name
@@ -108,10 +136,6 @@ msgstr ""
 
 #: includes/notices/review.php:132
 msgid "Remind me later"
-msgstr ""
-
-#: includes/notices/review.php:134, includes/notices/upgrade.php:106
-msgid "Dismiss"
 msgstr ""
 
 #: includes/notices/review.php:203

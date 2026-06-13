@@ -52,7 +52,7 @@ class White_Label {
 			return false;
 		}
 		$variant = strtolower( $status['variant_name'] ?? '' );
-		return str_contains( $variant, 'agency' );
+		return false !== strpos( $variant, 'agency' );
 	}
 
 	/**

@@ -11,7 +11,6 @@ import apiFetch from '@wordpress/api-fetch';
 
 import { Header } from './components/Header';
 import { Toast } from './components/Toast';
-import { RebrandModal } from './components/RebrandModal';
 import { SettingsPage } from './pages/SettingsPage';
 
 export function SettingsApp() {
@@ -33,7 +32,6 @@ export function SettingsApp() {
 	const [loading, setLoading] = useState(true);
 	const [saving, setSaving] = useState(false);
 	const [toast, setToast] = useState(null);
-	const [rebrandDismissed, setRebrandDismissed] = useState(false);
 
 	useEffect(() => {
 		loadFeatures();
@@ -86,8 +84,6 @@ export function SettingsApp() {
 	const handleBulkToggle = (updates) =>
 		persistFeatures({ ...features, ...updates });
 
-	const showV3Banner =
-		typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.show_v3_banner;
 	const responsesUrl =
 		typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.responses_url
 			? dcsCF7Styler.responses_url
@@ -114,8 +110,6 @@ export function SettingsApp() {
 				onToggle={handleToggle}
 				onBulkToggle={handleBulkToggle}
 				saving={saving}
-				showV3Banner={showV3Banner}
-				rebrandDismissed={rebrandDismissed}
 				responsesUrl={responsesUrl}
 			/>
 			{toast && (
@@ -124,9 +118,6 @@ export function SettingsApp() {
 					type={toast.type}
 					onClose={() => setToast(null)}
 				/>
-			)}
-			{showV3Banner && !rebrandDismissed && (
-				<RebrandModal onDismiss={() => setRebrandDismissed(true)} />
 			)}
 		</div>
 	);

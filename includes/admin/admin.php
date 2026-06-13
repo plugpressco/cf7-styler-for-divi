@@ -129,8 +129,6 @@ class Admin
         do_action('cf7m_admin_enqueue_scripts', $app);
 
         $builders = $this->detect_builders();
-        $rebrand_seen           = get_option('cf7m_rebrand_seen', '') === '1';
-        $onboarding_done        = get_option('cf7m_onboarding_completed', '') === '1' || get_option('cf7m_onboarding_skipped', '') === '1';
         $onboarding_skipped     = get_option('cf7m_onboarding_skipped', '') === '1';
         $onboarding_completed   = get_option('cf7m_onboarding_completed', '') === '1';
         $show_guided_setup_link = $onboarding_skipped && !$onboarding_completed;
@@ -148,9 +146,7 @@ class Admin
             'promo_text'             => '',
             'nonce'                  => wp_create_nonce('wp_rest'),
             'pluginUrl'              => CF7M_PLUGIN_URL,
-            'show_v3_banner'         => !$rebrand_seen && $onboarding_done,
             'show_guided_setup_link' => $show_guided_setup_link,
-            'dismiss_rebrand_nonce'  => wp_create_nonce('cf7m_onboarding_nonce'),
             'version'                => defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0',
             'cf7_admin_url'          => admin_url('admin.php?page=wpcf7'),
             'dash_url'               => admin_url('admin.php?page=' . self::SETTINGS_PAGE_SLUG),

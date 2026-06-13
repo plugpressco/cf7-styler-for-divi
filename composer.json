@@ -4,5 +4,18 @@
     "license": "GPL-2.0-or-later",
     "require": {
         "php": ">=7.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^4.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.2",
+        "phpcompatibility/php-compatibility": "^10.0@alpha"
+    },
+    "scripts": {
+        "compat": "phpcs --standard=phpcs.compat.xml"
     }
 }

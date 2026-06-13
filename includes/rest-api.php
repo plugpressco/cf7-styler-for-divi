@@ -736,8 +736,10 @@ class Rest_API {
 
 	/**
 	 * Check permission for Agency-plan-only endpoints.
+	 *
+	 * @return bool|\WP_Error
 	 */
-	public function check_agency_permission(): bool|\WP_Error {
+	public function check_agency_permission() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}

@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { ArrowUpRightIcon, CheckIcon } from '@heroicons/react/24/outline';
 
-import { V3Banner } from '../components/V3Banner';
 import { FeaturesSection } from '../components/FeaturesSection';
 import { AISettingsPage } from './AISettingsPage';
 import { getDashTabFromHash } from '../utils/routing';
@@ -20,8 +19,6 @@ export function SettingsPage({
 	onToggle,
 	onBulkToggle,
 	saving,
-	showV3Banner,
-	rebrandDismissed,
 }) {
 	const [active, setActive] = useState(getDashTabFromHash());
 
@@ -55,8 +52,6 @@ export function SettingsPage({
 
 	return (
 		<>
-			{showV3Banner && !rebrandDismissed && <V3Banner />}
-
 			<div className="cf7m-page-layout">
 				<div className="cf7m-page-layout__main">
 					<div className="cf7m-page-card">
@@ -122,6 +117,7 @@ export function SettingsPage({
 				{!isPro && (
 					<aside className="cf7m-page-sidebar">
 						<UpgradeCard />
+						<ServiceCard />
 						<ProductsCard />
 						<ReviewCard />
 					</aside>
@@ -132,6 +128,9 @@ export function SettingsPage({
 }
 
 // ===== Sidebar cards (free plan only) =====
+
+// Launch discount — kept in sync with the onboarding flow (StepFeatures.jsx).
+const DISCOUNT_CODE = 'NEW2026';
 
 const PRO_FEATURES = [
 	__('Conditional Logic', 'cf7-styler-for-divi'),
@@ -144,7 +143,21 @@ const PRO_FEATURES = [
 
 function UpgradeCard() {
 	const pricingUrl = cfg('pricing_url', '');
+	const [copied, setCopied] = useState(false);
 	if (!pricingUrl) return null;
+
+	const sep = pricingUrl.includes('?') ? '&' : '?';
+	const proUrl = `${pricingUrl}${sep}coupon=${DISCOUNT_CODE}`;
+	const lifetimeUrl = `${pricingUrl}${sep}plan=lifetime&coupon=${DISCOUNT_CODE}`;
+
+	const copyCode = () => {
+		if (navigator.clipboard) {
+			navigator.clipboard.writeText(DISCOUNT_CODE).then(() => {
+				setCopied(true);
+				setTimeout(() => setCopied(false), 2000);
+			});
+		}
+	};
 
 	return (
 		<div className="cf7m-sidebar-card cf7m-upgrade-card">
@@ -175,8 +188,25 @@ function UpgradeCard() {
 				))}
 			</ul>
 
+			<p className="cf7m-upgrade-card__promo">
+				{__('Save 50% on the lifetime deal with code', 'cf7-styler-for-divi')}{' '}
+				<button
+					type="button"
+					onClick={copyCode}
+					className="cf7m-upgrade-card__code"
+					title={__('Copy code', 'cf7-styler-for-divi')}
+				>
+					{DISCOUNT_CODE}
+					{copied && (
+						<span className="cf7m-upgrade-card__copied">
+							{__('Copied!', 'cf7-styler-for-divi')}
+						</span>
+					)}
+				</button>
+			</p>
+
 			<a
-				href={pricingUrl}
+				href={proUrl}
 				target="_blank"
 				rel="noopener noreferrer"
 				className="cf7m-sidebar-card__cta"
@@ -186,12 +216,40 @@ function UpgradeCard() {
 			</a>
 
 			<a
-				href={`${pricingUrl}${pricingUrl.includes('?') ? '&' : '?'}plan=lifetime`}
+				href={lifetimeUrl}
 				target="_blank"
 				rel="noopener noreferrer"
 				className="cf7m-upgrade-card__lifetime"
 			>
-				{__('Lifetime deal available — pay once', 'cf7-styler-for-divi')}
+				{__('Lifetime deal — pay once, 50% off', 'cf7-styler-for-divi')}
+			</a>
+		</div>
+	);
+}
+
+function ServiceCard() {
+	return (
+		<div className="cf7m-sidebar-card cf7m-service-card">
+			<span className="cf7m-service-card__eyebrow">
+				{__('Quick service', 'cf7-styler-for-divi')}
+			</span>
+			<h3 className="cf7m-sidebar-card__title">
+				{__('Need custom work done?', 'cf7-styler-for-divi')}
+			</h3>
+			<p className="cf7m-service-card__desc">
+				{__(
+					'dotyard is our lean product studio — custom WordPress plugins and SaaS MVPs. Fixed scope, fixed price, one commission at a time.',
+					'cf7-styler-for-divi',
+				)}
+			</p>
+			<a
+				href="https://dotyard.co/work?utm_source=cf7mate&utm_medium=sidebar&utm_campaign=dotyard"
+				target="_blank"
+				rel="noopener noreferrer"
+				className="cf7m-sidebar-card__cta"
+			>
+				{__('Start a project', 'cf7-styler-for-divi')}
+				<ArrowUpRightIcon aria-hidden="true" />
 			</a>
 		</div>
 	);

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ruleset name="CF7 Mate PHP Compatibility">
+	<description>Flag any syntax/functions not supported on the plugin's declared minimum (PHP 7.4).</description>
+
+	<file>cf7-styler.php</file>
+	<file>includes</file>
+
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/dist/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/>
+	<arg value="p"/>
+
+	<!-- Must match the "Requires PHP" header in cf7-styler.php and readme.txt. -->
+	<config name="testVersion" value="7.4-"/>
+	<rule ref="PHPCompatibility"/>
+</ruleset>

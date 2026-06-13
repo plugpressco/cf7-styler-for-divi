@@ -3,6 +3,12 @@
 This file tracks changes that affect the CF7 Mate Pro plugin only.
 Free plugin changes are documented in readme.txt.
 
+= 1.0.2 (alongside Free 3.0.7) =
+* Fixed: fatal parse error on PHP 7.4 — `check_agency_permission()` in includes/rest-api.php used a PHP 8.0-only union return type.
+* Fixed: White Label agency-plan check used `str_contains()` (PHP 8.0+); replaced with a PHP 7.4-safe equivalent.
+* Fixed: entries CSV export now passes the `$escape` parameter to `fputcsv()` explicitly, ahead of the PHP 8.4 default change.
+* Internal: PHPCompatibility scan (pinned to PHP 7.4) added to the dev toolchain; dev dependencies (vendor/) are now excluded from release zips.
+
 = 1.0.1 (alongside Free 3.0.5) =
 * New: Redirect after submission. Per-form thank-you redirect with [field_name] placeholders, "open in new tab", optional delay, and conditional rules that route different submitters to different URLs.
 * Improved: CF7 Mate tab inside the CF7 form editor redesigned as cards — every Pro feature (Responses, Email Routing, Redirect, Form Scheduling, Save & Continue) now has its own bordered section with a title and short description, instead of stacked plain fieldsets.
