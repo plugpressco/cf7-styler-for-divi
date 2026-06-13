@@ -11,9 +11,11 @@
 /build
 /docs
 /node_modules
+/release
 /sass
 /src
 /tests
+/vendor
 /webpack
 
 # Build/Config files
@@ -29,11 +31,13 @@
 .gitignore
 .prettierignore
 .prettierrc.json
+composer.json
 composer.lock
 Gruntfile.js
 package.json
 package-lock.json
 phpcs.xml.dist
+phpcs.compat.xml
 phpunit.xml
 postcss.config.js
 README.md
