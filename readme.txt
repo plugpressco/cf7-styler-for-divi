@@ -1,4 +1,4 @@
-=== Styler Mate for Contact Form 7 ===
+=== CF7 Mate – AI Form Builder, Styler & Multi-Step Forms for Contact Form 7 ===
 
 Contributors: badhonrocks, plugpressco
 Tags: contact form 7, cf7, form styler, ai form generator, multi-step form
