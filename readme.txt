@@ -5,7 +5,7 @@ Tags: contact form 7, cf7, form styler, ai form generator, multi-step form
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.0.7
+Stable tag: 3.0.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -180,6 +180,9 @@ Form Entries stores submission data only in your own WordPress database — no t
 7. CF7 Mate admin dashboard with feature toggles and per-feature settings panels.
 
 == Changelog ==
+
+= 3.0.8 =
+* Security: fixed a stored XSS in the Divi 4 CF7 Styler module. The Header Image, Header Title, and Header Text fields are now escaped on output (`esc_url`/`esc_html`), matching the Divi 5, Elementor, and Bricks builds. Previously a user able to edit a module could inject markup that executed when the post was viewed.
 
 = 3.0.7 =
 * Fixed: fatal parse error on PHP 7.4 (`syntax error, unexpected '|'` in includes/rest-api.php). Version 3.0.6 accidentally used PHP 8.0-only syntax; the plugin now runs on PHP 7.4 again as advertised.

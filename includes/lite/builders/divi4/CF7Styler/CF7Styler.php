@@ -795,12 +795,12 @@ class DCS_CF7Styler extends ET_Builder_Module
 		if ('on' === $use_form_header) {
 
 			$header_img  = '' !== $this->props['header_img'] ? $this->props['header_img'] : false;
-			$image       = $header_img ? sprintf('<div class="dipe-form-header-image"><img src="%1$s" alt=""/></div>', $header_img) : '';
+			$image       = $header_img ? sprintf('<div class="dipe-form-header-image"><img src="%1$s" alt=""/></div>', esc_url($header_img)) : '';
 			$header_icon = esc_attr(et_pb_process_font_icon($this->props['header_icon']));
 			$icon        = sprintf('<div class="dipe-form-header-icon"> <span class="et-pb-icon">%1$s</span> </div> ', $header_icon);
 			$icon_image  = 'on' === $this->props['use_icon'] ? $icon : $image;
-			$title       = isset($form_header_title) ? sprintf('<h2 class="dipe-form-header-title">%1$s</h2>', $form_header_title) : '';
-			$text        = isset($form_header_text) ? sprintf('<div class="dipe-form-header-text">%1$s</div>', $form_header_text) : '';
+			$title       = isset($form_header_title) ? sprintf('<h2 class="dipe-form-header-title">%1$s</h2>', esc_html($form_header_title)) : '';
+			$text        = isset($form_header_text) ? sprintf('<div class="dipe-form-header-text">%1$s</div>', esc_html($form_header_text)) : '';
 			$header_info = $title || $text ? sprintf('<div class="dipe-form-header-info">%1$s%2$s</div>', $title, $text) : '';
 			cf7m_inject_fa_icons($this->props['header_icon']);
 

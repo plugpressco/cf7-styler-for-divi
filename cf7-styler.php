@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: CF7 Mate
+Plugin Name: CF7 Mate Lite
 Plugin URI: https://cf7mate.com
 Description: Build Contact Form 7 forms with AI, style them visually with no code, add multi-step flows, and save every submission.
-Version: 3.0.7
+Version: 3.0.8
 Author: PlugPress
 Author URI:  https://plugpress.co
 License: GPLv2 or later
@@ -37,7 +37,7 @@ if (in_array('cf7-mate-pro/cf7-mate-pro.php', (array) get_option('active_plugins
 }
 
 if (!defined('CF7M_VERSION')) {
-    define('CF7M_VERSION', '3.0.7');
+    define('CF7M_VERSION', '3.0.8');
 }
 if (!defined('CF7M_IS_PRO_VERSION')) {
     define('CF7M_IS_PRO_VERSION', false);
