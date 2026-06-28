@@ -249,6 +249,9 @@ Form Entries stores submission data only in your own WordPress database — no t
 
 == Upgrade Notice ==
 
+= 3.0.8 =
+Security release. Fixes a stored XSS in the Divi 4 CF7 Styler module where the Header Image, Title, and Text fields were output without escaping. Update as soon as possible.
+
 = 3.0.7 =
 Fixes a fatal error on PHP 7.4 introduced in 3.0.6. If your site runs PHP 7.4, update immediately (or first if the plugin is currently deactivated).
 
