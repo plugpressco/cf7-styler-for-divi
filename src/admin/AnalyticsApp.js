@@ -1,5 +1,5 @@
 /**
- * Analytics app shell: header + Analytics page (or upsell when not Pro / disabled).
+ * Analytics app shell: header + Analytics page with optional feature enablement.
  *
  * @package CF7_Mate
  */
@@ -10,15 +10,10 @@ import { Spinner } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 
 import { Header } from './components/Header';
-import { UpsellPlaceholder } from './components/UpsellPlaceholder';
-
-const getProPage = (name) => window.cf7mProPages && window.cf7mProPages[name];
+import { AnalyticsPage } from './pages/AnalyticsPage';
 
 export function AnalyticsApp() {
 	const [features, setFeatures] = useState({ analytics: true });
-	const [isPro, setIsPro] = useState(
-		typeof dcsCF7Styler !== 'undefined' && !!dcsCF7Styler.is_pro,
-	);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -28,7 +23,6 @@ export function AnalyticsApp() {
 					path: '/cf7-styler/v1/settings/features',
 				});
 				setFeatures(response.features);
-				setIsPro(response.is_pro);
 			} catch (error) {
 				console.error('Error loading features:', error);
 			} finally {
@@ -37,13 +31,12 @@ export function AnalyticsApp() {
 		})();
 	}, []);
 
-	const AnalyticsPageComp = getProPage('analytics');
-	const showAnalytics = isPro && !!features.analytics;
+	const showAnalytics = !!features.analytics;
 
 	if (loading) {
 		return (
 			<div className="cf7m-wrap">
-				<Header isPro={false} />
+				<Header />
 				<div className="cf7m-resp__loading">
 					<Spinner />
 					<span>{__('Loading…', 'cf7-styler-for-divi')}</span>
@@ -54,18 +47,12 @@ export function AnalyticsApp() {
 
 	return (
 		<div className="cf7m-wrap">
-			<Header isPro={isPro} />
+			<Header />
 			<div className="cf7m-responses">
-				{AnalyticsPageComp && showAnalytics ? (
-					<AnalyticsPageComp />
-				) : AnalyticsPageComp && isPro && !features.analytics ? (
-					<div className="cf7m-resp">
-						<p className="cf7m-resp__count">
-							{__('Enable Analytics in Features to track form performance.', 'cf7-styler-for-divi')}
-						</p>
-					</div>
+				{showAnalytics ? (
+					<AnalyticsPage />
 				) : (
-					<UpsellPlaceholder feature="analytics" />
+                    <main className="cf7m-content"><div className="cf7m-disabled-state"><h1>{__('Analytics', 'cf7-styler-for-divi')}</h1><p>{__('Turn on analytics to understand how visitors use your forms.', 'cf7-styler-for-divi')}</p><a className="cf7m-button" href={(typeof dcsCF7Styler !== 'undefined' ? dcsCF7Styler.dash_url : 'admin.php?page=cf7-mate') + '#/features'}>{__('Manage features', 'cf7-styler-for-divi')}</a></div></main>
 				)}
 			</div>
 		</div>

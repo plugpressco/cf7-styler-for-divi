@@ -11,7 +11,7 @@ import { ArrowUpRightIcon, KeyIcon, XMarkIcon } from '@heroicons/react/24/outlin
 import apiFetch from '@wordpress/api-fetch';
 import { Toggle } from '../components/Toggle';
 
-export function AISettingsPage({ features, isPro, onToggle, saving: parentSaving }) {
+export function AISettingsPage({ features, onToggle, saving: parentSaving }) {
 	const aiEnabled  = !!(features && features.ai_form_generator);
 	const providers  = (typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.aiProviders) || {};
 
@@ -32,6 +32,8 @@ export function AISettingsPage({ features, isPro, onToggle, saving: parentSaving
 	});
 
 	useEffect(() => {
+		if (!aiEnabled) { setLoading(false); return; }
+		setLoading(true);
 		(async () => {
 			try {
 				const data = await apiFetch({ path: '/cf7-styler/v1/ai-settings' });
@@ -42,7 +44,7 @@ export function AISettingsPage({ features, isPro, onToggle, saving: parentSaving
 				setLoading(false);
 			}
 		})();
-	}, []);
+	}, [aiEnabled]);
 
 	const showNotice = (type, message) => {
 		setNotice({ type, message });
@@ -132,7 +134,7 @@ export function AISettingsPage({ features, isPro, onToggle, saving: parentSaving
 						</span>
 						{isKeySet && aiEnabled && (
 							<span className="cf7m-tool-badge">
-								{__('Connected', 'cf7-styler-for-divi')}
+								{__('Key saved', 'cf7-styler-for-divi')}
 							</span>
 						)}
 					</div>
@@ -141,15 +143,16 @@ export function AISettingsPage({ features, isPro, onToggle, saving: parentSaving
 					</span>
 				</div>
 				<Toggle
+					label={__('AI form generator', 'cf7-styler-for-divi')}
 					checked={aiEnabled}
 					onChange={(v) => onToggle && onToggle('ai_form_generator', v)}
 					disabled={!!parentSaving}
 				/>
 			</div>
 
-			{providerIsEmpty && (
+			{(providerIsEmpty || !aiEnabled) && (
 				<p className="cf7m-tool-section__locked">
-					{__('Enable the AI Form Generator module in Features first.', 'cf7-styler-for-divi')}
+					{aiEnabled ? __('Reload this page to finish enabling AI settings.', 'cf7-styler-for-divi') : __('Enable AI generation to connect a provider. Provider charges may apply.', 'cf7-styler-for-divi')}
 				</p>
 			)}
 
@@ -157,7 +160,7 @@ export function AISettingsPage({ features, isPro, onToggle, saving: parentSaving
 				<div className="cf7m-tool-section__body">
 
 					{notice && (
-						<div className={`cf7m-tool-notice cf7m-tool-notice--${notice.type}`}>
+						<div className={`cf7m-tool-notice cf7m-tool-notice--${notice.type}`} role={notice.type === 'error' ? 'alert' : 'status'}>
 							{notice.message}
 							<button
 								type="button"
@@ -180,6 +183,7 @@ export function AISettingsPage({ features, isPro, onToggle, saving: parentSaving
 									<div className="cf7m-tool-field__control">
 										<SelectControl
 											__nextHasNoMarginBottom
+											aria-label={__('Provider', 'cf7-styler-for-divi')}
 											value={settings.provider}
 											options={providerOptions}
 											onChange={(v) => update('provider', v)}
@@ -194,6 +198,7 @@ export function AISettingsPage({ features, isPro, onToggle, saving: parentSaving
 									<div className="cf7m-tool-field__control">
 										<SelectControl
 											__nextHasNoMarginBottom
+											aria-label={__('Model', 'cf7-styler-for-divi')}
 											value={settings[modelField] || ''}
 											options={modelOptions}
 											onChange={(v) => update(modelField, v)}
@@ -224,7 +229,8 @@ export function AISettingsPage({ features, isPro, onToggle, saving: parentSaving
 											<>
 												<TextControl
 													__nextHasNoMarginBottom
-													type="password"
+													aria-label={__('API key', 'cf7-styler-for-divi')}
+												type="password"
 													value={settings[keyField] || ''}
 													onChange={(v) => update(keyField, v)}
 													placeholder={provider.key_placeholder || 'sk-…'}

@@ -1,27 +1,6 @@
-// ===========================================
-// CF7 Mate Admin – Main Styles
-// ===========================================
-// Imports all SCSS modules for the admin UI
-// Uses advanced SCSS with design tokens and component theming
-
-// Design tokens, base styles, layout, components, and utilities
+// Plugin-owned styles are scoped to the app; WordPress keeps its own chrome.
 @import './styles/tokens.scss';
-@import './styles/base.scss';
-@import './styles/layout.scss';
-@import './styles/components.scss';
-@import './styles/dash.scss';
 @import './styles/responses.scss';
-@import './styles/utilities.scss';
+@import './styles/modern.scss';
 
-// ===== WordPress Admin Integration =====
-// Override specific WordPress admin styles that might conflict
-
-// Remove WordPress admin top margin on app root
-#cf7-mate-app-root {
-  margin-left: -20px !important;
-}
-
-// Ensure proper spacing in WordPress admin context
-.wp-admin #cf7-mate-app-root {
-  background-color: color(bg);
-}
+@import '../components/saddle.scss';

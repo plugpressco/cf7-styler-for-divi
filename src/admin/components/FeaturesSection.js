@@ -1,121 +1,35 @@
-/**
- * Features – single flat list, no sections.
- *
- * @package CF7_Mate
- */
-
-import { useMemo } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
-import { InformationCircleIcon } from '@heroicons/react/24/outline';
+import { useState } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
+import { MagnifyingGlassIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
+import { featureGroups as groups } from '../data/feature-groups';
 import { Toggle } from './Toggle';
 
-const ALL_FEATURES = [
-	// Pro features
-	{ id: 'conditional',      name: __('Conditional logic',   'cf7-styler-for-divi'), desc: __('Show or hide fields based on user answers.',          'cf7-styler-for-divi'), isPro: true },
-	{ id: 'multi_step',       name: __('Multi-step forms',    'cf7-styler-for-divi'), desc: __('Split long forms into multiple steps.',                'cf7-styler-for-divi'), isPro: true,  info: 'https://cf7mate.com/docs/multi-step-forms' },
-	{ id: 'database_entries', name: __('Form responses',      'cf7-styler-for-divi'), desc: __('Save form submissions to the database.',               'cf7-styler-for-divi'), isPro: true,  info: 'https://cf7mate.com/docs/manage-contact-form-7-submissions' },
-	{ id: 'multi_column',     name: __('Multi-column layout', 'cf7-styler-for-divi'), desc: __('Arrange fields side-by-side in columns.',              'cf7-styler-for-divi'), isPro: true },
-	{ id: 'presets',          name: __('Style presets',       'cf7-styler-for-divi'), desc: __('Apply pre-built form themes instantly.',               'cf7-styler-for-divi'), isPro: true },
-	{ id: 'analytics',        name: __('Form analytics',      'cf7-styler-for-divi'), desc: __('Track views, submissions, and conversion rates.',      'cf7-styler-for-divi'), isPro: true },
-	{ id: 'form_scheduling',  name: __('Form scheduling',     'cf7-styler-for-divi'), desc: __('Automatically open and close forms by date.',          'cf7-styler-for-divi'), isPro: true },
-	{ id: 'email_routing',    name: __('Email routing',       'cf7-styler-for-divi'), desc: __('Route notifications to different email addresses.',    'cf7-styler-for-divi'), isPro: true },
-	{ id: 'partial_save',     name: __('Save & Continue',     'cf7-styler-for-divi'), desc: __('Let users save progress and return to the form later.','cf7-styler-for-divi'), isPro: true },
-	// Page builder integrations (filtered by installed builders)
-	{ id: 'cf7_module',       name: __('Divi',                'cf7-styler-for-divi'), desc: __('Style CF7 forms inside the Divi Builder.',             'cf7-styler-for-divi'), isPro: false, builder: 'divi', info: 'https://cf7mate.com/docs/style-contact-form-7-in-divi' },
-	{ id: 'bricks_module',    name: __('Bricks',              'cf7-styler-for-divi'), desc: __('Style CF7 forms inside Bricks.',                       'cf7-styler-for-divi'), isPro: false, builder: 'bricks' },
-	{ id: 'elementor_module', name: __('Elementor',           'cf7-styler-for-divi'), desc: __('Style CF7 forms inside Elementor.',                    'cf7-styler-for-divi'), isPro: false, builder: 'elementor' },
-	{ id: 'gutenberg_module', name: __('Block Editor',        'cf7-styler-for-divi'), desc: __('Style CF7 forms in the WordPress block editor.',       'cf7-styler-for-divi'), isPro: false, builder: 'gutenberg' },
-	// Advanced fields
-	{ id: 'star_rating',      name: __('Star rating',         'cf7-styler-for-divi'), desc: __('Collect ratings with a clickable star widget.',        'cf7-styler-for-divi'), isPro: false },
-	{ id: 'range_slider',     name: __('Range slider',        'cf7-styler-for-divi'), desc: __('Let users pick a numeric value with a slider.',        'cf7-styler-for-divi'), isPro: false },
-	{ id: 'separator',        name: __('Separator',           'cf7-styler-for-divi'), desc: __('Add a visual divider line between fields.',            'cf7-styler-for-divi'), isPro: false },
-	{ id: 'image',            name: __('Image',               'cf7-styler-for-divi'), desc: __('Insert a static image inside the form.',               'cf7-styler-for-divi'), isPro: false },
-	{ id: 'icon',             name: __('Icon',                'cf7-styler-for-divi'), desc: __('Add an icon element to the form.',                     'cf7-styler-for-divi'), isPro: false },
-	{ id: 'phone_number',     name: __('Phone number',        'cf7-styler-for-divi'), desc: __('International phone input with country flag picker.',  'cf7-styler-for-divi'), isPro: false },
-	{ id: 'heading',          name: __('Heading',             'cf7-styler-for-divi'), desc: __('Add a heading or label inside the form.',              'cf7-styler-for-divi'), isPro: false },
-];
 
-export function FeaturesSection({ features, isPro, onToggle, saving }) {
-	const builderFlags = useMemo(() => {
-		const fromCfg =
-			typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.builders
-				? dcsCF7Styler.builders
-				: {};
-		return {
-			divi:      !!fromCfg.divi,
-			bricks:    !!fromCfg.bricks,
-			elementor: !!fromCfg.elementor,
-			gutenberg: fromCfg.gutenberg !== false,
-		};
-	}, []);
 
-	const items = useMemo(
-		() => ALL_FEATURES.filter((f) => !f.builder || builderFlags[f.builder]),
-		[builderFlags]
-	);
-
-	const pricingUrl =
-		typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.pricing_url
-			? dcsCF7Styler.pricing_url
-			: '';
-
+export function FeaturesSection({ features, onToggle, saving }) {
+	const [search, setSearch] = useState('');
+	const [filter, setFilter] = useState('all');
+	const config = typeof dcsCF7Styler !== 'undefined' ? dcsCF7Styler : {};
+	const items = (config.feature_metadata || []).filter(feature => !feature.builder || config.builders?.[feature.builder]);
+	const query = search.trim().toLocaleLowerCase();
+	const visible = items.filter(feature => `${feature.name} ${feature.desc}`.toLocaleLowerCase().includes(query) && (filter === 'all' || !!features[feature.id] === (filter === 'enabled')));
+	const enabled = items.filter(feature => features[feature.id]).length;
+	const filters = [{ id: 'all', label: __('All', 'cf7-styler-for-divi') }, { id: 'enabled', label: __('Enabled', 'cf7-styler-for-divi') }, { id: 'disabled', label: __('Disabled', 'cf7-styler-for-divi') }];
 	return (
-		<div className="cf7m-card cf7m-card--flush">
-			<div className="cf7m-feat-group">
-				{items.map((f) => (
-					<FeatureRow
-						key={f.id}
-						feature={f}
-						enabled={!!features[f.id]}
-						isPro={isPro}
-						saving={saving}
-						onToggle={onToggle}
-						pricingUrl={pricingUrl}
-					/>
-				))}
+		<div className="cf7m-features">
+			<div className="cf7m-feature-toolbar">
+				<label className="cf7m-feature-search"><MagnifyingGlassIcon aria-hidden="true" /><span className="screen-reader-text">{__('Search features', 'cf7-styler-for-divi')}</span><input type="search" value={search} onChange={event => setSearch(event.target.value)} placeholder={__('Search features…', 'cf7-styler-for-divi')} /></label>
+				<div className="cf7m-filter-tabs" aria-label={__('Filter features', 'cf7-styler-for-divi')}>{filters.map(item => <button key={item.id} type="button" aria-pressed={filter === item.id} onClick={() => setFilter(item.id)}>{item.label}</button>)}</div>
+				<span className="cf7m-feature-count">{/* translators: %1$d enabled features, %2$d available features. */}{sprintf(__('%1$d of %2$d enabled', 'cf7-styler-for-divi'), enabled, items.length)}</span>
 			</div>
-		</div>
-	);
-}
-
-function FeatureRow({ feature, enabled, isPro, saving, onToggle, pricingUrl }) {
-	const locked = feature.isPro && !isPro;
-
-	return (
-		<div className="cf7m-feat-row" data-enabled={locked ? 'locked' : enabled ? 'true' : 'false'}>
-			{locked ? (
-				<a
-					href={pricingUrl || '#'}
-					target={pricingUrl ? '_blank' : undefined}
-					rel={pricingUrl ? 'noopener noreferrer' : undefined}
-					className="cf7m-feat-row__upgrade"
-					title={__('Upgrade to Pro', 'cf7-styler-for-divi')}
-				>
-					{__('Pro', 'cf7-styler-for-divi')}
-				</a>
-			) : (
-				<Toggle
-					checked={!!enabled}
-					onChange={(v) => onToggle(feature.id, v)}
-					disabled={saving}
-				/>
-			)}
-			<div className="cf7m-feat-row__text">
-				<span className="cf7m-feat-row__name">{feature.name}</span>
-				<span className="cf7m-feat-row__desc">{feature.desc}</span>
-			</div>
-			{feature.info && (
-				<a
-					href={feature.info}
-					target="_blank"
-					rel="noopener noreferrer"
-					className="cf7m-feat-row__info"
-					aria-label={__('Learn more', 'cf7-styler-for-divi')}
-					title={__('Learn more', 'cf7-styler-for-divi')}
-				>
-					<InformationCircleIcon aria-hidden="true" />
-				</a>
-			)}
+			{groups.map(group => {
+				const matches = visible.filter(feature => group.keys.includes(feature.id) || (group.id === 'integrations' && !groups.some(item => item.keys.includes(feature.id))));
+				if (!matches.length) return null;
+				const Icon = group.icon;
+				return <section key={group.id} className="cf7m-feature-section" aria-labelledby={`cf7m-group-${group.id}`}><div className="cf7m-feature-section__heading"><Icon aria-hidden="true" /><h2 id={`cf7m-group-${group.id}`}>{group.title}</h2><span>{matches.length}</span></div><div className="cf7m-feature-grid">{matches.map(feature => <div key={feature.id} className="cf7m-feature-item"><div><label id={`cf7m-label-${feature.id}`} htmlFor={`cf7m-toggle-${feature.id}`}>{feature.name}</label><p>{feature.desc}</p></div><Toggle id={`cf7m-toggle-${feature.id}`} checked={!!features[feature.id]} onChange={value => onToggle(feature.id, value)} disabled={saving} label={feature.name} /></div>)}</div></section>;
+			})}
+			{!visible.length && <div className="cf7m-feature-empty"><AdjustmentsHorizontalIcon aria-hidden="true" /><h2>{__('No features found', 'cf7-styler-for-divi')}</h2><p>{__('Try another search or change your filter.', 'cf7-styler-for-divi')}</p><button type="button" className="cf7m-button" onClick={() => { setSearch(''); setFilter('all'); }}>{__('Clear filters', 'cf7-styler-for-divi')}</button></div>}
+			<p className="cf7m-page-note">{__('These settings apply site-wide. Configure individual forms in Contact forms.', 'cf7-styler-for-divi')}</p>
 		</div>
 	);
 }

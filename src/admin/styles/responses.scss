@@ -11,8 +11,8 @@
   gap: 18px;
   font-size: font-size(sm);
   color: color(text);
-  padding: 40px 24px;
-  max-width: 1280px;
+  padding: 36px 32px;
+  max-width: 1240px;
   margin: 0 auto;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .cf7m-resp__title {
-  font-size: 22px;
+  font-size: 28px;
   font-weight: font-weight(semibold);
   letter-spacing: -0.015em;
   margin: 0;
@@ -42,7 +42,7 @@
 }
 
 .cf7m-resp__count {
-  font-size: 13px;
+  font-size: 14px;
   color: color(text-muted);
   font-variant-numeric: tabular-nums;
 }
@@ -52,7 +52,7 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: font-weight(medium);
   color: color(text);
   text-decoration: none;
@@ -75,10 +75,8 @@
 .cf7m-resp__card {
   background-color: color(bg-card);
   border-radius: 12px;
-  box-shadow:
-    0 0 0 1px rgba(15, 23, 42, 0.04),
-    0 2px 4px rgba(15, 23, 42, 0.04),
-    0 8px 24px -8px rgba(15, 23, 42, 0.06);
+  border: 1px solid color(border);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
   overflow: hidden;
 }
 
@@ -123,7 +121,7 @@
   padding: 10px 18px;
   background-color: color(primary-tint);
   border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .cf7m-resp__bulk-count {
@@ -138,21 +136,23 @@
 
 // ===== Table — sits inside the card surface =====
 .cf7m-resp__table-wrap {
+  overflow-x: auto;
   background-color: color(bg-card);
 }
 
 .cf7m-resp__table {
   width: 100%;
+  min-width: 620px;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .cf7m-resp__th {
   text-align: left;
   font-weight: font-weight(medium);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
   color: color(text-muted);
   padding: 10px 18px;
   border-bottom: 1px solid rgba(15, 23, 42, 0.06);
@@ -229,7 +229,7 @@
 
   &--sub {
     display: block;
-    font-size: 11px;
+    font-size: 12px;
     color: color(text-muted);
     font-weight: font-weight(normal);
     margin-top: 1px;
@@ -282,7 +282,7 @@
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  opacity: 0;
+  opacity: 1;
   @include transition;
 }
 
@@ -327,7 +327,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: font-weight(medium);
   padding: 2px 8px;
   border-radius: radius(full);
@@ -435,7 +435,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 14px;
   color: color(text-muted);
 }
 
@@ -484,7 +484,8 @@
 
 .cf7m-resp__panel {
   background-color: color(bg-card);
-  border-radius: radius(md);
+  border-radius: 12px;
+  border: 1px solid color(border);
   overflow: hidden;
 }
 
@@ -494,11 +495,11 @@
 
 .cf7m-resp__panel-title {
   margin: 0;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: font-weight(semibold);
   color: color(text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .cf7m-resp__panel-body {
@@ -517,7 +518,7 @@
   gap: 12px;
   padding: 8px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-  font-size: 13px;
+  font-size: 14px;
 
   &:last-child {
     border-bottom: 0;
@@ -538,7 +539,7 @@
 
 .cf7m-resp__data-val {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   color: color(text);
   word-break: break-word;
   white-space: pre-wrap;
@@ -546,7 +547,7 @@
 
 .cf7m-resp__muted {
   color: color(text-muted);
-  font-size: 13px;
+  font-size: 14px;
   margin: 0;
 }
 
@@ -690,4 +691,14 @@
     background: rgba(239, 68, 68, 0.08);
     color: #b91c1c;
   }
+}
+
+@media (max-width: 782px) {
+  .cf7m-resp { padding: 24px 16px; }
+  .cf7m-resp__toolbar { align-items: stretch; }
+  .cf7m-resp__search { max-width: none; flex-basis: 100%; min-width: 0; }
+  .cf7m-resp__filters { display: flex; flex-wrap: wrap; width: 100%; }
+  .cf7m-resp__filters > * { flex: 1; min-width: 0 !important; }
+  .cf7m-resp__pagination { flex-wrap: wrap; }
+  .cf7m-resp__pagination-info { flex-wrap: wrap; }
 }

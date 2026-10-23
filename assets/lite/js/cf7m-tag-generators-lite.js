@@ -15,10 +15,29 @@
 	}
 
 	/**
+	 * Find a generator panel: legacy pane markup or CF7 5.x/6.x tag generator form.
+	 */
+	function findPane(id) {
+		return document.querySelector('.wpcf7-tg-pane-' + id) ||
+			document.querySelector('form.tag-generator-panel[data-id="' + id + '"]');
+	}
+
+	/**
+	 * CF7 5.x recomposes every generator tag with its own composer, which drops
+	 * CF7 Mate options and closing tags. Register ours for this panel instead.
+	 */
+	function useOwnComposer(id, updateTag) {
+		var taggen = window.wpcf7 && window.wpcf7.taggen;
+		if (!taggen || typeof taggen.update !== 'function') return;
+		taggen.update[id] = function () { updateTag(); };
+		updateTag();
+	}
+
+	/**
 	 * Separator tag generator.
 	 */
 	function initSeparatorGenerator() {
-		var pane = document.querySelector('.wpcf7-tg-pane-cf7m-separator');
+		var pane = findPane('cf7m-separator');
 		if (!pane || pane.dataset.cf7mInit) return;
 		pane.dataset.cf7mInit = '1';
 
@@ -44,6 +63,7 @@
 				el.addEventListener('change', updateTag);
 			}
 		});
+		useOwnComposer('cf7m-separator', updateTag);
 	}
 
 	/**

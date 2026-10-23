@@ -1,82 +1,47 @@
-/**
- * Plugin header — logo left, nav links right.
- * Supports white label (Agency plan): custom name, logo, and link overrides.
- *
- * @package CF7_Mate
- */
-
+/** Shared navigation for every CF7 Mate admin screen. */
+import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { RocketLaunchIcon, BookOpenIcon, UserGroupIcon, LifebuoyIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import CF7MateLogo from '../../components/CF7MateLogo';
+import { getDashTabFromHash } from '../utils/routing';
 
-const cfg = (key, fallback = '') => {
-	if (typeof dcsCF7Styler === 'undefined') return fallback;
-	return dcsCF7Styler[key] || fallback;
-};
-
-export function Header({ isPro }) {
-	const dashUrl    = cfg('dash_url', 'admin.php?page=cf7-mate');
-	const pricingUrl = cfg('pricing_url', '');
-	const docsUrl    = cfg('docs_url', '');
-	const communityUrl = cfg('community_url', '');
-	const supportUrl = cfg('support_url', '');
-
-	// White label (Agency plan): PHP blanks out community_url/pricing_url/docs_url/support_url
-	// when WL is enabled, so the links array naturally hides them.
-	const wl     = (typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.white_label) || {};
-	const wlOn   = !!wl.enabled;
-	const wlName = wlOn && wl.plugin_name ? wl.plugin_name : 'CF7 Mate';
-	const wlLogo = wlOn && wl.logo_url    ? wl.logo_url    : null;
-
-	const links = [
-		docsUrl    && { icon: BookOpenIcon,   label: __('Docs',      'cf7-styler-for-divi'), href: docsUrl },
-		communityUrl && { icon: UserGroupIcon, label: __('Community', 'cf7-styler-for-divi'), href: communityUrl },
-		supportUrl && { icon: LifebuoyIcon,   label: __('Support',   'cf7-styler-for-divi'), href: supportUrl },
-	].filter(Boolean);
-
+export function Header() {
+	const config = typeof dcsCF7Styler !== 'undefined' ? dcsCF7Styler : {};
+	const [tab, setTab] = useState(getDashTabFromHash());
+	useEffect(() => {
+		const update = () => setTab(getDashTabFromHash());
+		window.addEventListener('hashchange', update);
+		return () => window.removeEventListener('hashchange', update);
+	}, []);
+	const dash = config.dash_url || 'admin.php?page=cf7-mate';
+	const active = config.app === 'responses' ? 'responses' : config.app === 'analytics' ? 'analytics' : tab;
+	const name = 'CF7 Mate';
+	const items = [
+		{ id: 'features', label: __('Features', 'cf7-styler-for-divi'), href: `${dash}#/features` },
+		{ id: 'responses', label: __('Responses', 'cf7-styler-for-divi'), href: config.responses_url || 'admin.php?page=cf7-mate-responses' },
+		{ id: 'analytics', label: __('Analytics', 'cf7-styler-for-divi'), href: config.analytics_url || 'admin.php?page=cf7-mate-analytics' },
+		{ id: 'tools', label: __('Tools', 'cf7-styler-for-divi'), href: `${dash}#/tools` },
+		{ id: 'saddle', label: __('Saddle', 'cf7-styler-for-divi'), href: config.saddle_url || 'admin.php?page=cf7-mate-saddle' },
+	];
+	const help = [
+		{ label: __('Documentation', 'cf7-styler-for-divi'), href: config.docs_url },
+		{ label: __('Support', 'cf7-styler-for-divi'), href: config.support_url },
+		{ label: __('Community', 'cf7-styler-for-divi'), href: config.community_url },
+	].filter(item => item.href);
 	return (
-		<header className="cf7m-header" role="banner">
+		<header className="cf7m-header">
 			<div className="cf7m-header__inner">
-				<a href={dashUrl} className="cf7m-header__brand">
-					{wlLogo ? (
-						<img
-							src={wlLogo}
-							alt={wlName}
-							width={22}
-							height={22}
-							className="cf7m-header__brand-logo"
-						/>
-					) : (
-						<CF7MateLogo width={22} height={22} />
-					)}
-					<span className="cf7m-header__brand-name">{wlName}</span>
+				<a href={dash} className="cf7m-header__brand">
+					<CF7MateLogo width={28} height={28} />
+					<span>{name}</span>
 				</a>
-
-				<nav className="cf7m-header__links" aria-label={__('Plugin links', 'cf7-styler-for-divi')}>
-					{!isPro && !wlOn && pricingUrl && (
-						<a
-							href={pricingUrl}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="cf7m-header__upgrade"
-						>
-							<RocketLaunchIcon aria-hidden="true" />
-							{__('Upgrade to Pro', 'cf7-styler-for-divi')}
-						</a>
-					)}
-					{links.map(({ icon: Icon, label, href }) => (
-						<a
-							key={label}
-							href={href}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="cf7m-header__link"
-						>
-							<Icon aria-hidden="true" />
-							{label}
-						</a>
-					))}
+				<nav className="cf7m-header__nav" aria-label={__('CF7 Mate navigation', 'cf7-styler-for-divi')}>
+					{items.map(item => <a key={item.id} href={item.href} className={`cf7m-header__nav-item${active === item.id ? ' is-active' : ''}`} aria-current={active === item.id ? 'page' : undefined}>{item.label}</a>)}
 				</nav>
+				<div className="cf7m-header__actions">
+					{help.length > 0 && <details className="cf7m-help"><summary>{__('Help', 'cf7-styler-for-divi')}<ChevronDownIcon aria-hidden="true" /></summary><div className="cf7m-help__menu">{help.map(item => <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer">{item.label}<ArrowUpRightIcon aria-hidden="true" /></a>)}</div></details>}
+					<a className="cf7m-button" href={config.cf7_admin_url || 'admin.php?page=wpcf7'}>{__('Contact forms', 'cf7-styler-for-divi')}<ArrowUpRightIcon aria-hidden="true" /></a>
+				</div>
 			</div>
 		</header>
 	);

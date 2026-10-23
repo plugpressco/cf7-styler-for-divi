@@ -1,392 +1,652 @@
-# Copyright (C) 2026 CF7 Mate
-# This file is distributed under the same license as the CF7 Mate package.
+# Copyright (C) 2026 PlugPress
+# This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: CF7 Mate\n"
+"Project-Id-Version: CF7 Mate 4.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cf7-mate-pro\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language-Team: PlugPress <support@plugpress.io>\n"
-"POT-Creation-Date: 2026-06-13 09:08+0000\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: 2026-10-23T18:14:38+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: cf7-styler-for-divi\n"
 
-#: cf7-styler.php:33
-msgid "Styler Mate for Contact Form 7 (Lite) has been deactivated because CF7 Mate Pro is active."
+#. Plugin Name of the plugin
+#: cf7-styler.php
+#: includes/admin/form-editor.php:23
+#: src/onboarding/components/OnboardingModal.jsx:79
+msgid "CF7 Mate"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: cf7-styler.php
+msgid "https://plugpress.io/cf7-mate/"
+msgstr ""
+
+#. Description of the plugin
+#: cf7-styler.php
+msgid "Build Contact Form 7 forms with AI, style them visually with no code, add multi-step flows, and save every submission."
+msgstr ""
+
+#. Author of the plugin
+#: cf7-styler.php
+msgid "PlugPress"
+msgstr ""
+
+#. Author URI of the plugin
+#: cf7-styler.php
+msgid "https://plugpress.io"
+msgstr ""
+
+#: cf7-styler.php:35
+msgid "CF7 Mate now includes all features for free. Deactivate the legacy CF7 Mate Pro plugin, then activate CF7 Mate to complete the switch. Your forms and saved responses are preserved."
+msgstr ""
+
+#: includes/admin/admin.php:55
+msgid "All CF7 Mate features are now free. Response storage, analytics, webhooks and save-and-continue are optional. Review the feature descriptions and enable only what you want to use."
+msgstr ""
+
+#: includes/admin/admin.php:56
+msgid "Dismiss this notice"
+msgstr ""
+
+#: includes/admin/admin.php:64
+#: includes/admin/admin.php:76
+msgid "CF7Mate"
+msgstr ""
+
+#: includes/admin/admin.php:93
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/admin.php:98
+#: src/admin/components/Header.js:24
+#: src/admin/pages/SettingsPage.js:20
+msgid "Saddle"
+msgstr ""
+
+#: includes/admin/form-editor.php:43
+msgid "On"
+msgstr ""
+
+#: includes/admin/form-editor.php:44
+msgid "Off"
+msgstr ""
+
+#: includes/admin/form-editor.php:45
+msgid "Unsaved changes. Save the form to apply them."
+msgstr ""
+
+#: includes/admin/form-editor.php:46
+msgid "No routing rules yet. Notifications use the recipient in the Mail tab."
+msgstr ""
+
+#: includes/admin/form-editor.php:47
+msgid "No conditional redirects. All submissions use the default destination above."
+msgstr ""
+
+#: includes/admin/form-editor.php:57
+msgid "Form settings"
+msgstr ""
+
+#: includes/admin/form-editor.php:57
+msgid "Choose what happens before and after someone submits this form."
+msgstr ""
+
+#: includes/admin/form-editor.php:58
+msgid "Changes are saved with this form."
+msgstr ""
+
+#: includes/admin/form-editor.php:62
+msgid "Form settings sections"
+msgstr ""
+
+#: includes/admin/form-editor.php:63
+msgid "Manage available features"
+msgstr ""
+
+#: includes/admin/form-editor.php:67
+msgid "Enable form features in CF7 Mate to configure them here."
+msgstr ""
+
+#: includes/admin/onboarding.php:160
+msgid "You are nearly ready to start using CF7 Mate"
+msgstr ""
+
+#: includes/admin/onboarding.php:163
+msgid "Go through the setup to configure your plugin."
+msgstr ""
+
+#: includes/admin/onboarding.php:168
+msgid "Run Setup Wizard"
+msgstr ""
+
+#: includes/admin/onboarding.php:171
+msgid "Skip Setup"
+msgstr ""
+
+#: includes/feature-settings.php:16
+msgid "Divi"
+msgstr ""
+
+#: includes/feature-settings.php:16
+msgid "Style forms inside Divi 4 and Divi 5."
+msgstr ""
+
+#: includes/feature-settings.php:17
+msgid "Bricks"
+msgstr ""
+
+#: includes/feature-settings.php:17
+msgid "Style forms inside Bricks."
+msgstr ""
+
+#: includes/feature-settings.php:18
+msgid "Elementor"
+msgstr ""
+
+#: includes/feature-settings.php:18
+msgid "Style forms inside Elementor."
+msgstr ""
+
+#: includes/feature-settings.php:19
+msgid "Block Editor"
+msgstr ""
+
+#: includes/feature-settings.php:19
+msgid "Style forms in the WordPress block editor."
+msgstr ""
+
+#: includes/feature-settings.php:20
+msgid "Grid layout"
+msgstr ""
+
+#: includes/feature-settings.php:20
+msgid "Arrange fields in a responsive grid."
+msgstr ""
+
+#: includes/feature-settings.php:21
+msgid "Multi-column layout"
+msgstr ""
+
+#: includes/feature-settings.php:21
+msgid "Arrange fields side by side in columns."
+msgstr ""
+
+#: includes/feature-settings.php:22
+msgid "Multi-step forms"
+msgstr ""
+
+#: includes/feature-settings.php:22
+msgid "Split forms into steps with progress and validation."
+msgstr ""
+
+#: includes/feature-settings.php:23
+msgid "Conditional logic"
+msgstr ""
+
+#: includes/feature-settings.php:23
+msgid "Show or hide fields based on answers."
+msgstr ""
+
+#: includes/feature-settings.php:24
+#: includes/lite/features/star-rating/module.php:135
+msgid "Star rating"
+msgstr ""
+
+#: includes/feature-settings.php:24
+msgid "Collect ratings with a keyboard-accessible star field."
+msgstr ""
+
+#: includes/feature-settings.php:25
+msgid "Range slider"
+msgstr ""
+
+#: includes/feature-settings.php:25
+msgid "Collect numeric values with a slider."
+msgstr ""
+
+#: includes/feature-settings.php:26
+#: includes/lite/features/phone-number/module.php:210
+msgid "Phone number"
+msgstr ""
+
+#: includes/feature-settings.php:26
+msgid "International phone input with a country selector."
+msgstr ""
+
+#: includes/feature-settings.php:27
+#: includes/lite/features/separator/module.php:134
+msgid "Separator"
+msgstr ""
+
+#: includes/feature-settings.php:27
+msgid "Add a divider between fields."
+msgstr ""
+
+#: includes/feature-settings.php:28
+#: includes/lite/features/heading/module.php:199
+msgid "Heading"
+msgstr ""
+
+#: includes/feature-settings.php:28
+msgid "Add headings to form sections."
+msgstr ""
+
+#: includes/feature-settings.php:29
+#: includes/lite/features/image/module.php:128
+msgid "Image"
+msgstr ""
+
+#: includes/feature-settings.php:29
+msgid "Insert an image inside a form."
+msgstr ""
+
+#: includes/feature-settings.php:30
+#: includes/lite/features/icon/module.php:152
+msgid "Icon"
+msgstr ""
+
+#: includes/feature-settings.php:30
+msgid "Add icons inside forms."
+msgstr ""
+
+#: includes/feature-settings.php:31
+#: src/admin/pages/AISettingsPage.js:146
+msgid "AI form generator"
+msgstr ""
+
+#: includes/feature-settings.php:31
+msgid "Generate forms using your own AI provider key. Provider charges apply."
+msgstr ""
+
+#: includes/feature-settings.php:32
+msgid "Style presets"
+msgstr ""
+
+#: includes/feature-settings.php:32
+msgid "Apply predefined form styles."
+msgstr ""
+
+#: includes/feature-settings.php:33
+msgid "Form responses"
+msgstr ""
+
+#: includes/feature-settings.php:33
+msgid "Store submissions, IP addresses and browser details in your WordPress database."
+msgstr ""
+
+#: includes/feature-settings.php:34
+msgid "Form analytics"
+msgstr ""
+
+#: includes/feature-settings.php:34
+msgid "Track form views locally. Submission counts require Form responses."
+msgstr ""
+
+#: includes/feature-settings.php:35
+#: src/admin/pages/WebhookPage.js:120
+msgid "Webhooks"
+msgstr ""
+
+#: includes/feature-settings.php:35
+msgid "Send submissions and visitor details to the destinations you configure."
+msgstr ""
+
+#: includes/feature-settings.php:36
+msgid "Form scheduling"
+msgstr ""
+
+#: includes/feature-settings.php:36
+msgid "Open and close forms on a schedule."
+msgstr ""
+
+#: includes/feature-settings.php:37
+#: includes/pro/features/email-routing/editor-panel.php:42
+msgid "Email routing"
+msgstr ""
+
+#: includes/feature-settings.php:37
+msgid "Route notifications according to field values."
+msgstr ""
+
+#: includes/feature-settings.php:38
+msgid "Redirect after submission"
+msgstr ""
+
+#: includes/feature-settings.php:38
+msgid "Choose a destination after a successful submission."
+msgstr ""
+
+#: includes/feature-settings.php:39
+msgid "Save and continue"
+msgstr ""
+
+#: includes/feature-settings.php:39
+msgid "Let visitors resume in the same browser for up to seven days. Enable per form."
 msgstr ""
 
 #: includes/functions.php:24
 msgid "Select a Contact form"
 msgstr ""
 
-#: includes/rest-api.php:265
-msgid "A valid CF7 Mate Pro license is required."
-msgstr ""
-
-#: includes/rest-api.php:304
-msgid "Invalid features data."
-msgstr ""
-
-#: includes/rest-api.php:352
-msgid "Invalid webhook URLs."
-msgstr ""
-
-#: includes/rest-api.php:465
-msgid "Invalid form ID."
-msgstr ""
-
-#: includes/rest-api.php:475
-msgid "Form not found."
-msgstr ""
-
-#: includes/rest-api.php:556
-msgid "Contact Form 7 is not installed."
-msgstr ""
-
-#: includes/rest-api.php:574
-msgid "Select a form"
-msgstr ""
-
-#. translators: %d: form ID
-#: includes/rest-api.php:583
-msgid "Form #%d"
-msgstr ""
-
-#: includes/rest-api.php:626
-msgid "Onboarding reset successfully."
-msgstr ""
-
-#: includes/rest-api.php:665, includes/rest-api.php:693, includes/rest-api.php:721
-msgid "License manager is not available."
-msgstr ""
-
-#: includes/rest-api.php:750
-msgid "An Agency plan license is required."
-msgstr ""
-
-#: includes/admin/admin.php:38, includes/admin/admin.php:50
-msgid "CF7Mate"
-msgstr ""
-
-#: includes/admin/admin.php:67
-msgid "Settings"
-msgstr ""
-
-#: includes/admin/onboarding.php:155
-msgid "You are nearly ready to start using CF7 Mate"
-msgstr ""
-
-#: includes/admin/onboarding.php:158
-msgid "Go through the setup to configure your plugin."
-msgstr ""
-
-#: includes/admin/onboarding.php:163
-msgid "Run Setup Wizard"
-msgstr ""
-
-#: includes/admin/onboarding.php:166
-msgid "Skip Setup"
-msgstr ""
-
-#: includes/notices/dotyard.php:78
-msgid "dotyard — custom development service"
-msgstr ""
-
-#: includes/notices/dotyard.php:79, includes/notices/review.php:134, includes/notices/upgrade.php:106
-msgid "Dismiss"
-msgstr ""
-
-#: includes/notices/dotyard.php:83
-msgid "From the makers of CF7 Mate"
-msgstr ""
-
-#: includes/notices/dotyard.php:85
-msgid "Need a custom plugin or MVP built?"
-msgstr ""
-
-#: includes/notices/dotyard.php:88
-msgid "dotyard is our lean product studio. Custom WordPress plugins and SaaS MVPs — fixed scope, fixed price, one commission at a time."
-msgstr ""
-
-#: includes/notices/dotyard.php:93
-msgid "Start a project"
-msgstr ""
-
-#: includes/notices/dotyard.php:97
-msgid "No thanks"
-msgstr ""
-
-#. translators: %s: plugin name
-#: includes/notices/review.php:113
-msgid "How are you finding %s?"
-msgstr ""
-
-#: includes/notices/review.php:119
-msgid "Rate CF7 Mate"
-msgstr ""
-
-#. translators: %d: number of stars
-#: includes/notices/review.php:122
-msgid "%d star"
-msgstr ""
-
-#: includes/notices/review.php:132
-msgid "Remind me later"
-msgstr ""
-
-#: includes/notices/review.php:203
-msgid "Thank you! Your review really helps us out."
-msgstr ""
-
-#: includes/notices/review.php:208
-msgid "Thanks for the feedback! Anything we can fix?"
-msgstr ""
-
-#: includes/notices/review.php:208
-msgid "Contact support →"
-msgstr ""
-
-#: includes/notices/upgrade.php:99
-msgid "Pro"
-msgstr ""
-
-#: includes/notices/upgrade.php:101
-msgid "Unlock Multi-Step, Conditional Logic, Form Entries, Analytics, and more."
-msgstr ""
-
-#: includes/notices/upgrade.php:104
-msgid "See plans"
-msgstr ""
-
-#: includes/pro/loader.php:129, includes/pro/loader.php:130, includes/pro/features/entries/editor-panel.php:74
-msgid "Responses"
-msgstr ""
-
-#: includes/pro/loader.php:138, includes/pro/loader.php:139
-msgid "Analytics"
-msgstr ""
-
-#: includes/pro/license/class-license-manager.php:36
-msgid "License key cannot be empty."
-msgstr ""
-
-#: includes/pro/license/class-license-manager.php:61
-msgid "Connection to Lemon Squeezy failed: %s"
-msgstr ""
-
-#: includes/pro/license/class-license-manager.php:72
-msgid "Activation failed. Check your license key."
-msgstr ""
-
-#: includes/pro/license/class-license-manager.php:77
-msgid "License activation was not successful."
-msgstr ""
-
-#: includes/pro/license/class-license-manager.php:130
-msgid "No active license to deactivate."
-msgstr ""
-
-#: includes/pro/license/class-license-manager.php:136
-msgid "Could not decrypt license key."
-msgstr ""
-
-#: includes/pro/license/class-license-manager.php:330
-msgid "This license key belongs to a different store."
-msgstr ""
-
-#: includes/pro/license/class-license-manager.php:337
-msgid "This license key is for a different product."
-msgstr ""
-
-#: includes/pro/license/class-updater.php:106
-msgid "Premium features for CF7 Mate."
-msgstr ""
-
-#: includes/lite/builders/bricks/bricks-element.php:21, includes/lite/builders/elementor/elementor-widget.php:20, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:17
+#: includes/lite/builders/bricks/bricks-element.php:21
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:22
+#: includes/lite/builders/elementor/elementor-widget.php:20
+#: src/divi5/modules/cf7-styler/edit.jsx:193
 msgid "CF7 Styler"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:35, includes/lite/builders/elementor/elementor-widget.php:63, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:279
+#: includes/lite/builders/bricks/bricks-element.php:35
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:284
+#: includes/lite/builders/elementor/elementor-widget.php:63
+#: src/gutenberg/edit.js:135
 msgid "Select Form"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:46, includes/lite/builders/bricks/bricks-element.php:875, includes/lite/builders/elementor/elementor-widget.php:77, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:30
+#: includes/lite/builders/bricks/bricks-element.php:46
+#: includes/lite/builders/bricks/bricks-element.php:875
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:35
+#: includes/lite/builders/elementor/elementor-widget.php:77
+#: src/gutenberg/edit.js:146
 msgid "Form Header"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:52, includes/lite/builders/elementor/elementor-widget.php:82, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:84
+#: includes/lite/builders/bricks/bricks-element.php:52
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:89
+#: includes/lite/builders/elementor/elementor-widget.php:82
+#: src/gutenberg/edit.js:148
 msgid "Show Form Header"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:60, includes/lite/builders/elementor/elementor-widget.php:91, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:111
+#: includes/lite/builders/bricks/bricks-element.php:60
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:116
+#: includes/lite/builders/elementor/elementor-widget.php:91
+#: src/gutenberg/edit.js:155
 msgid "Header Title"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:69, includes/lite/builders/elementor/elementor-widget.php:98, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:120
+#: includes/lite/builders/bricks/bricks-element.php:69
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:125
+#: includes/lite/builders/elementor/elementor-widget.php:98
+#: src/gutenberg/edit.js:160
 msgid "Header Text"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:78, includes/lite/builders/elementor/elementor-widget.php:105, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:129
+#: includes/lite/builders/bricks/bricks-element.php:78
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:134
+#: includes/lite/builders/elementor/elementor-widget.php:105
+#: src/gutenberg/edit.js:165
 msgid "Use Icon"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:87, includes/lite/builders/elementor/elementor-widget.php:115, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:156
+#: includes/lite/builders/bricks/bricks-element.php:87
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:161
+#: includes/lite/builders/elementor/elementor-widget.php:115
 msgid "Header Icon"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:98, includes/lite/builders/elementor/elementor-widget.php:128, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:143
+#: includes/lite/builders/bricks/bricks-element.php:98
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:148
+#: includes/lite/builders/elementor/elementor-widget.php:128
+#: src/gutenberg/edit.js:177
 msgid "Header Image"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:110, includes/lite/builders/elementor/elementor-widget.php:145
+#: includes/lite/builders/bricks/bricks-element.php:110
+#: includes/lite/builders/elementor/elementor-widget.php:145
+#: src/gutenberg/edit.js:198
 msgid "Header Background"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:124, includes/lite/builders/elementor/elementor-widget.php:154, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:178
+#: includes/lite/builders/bricks/bricks-element.php:124
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:183
+#: includes/lite/builders/elementor/elementor-widget.php:154
+#: src/gutenberg/edit.js:199
 msgid "Header Padding"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:138, includes/lite/builders/elementor/elementor-widget.php:164, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:191
+#: includes/lite/builders/bricks/bricks-element.php:138
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:196
+#: includes/lite/builders/elementor/elementor-widget.php:164
+#: src/gutenberg/edit.js:200
 msgid "Bottom Spacing"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:153, includes/lite/builders/elementor/elementor-widget.php:177
+#: includes/lite/builders/bricks/bricks-element.php:153
+#: includes/lite/builders/elementor/elementor-widget.php:177
+#: src/gutenberg/edit.js:201
 msgid "Image/Icon Background"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:171, includes/lite/builders/elementor/elementor-widget.php:186
+#: includes/lite/builders/bricks/bricks-element.php:171
+#: includes/lite/builders/elementor/elementor-widget.php:186
+#: src/gutenberg/edit.js:203
 msgid "Icon Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:192, includes/lite/builders/elementor/elementor-widget.php:200
+#: includes/lite/builders/bricks/bricks-element.php:192
+#: includes/lite/builders/elementor/elementor-widget.php:200
 msgid "Title Typography"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:206, includes/lite/builders/elementor/elementor-widget.php:216
+#: includes/lite/builders/bricks/bricks-element.php:206
+#: includes/lite/builders/elementor/elementor-widget.php:216
 msgid "Text Typography"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:221, includes/lite/builders/elementor/elementor-widget.php:243, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:234
+#: includes/lite/builders/bricks/bricks-element.php:221
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:239
+#: includes/lite/builders/elementor/elementor-widget.php:243
+#: src/gutenberg/edit.js:214
 msgid "Form Background"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:234, includes/lite/builders/elementor/elementor-widget.php:251, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:242
+#: includes/lite/builders/bricks/bricks-element.php:234
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:247
+#: includes/lite/builders/elementor/elementor-widget.php:251
+#: src/gutenberg/edit.js:215
 msgid "Form Padding"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:247, includes/lite/builders/elementor/elementor-widget.php:261
+#: includes/lite/builders/bricks/bricks-element.php:247
+#: includes/lite/builders/elementor/elementor-widget.php:261
 msgid "Form Border"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:260, includes/lite/builders/elementor/elementor-widget.php:275, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:251
+#: includes/lite/builders/bricks/bricks-element.php:260
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:256
+#: includes/lite/builders/elementor/elementor-widget.php:275
+#: src/gutenberg/edit.js:217
 msgid "Fullwidth Button"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:275, includes/lite/builders/elementor/elementor-widget.php:287, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:263
+#: includes/lite/builders/bricks/bricks-element.php:275
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:268
+#: includes/lite/builders/elementor/elementor-widget.php:287
+#: src/gutenberg/edit.js:220
 msgid "Button Alignment"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:292, includes/lite/builders/elementor/elementor-widget.php:323
+#: includes/lite/builders/bricks/bricks-element.php:292
+#: includes/lite/builders/elementor/elementor-widget.php:323
+#: src/gutenberg/edit.js:237
 msgid "Field Height"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:306, includes/lite/builders/elementor/elementor-widget.php:335
+#: includes/lite/builders/bricks/bricks-element.php:306
+#: includes/lite/builders/elementor/elementor-widget.php:335
+#: src/gutenberg/edit.js:238
 msgid "Field Padding"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:319, includes/lite/builders/bricks/bricks-element.php:501, includes/lite/builders/bricks/bricks-element.php:606, includes/lite/builders/elementor/elementor-widget.php:351, includes/lite/builders/elementor/elementor-widget.php:510, includes/lite/builders/elementor/elementor-widget.php:596, includes/lite/builders/elementor/elementor-widget.php:618, includes/lite/builders/elementor/elementor-widget.php:766, includes/lite/builders/elementor/elementor-widget.php:796, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:400, includes/lite/builders/divi4/FluentForms/FluentForms.php:143, includes/lite/builders/divi4/FluentForms/FluentForms.php:187, includes/lite/builders/divi4/GravityForms/GravityForms.php:150, includes/lite/builders/divi4/GravityForms/GravityForms.php:193
+#: includes/lite/builders/bricks/bricks-element.php:319
+#: includes/lite/builders/bricks/bricks-element.php:501
+#: includes/lite/builders/bricks/bricks-element.php:606
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:405
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:148
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:192
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:155
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:198
+#: includes/lite/builders/elementor/elementor-widget.php:351
+#: includes/lite/builders/elementor/elementor-widget.php:510
+#: includes/lite/builders/elementor/elementor-widget.php:596
+#: includes/lite/builders/elementor/elementor-widget.php:618
+#: includes/lite/builders/elementor/elementor-widget.php:766
+#: includes/lite/builders/elementor/elementor-widget.php:796
+#: src/gutenberg/edit.js:239
+#: src/gutenberg/edit.js:285
+#: src/gutenberg/edit.js:300
 msgid "Background Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:332, includes/lite/builders/bricks/bricks-element.php:593, includes/lite/builders/elementor/elementor-widget.php:222, includes/lite/builders/elementor/elementor-widget.php:360, includes/lite/builders/elementor/elementor-widget.php:588, includes/lite/builders/elementor/elementor-widget.php:610, includes/lite/builders/elementor/elementor-widget.php:758, includes/lite/builders/elementor/elementor-widget.php:788
+#: includes/lite/builders/bricks/bricks-element.php:332
+#: includes/lite/builders/bricks/bricks-element.php:593
+#: includes/lite/builders/elementor/elementor-widget.php:222
+#: includes/lite/builders/elementor/elementor-widget.php:360
+#: includes/lite/builders/elementor/elementor-widget.php:588
+#: includes/lite/builders/elementor/elementor-widget.php:610
+#: includes/lite/builders/elementor/elementor-widget.php:758
+#: includes/lite/builders/elementor/elementor-widget.php:788
+#: src/gutenberg/edit.js:240
+#: src/gutenberg/edit.js:299
 msgid "Text Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:345, includes/lite/builders/elementor/elementor-widget.php:368
+#: includes/lite/builders/bricks/bricks-element.php:345
+#: includes/lite/builders/elementor/elementor-widget.php:368
+#: src/gutenberg/edit.js:241
 msgid "Focus Border Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:358, includes/lite/builders/elementor/elementor-widget.php:377
+#: includes/lite/builders/bricks/bricks-element.php:358
+#: includes/lite/builders/elementor/elementor-widget.php:377
 msgid "Field Border"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:371, includes/lite/builders/elementor/elementor-widget.php:391
+#: includes/lite/builders/bricks/bricks-element.php:371
+#: includes/lite/builders/elementor/elementor-widget.php:391
+#: src/gutenberg/edit.js:256
 msgid "Field Spacing Bottom"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:386, includes/lite/builders/elementor/elementor-widget.php:405
+#: includes/lite/builders/bricks/bricks-element.php:386
+#: includes/lite/builders/elementor/elementor-widget.php:405
 msgid "Field Typography"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:400, includes/lite/builders/bricks/bricks-element.php:563, includes/lite/builders/elementor/elementor-widget.php:422, includes/lite/builders/elementor/elementor-widget.php:555, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:453, includes/lite/builders/divi4/FluentForms/FluentForms.php:205, includes/lite/builders/divi4/GravityForms/GravityForms.php:211
+#: includes/lite/builders/bricks/bricks-element.php:400
+#: includes/lite/builders/bricks/bricks-element.php:563
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:458
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:210
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:216
+#: includes/lite/builders/elementor/elementor-widget.php:422
+#: includes/lite/builders/elementor/elementor-widget.php:555
+#: src/gutenberg/edit.js:264
+#: src/gutenberg/edit.js:289
 msgid "Label Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:413, includes/lite/builders/elementor/elementor-widget.php:431
+#: includes/lite/builders/bricks/bricks-element.php:413
+#: includes/lite/builders/elementor/elementor-widget.php:431
 msgid "Label Typography"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:426, includes/lite/builders/elementor/elementor-widget.php:436
+#: includes/lite/builders/bricks/bricks-element.php:426
+#: includes/lite/builders/elementor/elementor-widget.php:436
+#: src/gutenberg/edit.js:265
 msgid "Label Spacing Bottom"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:442, includes/lite/builders/elementor/elementor-widget.php:461
+#: includes/lite/builders/bricks/bricks-element.php:442
+#: includes/lite/builders/elementor/elementor-widget.php:461
+#: src/gutenberg/edit.js:273
 msgid "Placeholder Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:459, includes/lite/builders/elementor/elementor-widget.php:470
+#: includes/lite/builders/bricks/bricks-element.php:459
+#: includes/lite/builders/elementor/elementor-widget.php:470
 msgid "Placeholder Typography"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:473, includes/lite/builders/elementor/elementor-widget.php:487
+#: includes/lite/builders/bricks/bricks-element.php:473
+#: includes/lite/builders/elementor/elementor-widget.php:487
+#: src/gutenberg/edit.js:281
 msgid "Custom Styles"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:481, includes/lite/builders/elementor/elementor-widget.php:496, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:382
+#: includes/lite/builders/bricks/bricks-element.php:481
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:387
+#: includes/lite/builders/elementor/elementor-widget.php:496
+#: src/gutenberg/edit.js:284
 msgid "Size"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:515, includes/lite/builders/elementor/elementor-widget.php:520, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:411, includes/lite/builders/divi4/FluentForms/FluentForms.php:196, includes/lite/builders/divi4/GravityForms/GravityForms.php:202
+#: includes/lite/builders/bricks/bricks-element.php:515
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:416
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:201
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:207
+#: includes/lite/builders/elementor/elementor-widget.php:520
+#: src/gutenberg/edit.js:286
 msgid "Selected Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:533, includes/lite/builders/elementor/elementor-widget.php:531, includes/lite/builders/elementor/elementor-widget.php:626, includes/lite/builders/elementor/elementor-widget.php:774, includes/lite/builders/elementor/elementor-widget.php:804, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:423
+#: includes/lite/builders/bricks/bricks-element.php:533
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:428
+#: includes/lite/builders/elementor/elementor-widget.php:531
+#: includes/lite/builders/elementor/elementor-widget.php:626
+#: includes/lite/builders/elementor/elementor-widget.php:774
+#: includes/lite/builders/elementor/elementor-widget.php:804
+#: src/gutenberg/edit.js:254
+#: src/gutenberg/edit.js:287
 msgid "Border Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:547, includes/lite/builders/elementor/elementor-widget.php:541, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:435
+#: includes/lite/builders/bricks/bricks-element.php:547
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:440
+#: includes/lite/builders/elementor/elementor-widget.php:541
+#: src/gutenberg/edit.js:288
 msgid "Border Size"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:580, includes/lite/builders/elementor/elementor-widget.php:577
+#: includes/lite/builders/bricks/bricks-element.php:580
+#: includes/lite/builders/elementor/elementor-widget.php:577
 msgid "Typography"
 msgstr ""
 
 #: includes/lite/builders/bricks/bricks-element.php:619
+#: src/gutenberg/edit.js:301
 msgid "Hover Text Color"
 msgstr ""
 
 #: includes/lite/builders/bricks/bricks-element.php:632
+#: src/gutenberg/edit.js:302
 msgid "Hover Background Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:645, includes/lite/builders/elementor/elementor-widget.php:638, includes/lite/builders/divi4/FluentForms/FluentForms.php:125, includes/lite/builders/divi4/GravityForms/GravityForms.php:132
+#: includes/lite/builders/bricks/bricks-element.php:645
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:130
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:137
+#: includes/lite/builders/elementor/elementor-widget.php:638
+#: src/gutenberg/edit.js:304
 msgid "Padding"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:658, includes/lite/builders/elementor/elementor-widget.php:649
+#: includes/lite/builders/bricks/bricks-element.php:658
+#: includes/lite/builders/elementor/elementor-widget.php:649
 msgid "Border"
 msgstr ""
 
 #: includes/lite/builders/bricks/bricks-element.php:671
+#: src/gutenberg/edit.js:303
 msgid "Hover Border Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:684, includes/lite/builders/elementor/elementor-widget.php:664
+#: includes/lite/builders/bricks/bricks-element.php:684
+#: includes/lite/builders/elementor/elementor-widget.php:664
 msgid "Box Shadow"
 msgstr ""
 
@@ -402,7 +662,9 @@ msgstr ""
 msgid "Message Alignment"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:739, includes/lite/builders/elementor/elementor-widget.php:728
+#: includes/lite/builders/bricks/bricks-element.php:739
+#: includes/lite/builders/elementor/elementor-widget.php:728
+#: src/gutenberg/edit.js:325
 msgid "Validation Text Color"
 msgstr ""
 
@@ -410,15 +672,19 @@ msgstr ""
 msgid "Validation Background"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:765, includes/lite/builders/elementor/elementor-widget.php:744
+#: includes/lite/builders/bricks/bricks-element.php:765
+#: includes/lite/builders/elementor/elementor-widget.php:744
+#: src/gutenberg/edit.js:327
 msgid "Validation Border Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:779, includes/lite/builders/elementor/elementor-widget.php:752
+#: includes/lite/builders/bricks/bricks-element.php:779
+#: includes/lite/builders/elementor/elementor-widget.php:752
 msgid "Success Message"
 msgstr ""
 
 #: includes/lite/builders/bricks/bricks-element.php:785
+#: src/gutenberg/edit.js:328
 msgid "Success Text Color"
 msgstr ""
 
@@ -426,15 +692,19 @@ msgstr ""
 msgid "Success Background"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:811, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:545
+#: includes/lite/builders/bricks/bricks-element.php:811
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:550
+#: src/gutenberg/edit.js:330
 msgid "Success Border Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:825, includes/lite/builders/elementor/elementor-widget.php:782
+#: includes/lite/builders/bricks/bricks-element.php:825
+#: includes/lite/builders/elementor/elementor-widget.php:782
 msgid "Error Message"
 msgstr ""
 
 #: includes/lite/builders/bricks/bricks-element.php:831
+#: src/gutenberg/edit.js:331
 msgid "Error Text Color"
 msgstr ""
 
@@ -442,56 +712,525 @@ msgstr ""
 msgid "Error Background"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:857, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:570
+#: includes/lite/builders/bricks/bricks-element.php:857
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:575
+#: src/gutenberg/edit.js:333
 msgid "Error Border Color"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:870, includes/lite/builders/elementor/elementor-widget.php:56, includes/lite/builders/divi4/FluentForms/FluentForms.php:25, includes/lite/builders/divi4/GravityForms/GravityForms.php:24
+#: includes/lite/builders/bricks/bricks-element.php:870
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:30
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:29
+#: includes/lite/builders/elementor/elementor-widget.php:56
+#: src/gutenberg/edit.js:133
 msgid "Content"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:880, includes/lite/builders/elementor/elementor-widget.php:138
+#: includes/lite/builders/bricks/bricks-element.php:880
+#: includes/lite/builders/elementor/elementor-widget.php:138
 msgid "Header Style"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:885, includes/lite/builders/elementor/elementor-widget.php:238
+#: includes/lite/builders/bricks/bricks-element.php:885
+#: includes/lite/builders/elementor/elementor-widget.php:238
+#: src/gutenberg/edit.js:213
 msgid "Form Common"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:890, includes/lite/builders/elementor/elementor-widget.php:318, includes/pro/features/entries/print.php:118, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:70, includes/lite/builders/divi4/FluentForms/FluentForms.php:31, includes/lite/builders/divi4/GravityForms/GravityForms.php:30
+#: includes/lite/builders/bricks/bricks-element.php:890
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:75
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:36
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:35
+#: includes/lite/builders/elementor/elementor-widget.php:318
+#: includes/pro/features/entries/print.php:118
+#: src/gutenberg/edit.js:236
 msgid "Form Fields"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:895, includes/lite/builders/elementor/elementor-widget.php:417
+#: includes/lite/builders/bricks/bricks-element.php:895
+#: includes/lite/builders/elementor/elementor-widget.php:417
+#: src/gutenberg/edit.js:263
 msgid "Labels"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:900, includes/lite/builders/elementor/elementor-widget.php:456, includes/lite/features/phone-number/module.php:295, includes/pro/features/phone-number/module.php:241, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:56, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:632
+#: includes/lite/builders/bricks/bricks-element.php:900
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:61
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:637
+#: includes/lite/builders/elementor/elementor-widget.php:456
+#: includes/lite/features/phone-number/module.php:298
+#: src/gutenberg/edit.js:272
 msgid "Placeholder"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:905, includes/lite/builders/elementor/elementor-widget.php:482, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:61, includes/lite/builders/divi4/FluentForms/FluentForms.php:46, includes/lite/builders/divi4/GravityForms/GravityForms.php:45
+#: includes/lite/builders/bricks/bricks-element.php:905
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:66
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:51
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:50
+#: includes/lite/builders/elementor/elementor-widget.php:482
+#: src/gutenberg/edit.js:280
 msgid "Radio & Checkbox"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:910, includes/lite/builders/elementor/elementor-widget.php:571, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:62, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:674, includes/lite/builders/divi4/FluentForms/FluentForms.php:61, includes/lite/builders/divi4/FluentForms/FluentForms.php:398, includes/lite/builders/divi4/GravityForms/GravityForms.php:60, includes/lite/builders/divi4/GravityForms/GravityForms.php:450
+#: includes/lite/builders/bricks/bricks-element.php:910
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:67
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:679
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:66
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:403
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:65
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:455
+#: includes/lite/builders/elementor/elementor-widget.php:571
+#: src/gutenberg/edit.js:298
 msgid "Button"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:915, includes/lite/builders/elementor/elementor-widget.php:676
+#: includes/lite/builders/bricks/bricks-element.php:915
+#: includes/lite/builders/elementor/elementor-widget.php:676
+#: src/gutenberg/edit.js:312
 msgid "Messages"
 msgstr ""
 
-#: includes/lite/builders/bricks/bricks-element.php:925, includes/lite/builders/elementor/elementor-widget.php:820, includes/lite/builders/gutenberg/class-block.php:195, includes/lite/builders/divi5/CF7Styler/CF7Styler.php:247
+#: includes/lite/builders/bricks/bricks-element.php:925
+#: includes/lite/builders/divi5/CF7Styler/CF7Styler.php:247
+#: includes/lite/builders/elementor/elementor-widget.php:820
+#: includes/lite/builders/gutenberg/class-block.php:195
 msgid "Please select a Contact Form 7 form."
 msgstr ""
 
-#: includes/lite/builders/elementor/elementor-widget.php:84, includes/lite/builders/elementor/elementor-widget.php:107, includes/lite/builders/elementor/elementor-widget.php:277, includes/lite/builders/elementor/elementor-widget.php:489, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:87, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:132, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:254, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:370, includes/lite/builders/divi4/GravityForms/GravityForms.php:118
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:28
+msgid "General"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:33
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:39
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:40
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:39
+msgid "Common"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:42
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:653
+msgid "Title"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:45
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:666
+#: includes/lite/features/heading/module.php:202
+msgid "Text"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:50
+msgid "Form Text"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:54
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:601
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:703
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:307
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:340
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:320
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:359
+msgid "Field"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:57
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:627
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:43
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:292
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:42
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:296
+#: includes/lite/features/phone-number/module.php:290
+msgid "Label"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:65
+msgid "Fields"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:68
+msgid "Message"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:79
+msgid "Form Label"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:92
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:137
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:259
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:375
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:123
+#: includes/lite/builders/elementor/elementor-widget.php:84
+#: includes/lite/builders/elementor/elementor-widget.php:107
+#: includes/lite/builders/elementor/elementor-widget.php:277
+#: includes/lite/builders/elementor/elementor-widget.php:489
+#: src/admin/pages/ResponsesPage.js:380
+#: src/admin/pages/ResponsesPage.js:409
+#: src/admin/pages/ResponsesPage.js:520
+#: src/admin/pages/ResponsesPage.js:639
 msgid "Yes"
 msgstr ""
 
-#: includes/lite/builders/elementor/elementor-widget.php:85, includes/lite/builders/elementor/elementor-widget.php:108, includes/lite/builders/elementor/elementor-widget.php:278, includes/lite/builders/elementor/elementor-widget.php:490, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:88, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:133, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:255, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:371, includes/lite/builders/divi4/GravityForms/GravityForms.php:119
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:93
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:138
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:260
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:376
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:124
+#: includes/lite/builders/elementor/elementor-widget.php:85
+#: includes/lite/builders/elementor/elementor-widget.php:108
+#: includes/lite/builders/elementor/elementor-widget.php:278
+#: includes/lite/builders/elementor/elementor-widget.php:490
+#: src/admin/pages/ResponsesPage.js:646
 msgid "No"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:150
+msgid "Upload an image"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:151
+msgid "Choose an Image"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:152
+msgid "Set As Image"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:171
+msgid "Form Header Background"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:214
+msgid "Header Image/Icon Background"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:226
+msgid "Header Icon Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:271
+#: includes/lite/builders/elementor/elementor-widget.php:291
+#: includes/lite/builders/elementor/elementor-widget.php:709
+#: src/gutenberg/edit.js:223
+#: src/gutenberg/edit.js:319
+msgid "Left"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:272
+#: includes/lite/builders/elementor/elementor-widget.php:295
+#: includes/lite/builders/elementor/elementor-widget.php:713
+#: includes/pro/features/multi-column/module.php:209
+#: includes/pro/features/multi-column/module.php:255
+#: src/gutenberg/edit.js:224
+#: src/gutenberg/edit.js:320
+msgid "Center"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:273
+#: includes/lite/builders/elementor/elementor-widget.php:299
+#: includes/lite/builders/elementor/elementor-widget.php:717
+#: src/gutenberg/edit.js:225
+#: src/gutenberg/edit.js:321
+msgid "Right"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:288
+msgid "Choose a contact form to display."
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:296
+msgid "Common Text Fields Height"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:297
+msgid "Here you can define static height for the common text fields."
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:311
+msgid "Form Field Padding"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:312
+msgid "Here you can define a custom padding for each field."
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:321
+msgid "Form Field Background Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:330
+msgid "Form Field Active Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:338
+msgid "Form Field Spacing Bottom"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:339
+msgid "Set how much space the form field will take at the bottom."
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:354
+msgid "Form Label Spacing Bottom"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:355
+msgid "Set how much space the form label will take at the bottom."
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:371
+msgid "Enable Custom Styles"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:470
+msgid "Message Padding"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:484
+msgid "Message Margin Top"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:497
+#: includes/lite/builders/elementor/elementor-widget.php:705
+#: src/gutenberg/edit.js:316
+msgid "Message Text Alignment"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:498
+msgid "Align message text to the left, right or center."
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:509
+msgid "Message Text Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:517
+msgid "Message Background Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:525
+msgid "Border Highlight Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:534
+msgid "Success Message Text Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:542
+msgid "Success Message Background Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:559
+msgid "Error Message Text Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:567
+msgid "Error Message Background Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:750
+msgid "Please select a Contact Form 7."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:23
+msgid "Fluent Forms Styler"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:46
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:45
+msgid "Input Text"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:54
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:53
+msgid "Success / Error Message"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:58
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:57
+msgid "Success"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:61
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:60
+msgid "Error"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:84
+msgid "No Forms Found!"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:87
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:83
+msgid "Select"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:111
+msgid "Select Fluent Form"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:115
+msgid "Choose the Fluent Form you want to display."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:141
+msgid "Choose the Fluent Form input padding."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:151
+msgid "Choose the Fluent Form input background color."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:158
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:165
+msgid "Required Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:161
+msgid "Choose the Fluent Form required color."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:175
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:181
+msgid "Radio & Checkbox Size"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:186
+msgid "Choose the Fluent Form radio & checkbox size."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:195
+msgid "Choose the Fluent Form radio & checkbox background color."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:204
+msgid "Choose the Fluent Form selected color."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:213
+msgid "Choose the Fluent Form label color."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:225
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:231
+msgid "Field Validation Padding"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:228
+msgid "Choose the Fluent Form field validation padding."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:235
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:241
+msgid "Form Error Field Background Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:238
+msgid "Choose the Fluent Form error field background color."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:245
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:251
+msgid "Form Valid Message Padding"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:248
+msgid "Choose the Fluent Form valid message padding."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:255
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:261
+msgid "Form Valid Background Color"
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:258
+msgid "Choose the Fluent Form valid background color."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:431
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:448
+msgid "Please install Fluent Forms plugin."
+msgstr ""
+
+#: includes/lite/builders/divi4/FluentForms/FluentForms.php:468
+msgid "Please select a Fluent Form."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:21
+msgid "Gravity Forms Styler"
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:74
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:80
+msgid "You have not added any Gravity Forms yet."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:107
+msgid "Select Gravity Forms"
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:111
+msgid "Choose the Gravity Forms you want to display."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:119
+msgid "Enable AJAX Form Submission"
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:126
+msgid "Enable AJAX for the form."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:148
+msgid "Choose the Gravity Forms input padding."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:158
+msgid "Choose the Gravity Forms input background color."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:168
+msgid "Choose the Gravity Forms required color."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:192
+msgid "Choose the Gravity Forms radio & checkbox size."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:201
+msgid "Choose the Gravity Forms radio & checkbox background color."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:210
+msgid "Choose the Gravity Forms selected color."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:219
+msgid "Choose the Gravity Forms label color."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:234
+msgid "Choose the Gravity Forms field validation padding."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:244
+msgid "Choose the Gravity Forms error field background color."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:254
+msgid "Choose the Gravity Forms valid message padding."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:264
+msgid "Choose the Gravity Forms valid background color."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:483
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:499
+msgid "Please install Gravity Forms plugin."
+msgstr ""
+
+#: includes/lite/builders/divi4/GravityForms/GravityForms.php:514
+msgid "Please select a Gravity Form."
 msgstr ""
 
 #: includes/lite/builders/elementor/elementor-widget.php:206
@@ -502,19 +1241,11 @@ msgstr ""
 msgid "Form Border Radius"
 msgstr ""
 
-#: includes/lite/builders/elementor/elementor-widget.php:291, includes/lite/builders/elementor/elementor-widget.php:709, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:266
-msgid "Left"
-msgstr ""
-
-#: includes/lite/builders/elementor/elementor-widget.php:295, includes/lite/builders/elementor/elementor-widget.php:713, includes/pro/features/multi-column/module.php:209, includes/pro/features/multi-column/module.php:255, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:267
-msgid "Center"
-msgstr ""
-
-#: includes/lite/builders/elementor/elementor-widget.php:299, includes/lite/builders/elementor/elementor-widget.php:717, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:268
-msgid "Right"
-msgstr ""
-
-#: includes/lite/builders/elementor/elementor-widget.php:382, includes/lite/builders/elementor/elementor-widget.php:654
+#: includes/lite/builders/elementor/elementor-widget.php:382
+#: includes/lite/builders/elementor/elementor-widget.php:654
+#: src/gutenberg/edit.js:216
+#: src/gutenberg/edit.js:255
+#: src/gutenberg/edit.js:305
 msgid "Border Radius"
 msgstr ""
 
@@ -527,18 +1258,17 @@ msgid "Hover"
 msgstr ""
 
 #: includes/lite/builders/elementor/elementor-widget.php:681
+#: src/gutenberg/edit.js:313
 msgid "Validation Message Padding"
 msgstr ""
 
 #: includes/lite/builders/elementor/elementor-widget.php:693
+#: src/gutenberg/edit.js:314
 msgid "Validation Message Margin Top"
 msgstr ""
 
-#: includes/lite/builders/elementor/elementor-widget.php:705, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:492
-msgid "Message Text Alignment"
-msgstr ""
-
 #: includes/lite/builders/elementor/elementor-widget.php:736
+#: src/gutenberg/edit.js:326
 msgid "Validation Background Color"
 msgstr ""
 
@@ -546,40 +1276,47 @@ msgstr ""
 msgid "The selected Contact Form 7 form no longer exists."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/api-handler.php:66
+#: includes/lite/features/ai-form-generator/api-handler.php:67
 msgid "Image upload is supported only with OpenAI or Anthropic. Please switch provider or use a text prompt."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/api-handler.php:123
+#: includes/lite/features/ai-form-generator/api-handler.php:124
 msgid "Connected!"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/api-handler.php:147
+#: includes/lite/features/ai-form-generator/api-handler.php:148
 msgid "OpenAI key not configured."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/api-handler.php:243
+#: includes/lite/features/ai-form-generator/api-handler.php:244
 msgid "Anthropic key not configured."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/api-handler.php:300
+#: includes/lite/features/ai-form-generator/api-handler.php:301
 msgid "Google API key not configured."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/api-handler.php:354
+#: includes/lite/features/ai-form-generator/api-handler.php:355
 msgid "OpenRouter key not configured."
 msgstr ""
 
 #. translators: %s: error message
-#: includes/lite/features/ai-form-generator/api-handler.php:397, includes/lite/features/ai-form-generator/api-handler.php:440, includes/lite/features/ai-form-generator/api-handler.php:475
+#: includes/lite/features/ai-form-generator/api-handler.php:398
+#: includes/lite/features/ai-form-generator/api-handler.php:441
+#: includes/lite/features/ai-form-generator/api-handler.php:476
+#, php-format
 msgid "Request failed: %s"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/api-handler.php:408, includes/lite/features/ai-form-generator/api-handler.php:451, includes/lite/features/ai-form-generator/api-handler.php:486
+#: includes/lite/features/ai-form-generator/api-handler.php:409
+#: includes/lite/features/ai-form-generator/api-handler.php:452
+#: includes/lite/features/ai-form-generator/api-handler.php:487
 msgid "API request failed."
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/api-handler.php:424, includes/lite/features/ai-form-generator/api-handler.php:459, includes/lite/features/ai-form-generator/api-handler.php:494
+#: includes/lite/features/ai-form-generator/api-handler.php:425
+#: includes/lite/features/ai-form-generator/api-handler.php:460
+#: includes/lite/features/ai-form-generator/api-handler.php:495
 msgid "Invalid API response."
 msgstr ""
 
@@ -615,7 +1352,7 @@ msgstr ""
 msgid "Regenerate"
 msgstr ""
 
-#: includes/lite/features/ai-form-generator/module.php:171, includes/lite/features/grid/module.php:154
+#: includes/lite/features/ai-form-generator/module.php:171
 msgid "Insert"
 msgstr ""
 
@@ -719,92 +1456,94 @@ msgstr ""
 msgid "Customer feedback."
 msgstr ""
 
-#: includes/lite/features/grid/module.php:117, includes/pro/features/multi-column/module.php:189
+#: includes/lite/features/grid/module.php:130
+#: includes/pro/features/multi-column/module.php:189
 msgid "row"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:118
+#: includes/lite/features/grid/module.php:131
 msgid "Generate a row shortcode"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:121
+#: includes/lite/features/grid/module.php:134
 msgid "1-col"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:122
+#: includes/lite/features/grid/module.php:135
 msgid "Generate a full width column"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:125
+#: includes/lite/features/grid/module.php:138
 msgid "1/2-col"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:126
+#: includes/lite/features/grid/module.php:139
 msgid "Generate a half width column"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:129
+#: includes/lite/features/grid/module.php:142
 msgid "1/3-col"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:130
+#: includes/lite/features/grid/module.php:143
 msgid "Generate a one-third width column"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:133
+#: includes/lite/features/grid/module.php:146
 msgid "1/4-col"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:134
+#: includes/lite/features/grid/module.php:147
 msgid "Generate a one-fourth width column"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:137
+#: includes/lite/features/grid/module.php:150
 msgid "2/3-col"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:138
+#: includes/lite/features/grid/module.php:151
 msgid "Generate a two-thirds width column"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:141
+#: includes/lite/features/grid/module.php:154
 msgid "3/4-col"
 msgstr ""
 
-#: includes/lite/features/grid/module.php:142
+#: includes/lite/features/grid/module.php:155
 msgid "Generate a three-fourths width column"
 msgstr ""
 
-#: includes/lite/features/heading/module.php:188, includes/pro/features/heading/module.php:193
+#: includes/lite/features/grid/module.php:170
+#: includes/lite/features/heading/module.php:225
+#: includes/lite/features/icon/module.php:190
+#: includes/lite/features/image/module.php:158
+#: includes/lite/features/phone-number/module.php:307
+#: includes/lite/features/range-slider/module.php:288
+#: includes/lite/features/separator/module.php:162
+#: includes/lite/features/star-rating/module.php:219
+#: includes/pro/features/conditional/module.php:371
+#: includes/pro/features/multi-column/module.php:224
+#: includes/pro/features/multi-column/module.php:270
+#: includes/pro/features/multi-steps/module.php:230
+#: includes/pro/features/presets/module.php:163
+msgid "Insert Tag"
+msgstr ""
+
+#: includes/lite/features/heading/module.php:188
 msgid "heading"
 msgstr ""
 
-#: includes/lite/features/heading/module.php:199, includes/pro/features/heading/module.php:204
-msgid "Heading"
-msgstr ""
-
-#: includes/lite/features/heading/module.php:202, includes/pro/features/heading/module.php:207, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:40, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:661
-msgid "Text"
-msgstr ""
-
-#: includes/lite/features/heading/module.php:206, includes/pro/features/heading/module.php:211
+#: includes/lite/features/heading/module.php:206
 msgid "Tag"
 msgstr ""
 
-#: includes/lite/features/heading/module.php:216, includes/lite/features/separator/module.php:149, includes/pro/features/heading/module.php:221
+#: includes/lite/features/heading/module.php:216
+#: includes/lite/features/separator/module.php:149
 msgid "Color"
-msgstr ""
-
-#: includes/lite/features/heading/module.php:225, includes/lite/features/icon/module.php:190, includes/lite/features/image/module.php:158, includes/lite/features/phone-number/module.php:304, includes/lite/features/range-slider/module.php:288, includes/lite/features/separator/module.php:162, includes/lite/features/star-rating/module.php:219, includes/pro/features/calculator/module.php:428, includes/pro/features/calculator/module.php:465, includes/pro/features/calculator/module.php:523, includes/pro/features/calculator/module.php:554, includes/pro/features/conditional/module.php:271, includes/pro/features/heading/module.php:230, includes/pro/features/multi-column/module.php:224, includes/pro/features/multi-column/module.php:270, includes/pro/features/multi-steps/module.php:230, includes/pro/features/phone-number/module.php:250, includes/pro/features/presets/module.php:162
-msgid "Insert Tag"
 msgstr ""
 
 #: includes/lite/features/icon/module.php:141
 msgid "icon"
-msgstr ""
-
-#: includes/lite/features/icon/module.php:152
-msgid "Icon"
 msgstr ""
 
 #: includes/lite/features/icon/module.php:155
@@ -831,11 +1570,15 @@ msgstr ""
 msgid "Click an icon to select it."
 msgstr ""
 
-#: includes/lite/features/icon/module.php:175, includes/lite/features/image/module.php:132
+#: includes/lite/features/icon/module.php:175
+#: includes/lite/features/image/module.php:132
 msgid "Image URL"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:178, includes/lite/features/image/module.php:135
+#: includes/lite/features/icon/module.php:178
+#: includes/lite/features/image/module.php:135
+#: assets/js/cf7m-icon-tag-admin.js:56
+#: assets/js/cf7m-image-tag-admin.js:24
 msgid "Select Image"
 msgstr ""
 
@@ -845,10 +1588,6 @@ msgstr ""
 
 #: includes/lite/features/image/module.php:118
 msgid "image"
-msgstr ""
-
-#: includes/lite/features/image/module.php:128
-msgid "Image"
 msgstr ""
 
 #: includes/lite/features/image/module.php:136
@@ -863,7 +1602,8 @@ msgstr ""
 msgid "Describe the image"
 msgstr ""
 
-#: includes/lite/features/image/module.php:145, includes/pro/features/multi-column/module.php:238
+#: includes/lite/features/image/module.php:145
+#: includes/pro/features/multi-column/module.php:238
 msgid "Width"
 msgstr ""
 
@@ -871,47 +1611,46 @@ msgstr ""
 msgid "Height"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:191, includes/pro/features/phone-number/module.php:146
+#: includes/lite/features/phone-number/module.php:194
 msgid "Select country"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:207, includes/pro/features/phone-number/module.php:155
-msgid "Phone number"
-msgstr ""
-
-#: includes/lite/features/phone-number/module.php:254, includes/pro/features/phone-number/module.php:200
+#: includes/lite/features/phone-number/module.php:257
 msgid "phone number"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:272, includes/lite/features/phone-number/module.php:288, includes/pro/features/phone-number/module.php:218, includes/pro/features/phone-number/module.php:234
+#: includes/lite/features/phone-number/module.php:275
+#: includes/lite/features/phone-number/module.php:291
 msgid "Phone Number"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:275, includes/lite/features/range-slider/module.php:251, includes/lite/features/star-rating/module.php:193, includes/pro/features/calculator/module.php:387, includes/pro/features/phone-number/module.php:221
+#: includes/lite/features/phone-number/module.php:278
+#: includes/lite/features/range-slider/module.php:251
+#: includes/lite/features/star-rating/module.php:193
 msgid "Field type"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:276, includes/lite/features/range-slider/module.php:252, includes/lite/features/star-rating/module.php:194, includes/pro/features/calculator/module.php:388, includes/pro/features/phone-number/module.php:222
+#: includes/lite/features/phone-number/module.php:279
+#: includes/lite/features/range-slider/module.php:252
+#: includes/lite/features/star-rating/module.php:194
 msgid "Required"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:279, includes/lite/features/range-slider/module.php:255, includes/lite/features/star-rating/module.php:197, includes/pro/features/calculator/module.php:391, includes/pro/features/phone-number/module.php:225
+#: includes/lite/features/phone-number/module.php:282
+#: includes/lite/features/range-slider/module.php:255
+#: includes/lite/features/star-rating/module.php:197
 msgid "Name"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:283, includes/pro/features/phone-number/module.php:229
+#: includes/lite/features/phone-number/module.php:286
 msgid "Default country"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:287, includes/pro/features/calculator/module.php:395, includes/pro/features/calculator/module.php:493, includes/pro/features/phone-number/module.php:233, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:52, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:622, includes/lite/builders/divi4/FluentForms/FluentForms.php:38, includes/lite/builders/divi4/FluentForms/FluentForms.php:287, includes/lite/builders/divi4/GravityForms/GravityForms.php:37, includes/lite/builders/divi4/GravityForms/GravityForms.php:291
-msgid "Label"
-msgstr ""
-
-#: includes/lite/features/phone-number/module.php:291, includes/pro/features/phone-number/module.php:237
+#: includes/lite/features/phone-number/module.php:294
 msgid "Description"
 msgstr ""
 
-#: includes/lite/features/phone-number/module.php:292, includes/pro/features/phone-number/module.php:238
+#: includes/lite/features/phone-number/module.php:295
 msgid "Enter your phone number."
 msgstr ""
 
@@ -923,27 +1662,28 @@ msgstr ""
 msgid "Range Slider"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:259, includes/pro/features/calculator/module.php:403
+#: includes/lite/features/range-slider/module.php:259
 msgid "Min"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:263, includes/pro/features/calculator/module.php:407
+#: includes/lite/features/range-slider/module.php:263
 msgid "Max"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:267, includes/pro/features/calculator/module.php:411
+#: includes/lite/features/range-slider/module.php:267
 msgid "Step"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:271, includes/lite/features/star-rating/module.php:205, includes/pro/features/calculator/module.php:399
+#: includes/lite/features/range-slider/module.php:271
+#: includes/lite/features/star-rating/module.php:205
 msgid "Default Value"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:275, includes/pro/features/calculator/module.php:415, includes/pro/features/calculator/module.php:506
+#: includes/lite/features/range-slider/module.php:275
 msgid "Prefix"
 msgstr ""
 
-#: includes/lite/features/range-slider/module.php:279, includes/pro/features/calculator/module.php:419, includes/pro/features/calculator/module.php:510
+#: includes/lite/features/range-slider/module.php:279
 msgid "Suffix"
 msgstr ""
 
@@ -951,11 +1691,8 @@ msgstr ""
 msgid "separator"
 msgstr ""
 
-#: includes/lite/features/separator/module.php:134
-msgid "Separator"
-msgstr ""
-
-#: includes/lite/features/separator/module.php:137, includes/pro/features/presets/module.php:143
+#: includes/lite/features/separator/module.php:137
+#: includes/pro/features/presets/module.php:144
 msgid "Style"
 msgstr ""
 
@@ -963,12 +1700,9 @@ msgstr ""
 msgid "Margin (px)"
 msgstr ""
 
-#: includes/lite/features/star-rating/module.php:135
-msgid "Star rating"
-msgstr ""
-
 #. translators: %d: star rating number (e.g. 1, 2, 3)
 #: includes/lite/features/star-rating/module.php:154
+#, php-format
 msgid "Rate %d star"
 msgstr ""
 
@@ -988,187 +1722,164 @@ msgstr ""
 msgid "Star Color"
 msgstr ""
 
-#: includes/pro/features/calculator/module.php:124, includes/pro/features/calculator/module.php:127, includes/pro/features/calculator/module.php:545, includes/pro/features/calculator/module.php:552
-msgid "Calculate"
+#. translators: %s: plugin name
+#: includes/notices/review.php:113
+#, php-format
+msgid "How are you finding %s?"
 msgstr ""
 
-#: includes/pro/features/calculator/module.php:345
-msgid "number (calc)"
+#: includes/notices/review.php:119
+msgid "Rate CF7 Mate"
 msgstr ""
 
-#: includes/pro/features/calculator/module.php:352
-msgid "calculator"
+#. translators: %d: number of stars
+#: includes/notices/review.php:122
+#, php-format
+msgid "%d star"
 msgstr ""
 
-#: includes/pro/features/calculator/module.php:359
-msgid "total display"
+#: includes/notices/review.php:132
+msgid "Remind me later"
 msgstr ""
 
-#: includes/pro/features/calculator/module.php:366
-msgid "button (no submit)"
+#: includes/notices/review.php:134
+#: src/admin/pages/AISettingsPage.js:168
+#: src/admin/pages/WebhookPage.js:137
+msgid "Dismiss"
 msgstr ""
 
-#: includes/pro/features/calculator/module.php:384
-msgid "Number Field (Calculator)"
+#: includes/notices/review.php:203
+msgid "Thank you! Your review really helps us out."
 msgstr ""
 
-#: includes/pro/features/calculator/module.php:446
-msgid "Calculator Formula"
+#: includes/notices/review.php:208
+msgid "Thanks for the feedback! Anything we can fix?"
 msgstr ""
 
-#: includes/pro/features/calculator/module.php:449, includes/pro/features/calculator/module.php:486
-msgid "Calculation ID"
+#: includes/notices/review.php:208
+msgid "Contact support →"
 msgstr ""
 
-#: includes/pro/features/calculator/module.php:453
-msgid "Formula"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:456
-msgid "Use field names and operators: + - * / ( )"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:483
-msgid "Total Display"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:489
-msgid "Must match [cf7m-calc] ID"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:497
-msgid "Format"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:500
-msgid "Number"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:501
-msgid "Currency"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:514
-msgid "Decimals"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:541
-msgid "Button (does not submit form)"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:544
-msgid "Button text"
-msgstr ""
-
-#: includes/pro/features/calculator/module.php:548
-msgid "Use for calculator-only forms so the button recalculates without sending the form. Styled like the submit button."
-msgstr ""
-
-#: includes/pro/features/conditional/module.php:214
+#: includes/pro/features/conditional/module.php:314
 msgid "conditional"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:232
+#: includes/pro/features/conditional/module.php:332
 msgid "Conditional Logic"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:235
+#: includes/pro/features/conditional/module.php:335
 msgid "Field Name"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:238
+#: includes/pro/features/conditional/module.php:338
 msgid "The field to watch for changes."
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:242
+#: includes/pro/features/conditional/module.php:342
 msgid "Condition"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:245
+#: includes/pro/features/conditional/module.php:345
+#: includes/pro/features/email-routing/editor-panel.php:35
+#: includes/pro/features/email-routing/editor-panel.php:99
+#: includes/pro/features/redirect/editor-panel.php:59
+#: includes/pro/features/redirect/editor-panel.php:172
 msgid "equals"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:246
+#: includes/pro/features/conditional/module.php:346
 msgid "not equals"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:247
+#: includes/pro/features/conditional/module.php:347
 msgid "greater than"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:248
+#: includes/pro/features/conditional/module.php:348
 msgid "less than"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:249
+#: includes/pro/features/conditional/module.php:349
 msgid "greater than or equal"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:250
+#: includes/pro/features/conditional/module.php:350
 msgid "less than or equal"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:251, includes/pro/features/email-routing/editor-panel.php:37, includes/pro/features/email-routing/editor-panel.php:101, includes/pro/features/redirect/editor-panel.php:61, includes/pro/features/redirect/editor-panel.php:174
+#: includes/pro/features/conditional/module.php:351
+#: includes/pro/features/email-routing/editor-panel.php:37
+#: includes/pro/features/email-routing/editor-panel.php:101
+#: includes/pro/features/redirect/editor-panel.php:61
+#: includes/pro/features/redirect/editor-panel.php:174
 msgid "contains"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:252
+#: includes/pro/features/conditional/module.php:352
 msgid "is empty"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:253
+#: includes/pro/features/conditional/module.php:353
 msgid "is checked"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:254
+#: includes/pro/features/conditional/module.php:354
 msgid "matches any"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:259, includes/pro/features/email-routing/editor-panel.php:57, includes/pro/features/redirect/editor-panel.php:131
+#: includes/pro/features/conditional/module.php:359
+#: includes/pro/features/email-routing/editor-panel.php:57
+#: includes/pro/features/redirect/editor-panel.php:131
 msgid "Value"
 msgstr ""
 
-#: includes/pro/features/conditional/module.php:262
+#: includes/pro/features/conditional/module.php:362
 msgid "For \"any\": comma-separated values. For \"empty/checked\": true or false."
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:35, includes/pro/features/email-routing/editor-panel.php:99, includes/pro/features/redirect/editor-panel.php:59, includes/pro/features/redirect/editor-panel.php:172
-msgid "is"
-msgstr ""
-
-#: includes/pro/features/email-routing/editor-panel.php:36, includes/pro/features/email-routing/editor-panel.php:100, includes/pro/features/redirect/editor-panel.php:60, includes/pro/features/redirect/editor-panel.php:173
-msgid "is not"
-msgstr ""
-
-#: includes/pro/features/email-routing/editor-panel.php:42
-msgid "Email Routing"
+#: includes/pro/features/email-routing/editor-panel.php:36
+#: includes/pro/features/email-routing/editor-panel.php:100
+#: includes/pro/features/redirect/editor-panel.php:60
+#: includes/pro/features/redirect/editor-panel.php:173
+msgid "does not equal"
 msgstr ""
 
 #: includes/pro/features/email-routing/editor-panel.php:44
-msgid "Override the notification recipient based on a field value. Rules are evaluated in order — the first match wins."
+msgid "Send notifications to the right people based on an answer. The first matching rule is used."
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:55, includes/pro/features/redirect/editor-panel.php:129
+#: includes/pro/features/email-routing/editor-panel.php:55
+#: includes/pro/features/redirect/editor-panel.php:129
 msgid "Field name"
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:56, includes/pro/features/redirect/editor-panel.php:130
+#: includes/pro/features/email-routing/editor-panel.php:56
+#: includes/pro/features/redirect/editor-panel.php:130
 msgid "Operator"
 msgstr ""
 
 #: includes/pro/features/email-routing/editor-panel.php:58
-msgid "Send to (comma-separated emails)"
+msgid "Recipient emails"
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:75, includes/pro/features/email-routing/editor-panel.php:111, includes/pro/features/redirect/editor-panel.php:149, includes/pro/features/redirect/editor-panel.php:184
+#: includes/pro/features/email-routing/editor-panel.php:75
+#: includes/pro/features/email-routing/editor-panel.php:111
+#: includes/pro/features/redirect/editor-panel.php:149
+#: includes/pro/features/redirect/editor-panel.php:184
+#: src/admin/pages/WebhookPage.js:183
 msgid "Remove"
 msgstr ""
 
-#: includes/pro/features/email-routing/editor-panel.php:83, includes/pro/features/redirect/editor-panel.php:157
+#: includes/pro/features/email-routing/editor-panel.php:83
+#: includes/pro/features/redirect/editor-panel.php:157
 msgid "+ Add rule"
 msgstr ""
 
-#: includes/pro/features/entries/api.php:154, includes/pro/features/entries/api.php:163, includes/pro/features/entries/api.php:174, includes/pro/features/entries/print.php:52
+#: includes/pro/features/entries/api.php:154
+#: includes/pro/features/entries/api.php:163
+#: includes/pro/features/entries/api.php:174
+#: includes/pro/features/entries/print.php:52
 msgid "Entry not found."
 msgstr ""
 
@@ -1185,7 +1896,9 @@ msgid "Entry deleted."
 msgstr ""
 
 #. translators: %d: number
-#: includes/pro/features/entries/api.php:197, includes/pro/features/entries/api.php:225
+#: includes/pro/features/entries/api.php:197
+#: includes/pro/features/entries/api.php:225
+#, php-format
 msgid "%d entry deleted."
 msgid_plural "%d entries deleted."
 msgstr[0] ""
@@ -1195,7 +1908,8 @@ msgstr[1] ""
 msgid "No entries to export."
 msgstr ""
 
-#: includes/pro/features/entries/cpt.php:28, includes/pro/features/entries/cpt.php:30
+#: includes/pro/features/entries/cpt.php:28
+#: includes/pro/features/entries/cpt.php:30
 msgid "Form Entries"
 msgstr ""
 
@@ -1239,23 +1953,31 @@ msgstr ""
 msgid "Submitter user agent"
 msgstr ""
 
-#: includes/pro/features/entries/editor-panel.php:53, includes/pro/features/entries/editor-panel.php:70
-msgid "CF7 Mate"
+#: includes/pro/features/entries/editor-panel.php:38
+#: includes/pro/loader.php:103
+#: includes/pro/loader.php:104
+#: src/admin/components/Header.js:21
+#: src/admin/pages/ResponsesPage.js:252
+#: src/admin/pages/ResponsesPage.js:444
+#: src/admin/ResponsesApp.js:78
+msgid "Responses"
 msgstr ""
 
-#: includes/pro/features/entries/editor-panel.php:76
-msgid "When enabled, every submission is stored and viewable from CF7 Mate → Responses. Disable for forms you don't want to log (e.g. search, login)."
+#: includes/pro/features/entries/editor-panel.php:40
+msgid "Keep submissions from this form in WordPress, including visitor details. View them in Responses."
 msgstr ""
 
-#: includes/pro/features/entries/editor-panel.php:88
+#: includes/pro/features/entries/editor-panel.php:52
 msgid "Save submissions of this form to the database"
 msgstr ""
 
-#: includes/pro/features/entries/print.php:78, includes/pro/features/entries/print.php:106
+#: includes/pro/features/entries/print.php:78
+#: includes/pro/features/entries/print.php:106
 msgid "Form Submission"
 msgstr ""
 
 #: includes/pro/features/entries/print.php:102
+#: src/admin/pages/ResponsesPage.js:359
 msgid "Print / Save PDF"
 msgstr ""
 
@@ -1264,6 +1986,7 @@ msgid "Entry #"
 msgstr ""
 
 #: includes/pro/features/entries/print.php:133
+#: src/admin/pages/ResponsesPage.js:302
 msgid "Submission Info"
 msgstr ""
 
@@ -1272,6 +1995,7 @@ msgid "Form ID"
 msgstr ""
 
 #: includes/pro/features/entries/print.php:138
+#: src/admin/pages/ResponsesPage.js:588
 msgid "Submitted"
 msgstr ""
 
@@ -1280,16 +2004,19 @@ msgid "IP Address"
 msgstr ""
 
 #: includes/pro/features/entries/print.php:142
+#: src/admin/pages/ResponsesPage.js:326
 msgid "Status"
 msgstr ""
 
 #. translators: plugin name
 #: includes/pro/features/entries/print.php:149
+#, php-format
 msgid "Exported by CF7 Mate · %s"
 msgstr ""
 
 #. translators: 1: form title, 2: date
-#: includes/pro/features/entries/save.php:62
+#: includes/pro/features/entries/save.php:63
+#, php-format
 msgid "%1$s — %2$s"
 msgstr ""
 
@@ -1313,7 +2040,8 @@ msgstr ""
 msgid "Top"
 msgstr ""
 
-#: includes/pro/features/multi-column/module.php:210, includes/pro/features/multi-column/module.php:256
+#: includes/pro/features/multi-column/module.php:210
+#: includes/pro/features/multi-column/module.php:256
 msgid "Bottom"
 msgstr ""
 
@@ -1346,7 +2074,9 @@ msgid "All elements inside columns are full width and stack vertically."
 msgstr ""
 
 #. translators: %d: step number
-#: includes/pro/features/multi-steps/module.php:64, includes/pro/features/multi-steps/module.php:173
+#: includes/pro/features/multi-steps/module.php:64
+#: includes/pro/features/multi-steps/module.php:173
+#, php-format
 msgid "Step %d"
 msgstr ""
 
@@ -1355,11 +2085,14 @@ msgid "Previous"
 msgstr ""
 
 #: includes/pro/features/multi-steps/module.php:90
+#: src/onboarding/components/OnboardingModal.jsx:57
 msgid "Next"
 msgstr ""
 
 #. translators: %1$d current step, %2$d total steps
 #: includes/pro/features/multi-steps/module.php:150
+#: includes/pro/features/multi-steps/module.php:279
+#, php-format
 msgid "Step %1$d/%2$d"
 msgstr ""
 
@@ -1395,24 +2128,43 @@ msgstr ""
 msgid "Add this to the first [cf7m-step] tag only."
 msgstr ""
 
+#: includes/pro/features/multi-steps/module.php:277
+msgid "Please fill out this field."
+msgstr ""
+
 #: includes/pro/features/partial-save/api.php:97
 msgid "Invalid form."
 msgstr ""
 
+#: includes/pro/features/partial-save/api.php:101
+msgid "Form progress is too large."
+msgstr ""
+
+#: includes/pro/features/partial-save/api.php:105
+msgid "This progress token belongs to another form."
+msgstr ""
+
+#: includes/pro/features/partial-save/api.php:111
+msgid "Please wait before saving again."
+msgstr ""
+
+#: includes/pro/features/partial-save/api.php:122
+#: includes/pro/features/partial-save/api.php:129
+msgid "Invalid field value."
+msgstr ""
+
 #: includes/pro/features/partial-save/editor-panel.php:32
-msgid "Save & Continue"
+#: includes/pro/features/partial-save/module.php:71
+#: includes/pro/features/partial-save/module.php:103
+msgid "Save progress"
 msgstr ""
 
 #: includes/pro/features/partial-save/editor-panel.php:34
-msgid "When enabled, a \"Save progress\" button appears in the form. Progress is saved for 7 days using a browser token — no account required."
+msgid "Let visitors save and resume in the same browser for up to seven days. No account is needed."
 msgstr ""
 
 #: includes/pro/features/partial-save/editor-panel.php:41
 msgid "Allow users to save their progress and return later"
-msgstr ""
-
-#: includes/pro/features/partial-save/module.php:71, includes/pro/features/partial-save/module.php:103
-msgid "Save progress"
 msgstr ""
 
 #: includes/pro/features/partial-save/module.php:72
@@ -1424,6 +2176,9 @@ msgid "Progress restored"
 msgstr ""
 
 #: includes/pro/features/partial-save/module.php:74
+#: src/admin/pages/AISettingsPage.js:274
+#: src/admin/pages/SettingsPage.js:25
+#: src/admin/pages/WebhookPage.js:203
 msgid "Saving…"
 msgstr ""
 
@@ -1436,43 +2191,47 @@ msgid "style presets"
 msgstr ""
 
 #: includes/pro/features/presets/module.php:129
-msgid "Classic"
+msgid "Sky"
 msgstr ""
 
 #: includes/pro/features/presets/module.php:130
-msgid "Box"
+msgid "Classic"
 msgstr ""
 
 #: includes/pro/features/presets/module.php:131
-msgid "Minimal"
+msgid "Box"
 msgstr ""
 
 #: includes/pro/features/presets/module.php:132
-msgid "Dark"
+msgid "Minimal"
 msgstr ""
 
 #: includes/pro/features/presets/module.php:133
-msgid "Modern"
+msgid "Dark"
 msgstr ""
 
 #: includes/pro/features/presets/module.php:134
+msgid "Modern"
+msgstr ""
+
+#: includes/pro/features/presets/module.php:135
 msgid "Rounded"
 msgstr ""
 
-#: includes/pro/features/presets/module.php:139
+#: includes/pro/features/presets/module.php:140
 msgid "Form Design Preset"
 msgstr ""
 
-#: includes/pro/features/presets/module.php:154
+#: includes/pro/features/presets/module.php:155
 msgid "Wrap your form fields in this shortcode to apply a preset style. Put all fields inside the opening and closing tags."
 msgstr ""
 
 #: includes/pro/features/redirect/editor-panel.php:66
-msgid "Redirect after submission"
+msgid "After submission"
 msgstr ""
 
 #: includes/pro/features/redirect/editor-panel.php:68
-msgid "Send visitors to a thank-you page after the form sends successfully. Reference submitted values in the URL using [field_name] placeholders."
+msgid "Send visitors to a thank-you page after a successful submission."
 msgstr ""
 
 #: includes/pro/features/redirect/editor-panel.php:76
@@ -1488,7 +2247,7 @@ msgid "Redirect URL"
 msgstr ""
 
 #: includes/pro/features/redirect/editor-panel.php:93
-msgid "Relative (\"/thank-you/\") or absolute URL. Placeholders like [field_name] are replaced with submitted values (URL-encoded)."
+msgid "Use a full URL or a path such as /thank-you/. Include [field_name] to pass an answer in the URL."
 msgstr ""
 
 #: includes/pro/features/redirect/editor-panel.php:99
@@ -1504,7 +2263,7 @@ msgid "Delay (ms)"
 msgstr ""
 
 #: includes/pro/features/redirect/editor-panel.php:115
-msgid "Optional pause before the redirect fires. Useful if you want the CF7 success message to be visible for a moment first."
+msgid "Wait before opening the destination. Leave at 0 for an immediate redirect."
 msgstr ""
 
 #: includes/pro/features/redirect/editor-panel.php:121
@@ -1512,23 +2271,24 @@ msgid "Conditional redirects"
 msgstr ""
 
 #: includes/pro/features/redirect/editor-panel.php:123
-msgid "Override the default redirect URL when a field matches a rule. Rules are evaluated in order — the first match wins. If no rule matches, the default URL above is used."
+msgid "Use a different destination when an answer matches a rule. Otherwise, use the URL above."
 msgstr ""
 
 #: includes/pro/features/redirect/editor-panel.php:132
 msgid "Redirect to"
 msgstr ""
 
-#: includes/pro/features/scheduling/editor-panel.php:37, includes/pro/features/scheduling/module.php:53
+#: includes/pro/features/scheduling/editor-panel.php:37
+#: includes/pro/features/scheduling/module.php:53
 msgid "This form is no longer accepting submissions."
 msgstr ""
 
 #: includes/pro/features/scheduling/editor-panel.php:46
-msgid "Form Scheduling"
+msgid "Scheduling"
 msgstr ""
 
 #: includes/pro/features/scheduling/editor-panel.php:48
-msgid "Open and close the form on specific dates. Visitors outside the window see a custom closed-state message."
+msgid "Accept submissions during a specific date range. Leave either date empty for an open-ended schedule."
 msgstr ""
 
 #: includes/pro/features/scheduling/editor-panel.php:57
@@ -1559,338 +2319,1121 @@ msgstr ""
 msgid "Shown when the form is outside its scheduling window."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:23
-msgid "General"
+#. translators: %s: site timezone.
+#: includes/pro/features/scheduling/editor-panel.php:104
+#, php-format
+msgid "Dates use the site timezone: %s."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:28, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:34, includes/lite/builders/divi4/FluentForms/FluentForms.php:35, includes/lite/builders/divi4/GravityForms/GravityForms.php:34
-msgid "Common"
+#: includes/pro/loader.php:112
+#: includes/pro/loader.php:113
+#: src/admin/AnalyticsApp.js:55
+#: src/admin/components/Header.js:22
+#: src/admin/pages/AnalyticsPage.js:25
+msgid "Analytics"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:37, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:648
-msgid "Title"
+#: includes/rest-api.php:207
+msgid "Invalid features data."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:45
-msgid "Form Text"
+#: includes/rest-api.php:248
+msgid "Invalid webhook URLs."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:49, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:596, includes/lite/builders/divi4/CF7Styler/CF7Styler.php:698, includes/lite/builders/divi4/FluentForms/FluentForms.php:302, includes/lite/builders/divi4/FluentForms/FluentForms.php:335, includes/lite/builders/divi4/GravityForms/GravityForms.php:315, includes/lite/builders/divi4/GravityForms/GravityForms.php:354
-msgid "Field"
+#: includes/rest-api.php:361
+msgid "Invalid form ID."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:60
-msgid "Fields"
+#: includes/rest-api.php:371
+msgid "Form not found."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:63
-msgid "Message"
+#: includes/rest-api.php:423
+msgid "Contact Form 7 is not installed."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:74
-msgid "Form Label"
+#: includes/rest-api.php:441
+msgid "Select a form"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:145
-msgid "Upload an image"
+#. translators: %d: form ID
+#: includes/rest-api.php:450
+#, php-format
+msgid "Form #%d"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:146
-msgid "Choose an Image"
+#: includes/rest-api.php:493
+msgid "Onboarding reset successfully."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:147
-msgid "Set As Image"
+#: includes/saddle-abilities.php:23
+msgid "Create and edit Contact Form 7 forms with CF7 Mate fields and styles."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:166
-msgid "Form Header Background"
+#: includes/saddle-abilities.php:33
+msgid "Find, create and edit Contact Form 7 forms. No access to submitted responses or provider keys."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:209
-msgid "Header Image/Icon Background"
+#: includes/saddle-abilities.php:49
+msgid "Find forms"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:221
-msgid "Header Icon Color"
+#: includes/saddle-abilities.php:49
+msgid "List Contact Form 7 form IDs and titles. Search before creating a form to avoid duplicates. Does not return submissions."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:283
-msgid "Choose a contact form to display."
+#: includes/saddle-abilities.php:50
+msgid "Read a form"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:291
-msgid "Common Text Fields Height"
+#: includes/saddle-abilities.php:50
+msgid "Read one form template, shortcode, enabled CF7 Mate features and styling guidance before editing. Mail configuration, responses and API keys are not returned."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:292
-msgid "Here you can define static height for the common text fields."
+#: includes/saddle-abilities.php:51
+msgid "Create a form"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:306
-msgid "Form Field Padding"
+#: includes/saddle-abilities.php:51
+msgid "Create a Contact Form 7 form from title and form-template markup. Returns its shortcode and configuration warnings. Does not insert it into a page, change notification settings or send mail. Review the native Mail tab before publishing."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:307
-msgid "Here you can define a custom padding for each field."
+#: includes/saddle-abilities.php:52
+msgid "Edit a form"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:316
-msgid "Form Field Background Color"
+#: includes/saddle-abilities.php:52
+msgid "Replace an existing form template, optionally changing its title. Read the form first. Existing Mail, Messages and CF7 Mate per-form settings are preserved. Changes affect every page using this form; Saddle asks for confirmation."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:325
-msgid "Form Field Active Color"
+#: includes/saddle-abilities.php:78
+msgid "You cannot manage these forms."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:333
-msgid "Form Field Spacing Bottom"
+#: includes/saddle-abilities.php:82
+msgid "Unknown form operation."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:334
-msgid "Set how much space the form field will take at the bottom."
+#: includes/saddle-abilities.php:85
+msgid "Choose an existing form."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:349
-msgid "Form Label Spacing Bottom"
+#: includes/saddle-abilities.php:90
+msgid "Provide a form template of at most 50 KB."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:350
-msgid "Set how much space the form label will take at the bottom."
+#: assets/js/cf7m-icon-tag-admin.js:57
+#: assets/js/cf7m-image-tag-admin.js:25
+msgid "Use Image"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:366
-msgid "Enable Custom Styles"
+#: src/admin/AnalyticsApp.js:42
+#: src/admin/pages/AISettingsPage.js:174
+#: src/admin/pages/ResponsesPage.js:557
+#: src/admin/pages/WebhookPage.js:143
+#: src/admin/ResponsesApp.js:60
+#: src/admin/SettingsApp.js:84
+msgid "Loading…"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:465
-msgid "Message Padding"
+#: src/admin/AnalyticsApp.js:55
+msgid "Turn on analytics to understand how visitors use your forms."
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:479
-msgid "Message Margin Top"
+#: src/admin/AnalyticsApp.js:55
+#: src/admin/ResponsesApp.js:78
+msgid "Manage features"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:493
-msgid "Align message text to the left, right or center."
+#: src/admin/components/FeaturesSection.js:17
+msgid "All"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:504
-msgid "Message Text Color"
+#: src/admin/components/FeaturesSection.js:17
+msgid "Enabled"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:512
-msgid "Message Background Color"
+#: src/admin/components/FeaturesSection.js:17
+msgid "Disabled"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:520
-msgid "Border Highlight Color"
+#: src/admin/components/FeaturesSection.js:21
+msgid "Search features"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:529
-msgid "Success Message Text Color"
+#: src/admin/components/FeaturesSection.js:21
+msgid "Search features…"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:537
-msgid "Success Message Background Color"
+#: src/admin/components/FeaturesSection.js:22
+msgid "Filter features"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:554
-msgid "Error Message Text Color"
+#: src/admin/components/FeaturesSection.js:23
+#, js-format
+msgid "%1$d of %2$d enabled"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:562
-msgid "Error Message Background Color"
+#: src/admin/components/FeaturesSection.js:31
+msgid "No features found"
 msgstr ""
 
-#: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:745
-msgid "Please select a Contact Form 7."
+#: src/admin/components/FeaturesSection.js:31
+msgid "Try another search or change your filter."
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:18
-msgid "Fluent Forms Styler"
+#: src/admin/components/FeaturesSection.js:31
+msgid "Clear filters"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:41, includes/lite/builders/divi4/GravityForms/GravityForms.php:40
-msgid "Input Text"
+#: src/admin/components/FeaturesSection.js:32
+msgid "These settings apply site-wide. Configure individual forms in Contact forms."
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:49, includes/lite/builders/divi4/GravityForms/GravityForms.php:48
-msgid "Success / Error Message"
+#: src/admin/components/Header.js:20
+#: src/admin/pages/SettingsPage.js:18
+msgid "Features"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:53, includes/lite/builders/divi4/GravityForms/GravityForms.php:52
-msgid "Success"
+#: src/admin/components/Header.js:23
+#: src/admin/pages/SettingsPage.js:19
+msgid "Tools"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:56, includes/lite/builders/divi4/GravityForms/GravityForms.php:55
-msgid "Error"
+#: src/admin/components/Header.js:27
+msgid "Documentation"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:79
-msgid "No Forms Found!"
+#: src/admin/components/Header.js:28
+#: src/admin/components/HowToSection.js:19
+msgid "Support"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:82, includes/lite/builders/divi4/GravityForms/GravityForms.php:78
-msgid "Select"
+#: src/admin/components/Header.js:29
+msgid "Community"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:106
-msgid "Select Fluent Form"
+#: src/admin/components/Header.js:38
+msgid "CF7 Mate navigation"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:110
-msgid "Choose the Fluent Form you want to display."
+#: src/admin/components/Header.js:42
+msgid "Help"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:136
-msgid "Choose the Fluent Form input padding."
+#: src/admin/components/Header.js:43
+msgid "Contact forms"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:146
-msgid "Choose the Fluent Form input background color."
+#: src/admin/components/HowToSection.js:12
+msgid "Resources"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:153, includes/lite/builders/divi4/GravityForms/GravityForms.php:160
-msgid "Required Color"
+#: src/admin/components/HowToSection.js:13
+msgid "Resources & Support"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:156
-msgid "Choose the Fluent Form required color."
+#: src/admin/components/HowToSection.js:15
+msgid "Docs"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:170, includes/lite/builders/divi4/GravityForms/GravityForms.php:176
-msgid "Radio & Checkbox Size"
+#: src/admin/components/ResponsesOverviewWidget.js:16
+msgid "Responses Overview"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:181
-msgid "Choose the Fluent Form radio & checkbox size."
+#: src/admin/components/ResponsesOverviewWidget.js:20
+msgid "View Responses"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:190
-msgid "Choose the Fluent Form radio & checkbox background color."
+#: src/admin/components/ResponsesOverviewWidget.js:31
+#: src/admin/pages/ResponsesPage.js:563
+msgid "No responses yet"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:199
-msgid "Choose the Fluent Form selected color."
+#: src/admin/components/ResponsesOverviewWidget.js:32
+msgid "Enable Database Entries in Modules to start collecting submissions."
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:208
-msgid "Choose the Fluent Form label color."
+#: src/admin/components/ResponsesOverviewWidget.js:37
+msgid "Form submissions will appear here once visitors submit your forms."
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:220, includes/lite/builders/divi4/GravityForms/GravityForms.php:226
-msgid "Field Validation Padding"
+#: src/admin/data/feature-groups.js:5
+msgid "Layout & logic"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:223
-msgid "Choose the Fluent Form field validation padding."
+#: src/admin/data/feature-groups.js:6
+msgid "Form fields"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:230, includes/lite/builders/divi4/GravityForms/GravityForms.php:236
-msgid "Form Error Field Background Color"
+#: src/admin/data/feature-groups.js:7
+msgid "Submissions & automation"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:233
-msgid "Choose the Fluent Form error field background color."
+#: src/admin/data/feature-groups.js:8
+msgid "Builders & AI"
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:240, includes/lite/builders/divi4/GravityForms/GravityForms.php:246
-msgid "Form Valid Message Padding"
+#: src/admin/pages/AISettingsPage.js:42
+msgid "Failed to load settings."
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:243
-msgid "Choose the Fluent Form valid message padding."
+#: src/admin/pages/AISettingsPage.js:64
+#: src/admin/pages/WebhookPage.js:79
+msgid "Saved."
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:250, includes/lite/builders/divi4/GravityForms/GravityForms.php:256
-msgid "Form Valid Background Color"
+#: src/admin/pages/AISettingsPage.js:67
+#: src/admin/pages/WebhookPage.js:81
+msgid "Save failed."
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:253
-msgid "Choose the Fluent Form valid background color."
+#: src/admin/pages/AISettingsPage.js:85
+msgid "Connection OK."
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:426, includes/lite/builders/divi4/FluentForms/FluentForms.php:443
-msgid "Please install Fluent Forms plugin."
+#: src/admin/pages/AISettingsPage.js:86
+#: src/admin/pages/AISettingsPage.js:89
+msgid "Test failed."
 msgstr ""
 
-#: includes/lite/builders/divi4/FluentForms/FluentForms.php:463
-msgid "Please select a Fluent Form."
+#: src/admin/pages/AISettingsPage.js:104
+msgid "API key removed."
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:16
-msgid "Gravity Forms Styler"
+#: src/admin/pages/AISettingsPage.js:107
+msgid "Failed."
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:69, includes/lite/builders/divi4/GravityForms/GravityForms.php:75
-msgid "You have not added any Gravity Forms yet."
+#: src/admin/pages/AISettingsPage.js:133
+msgid "AI Generator"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:102
-msgid "Select Gravity Forms"
+#: src/admin/pages/AISettingsPage.js:137
+msgid "Key saved"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:106
-msgid "Choose the Gravity Forms you want to display."
+#: src/admin/pages/AISettingsPage.js:142
+msgid "Generate CF7 forms from a plain-English prompt in the form editor."
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:114
-msgid "Enable AJAX Form Submission"
+#: src/admin/pages/AISettingsPage.js:155
+msgid "Reload this page to finish enabling AI settings."
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:121
-msgid "Enable AJAX for the form."
+#: src/admin/pages/AISettingsPage.js:155
+msgid "Enable AI generation to connect a provider. Provider charges may apply."
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:143
-msgid "Choose the Gravity Forms input padding."
+#: src/admin/pages/AISettingsPage.js:181
+#: src/admin/pages/AISettingsPage.js:186
+msgid "Provider"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:153
-msgid "Choose the Gravity Forms input background color."
+#: src/admin/pages/AISettingsPage.js:196
+#: src/admin/pages/AISettingsPage.js:201
+msgid "Model"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:163
-msgid "Choose the Gravity Forms required color."
+#: src/admin/pages/AISettingsPage.js:211
+#: src/admin/pages/AISettingsPage.js:232
+msgid "API key"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:187
-msgid "Choose the Gravity Forms radio & checkbox size."
+#: src/admin/pages/AISettingsPage.js:223
+msgid "Remove API key"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:196
-msgid "Choose the Gravity Forms radio & checkbox background color."
+#: src/admin/pages/AISettingsPage.js:245
+msgid "Get an API key"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:205
-msgid "Choose the Gravity Forms selected color."
+#: src/admin/pages/AISettingsPage.js:264
+#: src/admin/pages/WebhookPage.js:176
+msgid "Testing…"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:214
-msgid "Choose the Gravity Forms label color."
+#: src/admin/pages/AISettingsPage.js:265
+msgid "Test connection"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:229
-msgid "Choose the Gravity Forms field validation padding."
+#: src/admin/pages/AISettingsPage.js:275
+#: src/admin/pages/WebhookPage.js:203
+msgid "Save"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:239
-msgid "Choose the Gravity Forms error field background color."
+#: src/admin/pages/AnalyticsPage.js:16
+msgid "Could not load analytics."
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:249
-msgid "Choose the Gravity Forms valid message padding."
+#: src/admin/pages/AnalyticsPage.js:25
+msgid "A clearer picture of how your forms perform."
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:259
-msgid "Choose the Gravity Forms valid background color."
+#: src/admin/pages/AnalyticsPage.js:25
+msgid "Refresh"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:478, includes/lite/builders/divi4/GravityForms/GravityForms.php:494
-msgid "Please install Gravity Forms plugin."
+#: src/admin/pages/AnalyticsPage.js:26
+msgid "Loading analytics…"
 msgstr ""
 
-#: includes/lite/builders/divi4/GravityForms/GravityForms.php:509
-msgid "Please select a Gravity Form."
+#: src/admin/pages/AnalyticsPage.js:27
+#: src/admin/SettingsApp.js:91
+msgid "Try again"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:28
+msgid "Your form insights start here"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:28
+msgid "Visit a page with a form to start tracking views."
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:30
+msgid "Form views"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:30
+msgid "Saved submissions"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:30
+msgid "Estimated conversion"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:31
+msgid "Performance by form"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:31
+msgid "All time"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:32
+#: src/admin/pages/ResponsesPage.js:310
+#: src/admin/pages/ResponsesPage.js:582
+msgid "Form"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:32
+msgid "Views"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:32
+msgid "Submissions"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:32
+msgid "Conversion"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:32
+msgid "Last submission"
+msgstr ""
+
+#: src/admin/pages/AnalyticsPage.js:34
+msgid "All-time views and saved submissions. Submission counts require Form responses and exclude deleted or trashed entries. Conversion is an estimate."
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:32
+msgid "All statuses"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:33
+msgid "New"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:34
+msgid "Read"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:35
+#: src/admin/pages/ResponsesPage.js:61
+msgid "Trash"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:241
+msgid "All forms"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:250
+msgid "Breadcrumb"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:256
+msgid "Response"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:266
+msgid "Response not found."
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:274
+msgid "Submitted Data"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:280
+msgid "No field data."
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:311
+msgid "IP"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:312
+msgid "Browser"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:313
+msgid "Device"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:314
+msgid "Date"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:343
+msgid "Actions"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:349
+msgid "Back to list"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:370
+#: src/admin/pages/ResponsesPage.js:666
+#: src/admin/pages/ResponsesPage.js:667
+msgid "Restore"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:374
+#: src/admin/pages/ResponsesPage.js:507
+msgid "Delete permanently?"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:387
+#: src/admin/pages/ResponsesPage.js:416
+#: src/admin/pages/ResponsesPage.js:527
+msgid "Cancel"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:397
+#: src/admin/pages/ResponsesPage.js:536
+#: src/admin/pages/ResponsesPage.js:675
+#: src/admin/pages/ResponsesPage.js:676
+msgid "Delete permanently"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:403
+#: src/admin/pages/ResponsesPage.js:508
+msgid "Move to trash?"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:426
+#: src/admin/pages/ResponsesPage.js:543
+#: src/admin/pages/ResponsesPage.js:686
+#: src/admin/pages/ResponsesPage.js:687
+msgid "Move to trash"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:451
+msgid "Review and manage your form submissions."
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:455
+msgid "Export"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:471
+msgid "Filter by status"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:481
+msgid "Filter by form"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:489
+msgid "Search responses…"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:497
+#, js-format
+msgid "%d selected"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:547
+msgid "Clear"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:566
+msgid "Form submissions will appear here."
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:578
+msgid "Select all"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:585
+msgid "Preview"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:601
+msgid "Select response"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:625
+msgid "Delete?"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:626
+msgid "Trash?"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:655
+#: src/admin/pages/ResponsesPage.js:656
+msgid "View"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:708
+#, js-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:716
+#, js-format
+msgid "%d per page"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:723
+msgid "Per page"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:733
+msgid "Previous page"
+msgstr ""
+
+#: src/admin/pages/ResponsesPage.js:742
+msgid "Next page"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:8
+msgid "Create a contact form called Project enquiry with labelled name, email, project type and message fields. Make name and email required. Use an enabled CF7 Mate style preset and give me the shortcode. Keep it off my live pages until I review it."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:10
+msgid "Prompt copied. Paste it into your connected AI app."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:11
+msgid "Select the prompt below and copy it manually."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:14
+msgid "Optional companion plugins. CF7 Mate works without either one, and this page never installs, activates or connects them for you."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:15
+msgid "Quick MCP setup"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:15
+msgid "MCP is the connection that lets your AI app use tools on your website."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:17
+msgid "Install Saddle and connect your app"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:17
+msgid "In Saddle → Agent setup, choose your AI app and follow its generated connection instructions. Sign in to your site when prompted."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:18
+msgid "Allow the form tools"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:18
+msgid "Enable the CF7 Mate integration in Saddle’s settings. Give your app Edit content access when you want it to create forms. Saddle starts read-only; existing-form changes require confirmation."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:19
+msgid "Describe your form, then review it"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:19
+msgid "Ask for fields, labels, required answers and a style. Review the form and its Mail tab in Contact Form 7 before adding the shortcode to a live page."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:21
+msgid "Connect an AI app"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:21
+#: src/components/SaddleIntro.jsx:10
+msgid "Get Saddle"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:21
+msgid "Connection guide"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:22
+msgid "The form tools need the WordPress Abilities API, included in WordPress 6.9 and later. Your existing CF7 Mate features still work on this site."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:24
+msgid "Try this with your agent"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:24
+msgid "Copy prompt"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:24
+msgid "Your agent uses its own AI account. You do not need to add a provider key to CF7 Mate for Saddle. Its form tools do not read stored submissions or API keys."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:25
+msgid "Saddle Analytics"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:25
+msgid "Active"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:25
+msgid "Optional"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:25
+msgid "See visitors, popular pages, traffic sources and referrals from AI apps. Reports stay in your WordPress database. Connect it through Saddle to ask questions like “Which pages get visits from ChatGPT?”"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:25
+msgid "Site traffic reports complement CF7 Mate’s form views and saved-submission counts. Saddle Analytics requires Saddle, WordPress 6.9+ and PHP 8.1+."
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:25
+msgid "Open Saddle Analytics"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:25
+msgid "Get Saddle Analytics"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:26
+msgid "Help and support"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:26
+msgid "CF7 Mate support"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:26
+msgid "Saddle documentation"
+msgstr ""
+
+#: src/admin/pages/SaddlePage.js:26
+msgid "Saddle connection support"
+msgstr ""
+
+#: src/admin/pages/SettingsPage.js:18
+msgid "Choose what your forms can do. Enable only the tools you need."
+msgstr ""
+
+#: src/admin/pages/SettingsPage.js:19
+msgid "Connect your AI provider and send submissions to your other tools."
+msgstr ""
+
+#: src/admin/pages/SettingsPage.js:20
+msgid "Let your AI assistant help build your next form."
+msgstr ""
+
+#: src/admin/pages/SettingsPage.js:25
+msgid "Changes save automatically"
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:42
+msgid "Failed to load."
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:58
+msgid "Enter a valid URL."
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:62
+msgid "URL already in list."
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:98
+msgid "Test delivered."
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:99
+msgid "Server returned"
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:102
+msgid "Network error."
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:114
+msgid "Webhook"
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:116
+msgid "POST submissions as JSON to Zapier, Make, Slack, or any endpoint."
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:127
+msgid "Enable webhooks to add a destination for new submissions."
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:153
+msgid "Webhook URL"
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:156
+msgid "Add"
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:162
+msgid "No URLs yet. Add one above."
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:177
+msgid "Test"
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:199
+msgid "Hide payload"
+msgstr ""
+
+#: src/admin/pages/WebhookPage.js:200
+msgid "Example payload"
+msgstr ""
+
+#: src/admin/ResponsesApp.js:78
+msgid "Turn on response storage to keep and manage submissions in WordPress."
+msgstr ""
+
+#: src/admin/SettingsApp.js:36
+msgid "Could not load your settings."
+msgstr ""
+
+#: src/admin/SettingsApp.js:54
+msgid "Settings saved."
+msgstr ""
+
+#: src/admin/SettingsApp.js:59
+msgid "Could not save — change reverted"
+msgstr ""
+
+#: src/admin/SettingsApp.js:91
+msgid "Could not load settings"
+msgstr ""
+
+#: src/components/SaddleIntro.jsx:8
+msgid "Your AI, connected to your website"
+msgstr ""
+
+#: src/components/SaddleIntro.jsx:9
+msgid "Saddle connects Claude, ChatGPT, Codex, Cursor and other MCP-capable agents to WordPress. Ask your agent to create a Contact Form 7 form, add CF7 Mate styling, and place it on a page."
+msgstr ""
+
+#: src/components/SaddleIntro.jsx:10
+msgid "Open Saddle agent setup"
+msgstr ""
+
+#: src/components/SaddleIntro.jsx:14
+msgid "Want site and AI traffic reports too?"
+msgstr ""
+
+#: src/components/SaddleIntro.jsx:14
+msgid "Saddle Analytics keeps visitor reports on your site and lets your agent answer questions about AI referrals."
+msgstr ""
+
+#: src/components/SaddleIntro.jsx:14
+msgid "Explore Saddle Analytics"
+msgstr ""
+
+#: src/components/SaddleIntro.jsx:15
+msgid "Both are optional. Nothing is installed or connected by this guide. CF7 Mate works on its own."
+msgstr ""
+
+#: src/components/SaddleIntro.jsx:16
+msgid "Quick MCP setup, examples and support"
+msgstr ""
+
+#: src/divi5/modules/cf7-styler/edit.jsx:196
+msgid "Select a Contact Form 7 form to display."
+msgstr ""
+
+#: src/divi5/modules/cf7-styler/edit.jsx:201
+msgid "Loading form…"
+msgstr ""
+
+#: src/divi5/modules/cf7-styler/edit.jsx:205
+msgid "Could not load form preview."
+msgstr ""
+
+#: src/divi5/modules/cf7-styler/edit.jsx:214
+msgid "No form content."
+msgstr ""
+
+#: src/gutenberg/edit.js:34
+msgid "Select a Contact Form"
+msgstr ""
+
+#: src/gutenberg/edit.js:95
+msgid "Failed to load preview."
+msgstr ""
+
+#: src/gutenberg/edit.js:106
+msgid "Loading form preview…"
+msgstr ""
+
+#: src/gutenberg/edit.js:171
+msgid "Icon CSS Class (e.g. fas fa-envelope)"
+msgstr ""
+
+#: src/gutenberg/edit.js:185
+msgid "Change Image"
+msgstr ""
+
+#: src/gutenberg/edit.js:186
+msgid "Choose Image"
+msgstr ""
+
+#: src/gutenberg/edit.js:193
+msgid "Remove Image"
+msgstr ""
+
+#: src/gutenberg/edit.js:242
+msgid "Border Width"
+msgstr ""
+
+#: src/gutenberg/edit.js:244
+msgid "Border Style"
+msgstr ""
+
+#: src/gutenberg/edit.js:329
+msgid "Success Background Color"
+msgstr ""
+
+#: src/gutenberg/edit.js:332
+msgid "Error Background Color"
+msgstr ""
+
+#: src/gutenberg/edit.js:372
+msgid "CF7 Styler – select a Contact Form 7 in the sidebar to preview it here."
+msgstr ""
+
+#: src/onboarding/components/OnboardingModal.jsx:55
+msgid "Let's get started"
+msgstr ""
+
+#: src/onboarding/components/OnboardingModal.jsx:56
+msgid "Finish"
+msgstr ""
+
+#: src/onboarding/components/OnboardingModal.jsx:69
+msgid "CF7 Mate onboarding"
+msgstr ""
+
+#: src/onboarding/components/OnboardingModal.jsx:109
+msgid "Exit Guided Setup"
+msgstr ""
+
+#: src/onboarding/components/OnboardingModal.jsx:115
+msgid "Exit setup"
+msgstr ""
+
+#: src/onboarding/components/OnboardingModal.jsx:122
+msgid "Setup step"
+msgstr ""
+
+#: src/onboarding/components/OnboardingModal.jsx:130
+msgid "Back"
+msgstr ""
+
+#: src/onboarding/components/OnboardingModal.jsx:140
+msgid "Skip onboarding"
+msgstr ""
+
+#: src/onboarding/components/OnboardingModal.jsx:142
+msgid "Skip for now"
+msgstr ""
+
+#: src/onboarding/components/StepFeatures.jsx:11
+msgid "Step 2 of 4"
+msgstr ""
+
+#: src/onboarding/components/StepFeatures.jsx:12
+msgid "Choose features"
+msgstr ""
+
+#: src/onboarding/components/StepFeatures.jsx:13
+msgid "All features are free. Choose whether to store responses, track views, or send submissions to webhook destinations. You can change these choices anytime."
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:28
+msgid "Could not save your setup. Please try again."
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:36
+msgid "Step 4 of 4"
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:44
+msgid "You're all set with CF7 Mate"
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:47
+msgid "Style your Contact Form 7 forms, manage features from the dashboard, and get help from docs and the community whenever you need it."
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:52
+msgid "What you can do now"
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:54
+msgid "Add the CF7 Mate module in your page builder and pick a form to style"
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:55
+msgid "Turn features on or off from the CF7 Mate dashboard"
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:56
+msgid "Create and edit forms in Contact Form 7, then style them with CF7 Mate"
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:64
+msgid "Go to CF7 Mate dashboard"
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:67
+msgid "Go to Contact Form 7"
+msgstr ""
+
+#: src/onboarding/components/StepFinish.jsx:71
+msgid "Close guide"
+msgstr ""
+
+#: src/onboarding/components/StepHelp.jsx:8
+msgid "Step 3 of 4 · Optional"
+msgstr ""
+
+#: src/onboarding/components/StepHelp.jsx:9
+msgid "Build forms with your AI"
+msgstr ""
+
+#: src/onboarding/components/StepHelp.jsx:10
+msgid "Describe what you need. Connect an agent to help create and style it on your own site."
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:19
+msgid "CF7 Mate welcome"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:31
+msgid "Close"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:50
+msgid "Introducing"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:54
+msgid "Your complete Contact Form 7 companion for Divi"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:59
+msgid "What's new"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:70
+msgid "Same plugin, new name"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:71
+msgid "CF7 Styler is now CF7 Mate"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:82
+msgid "All settings preserved"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:83
+msgid "Your forms work exactly the same"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:94
+msgid "More features in pro"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:95
+msgid "Entries, ratings, multi-step & more"
+msgstr ""
+
+#: src/onboarding/components/StepRebrand.jsx:105
+msgid "Continue"
+msgstr ""
+
+#: src/onboarding/components/StepWelcome.jsx:14
+msgid "Style Contact Form 7 forms — no code, just point and click"
+msgstr ""
+
+#: src/onboarding/components/StepWelcome.jsx:15
+msgid "Works with Divi, Elementor, Bricks, and more"
+msgstr ""
+
+#: src/onboarding/components/StepWelcome.jsx:16
+msgid "Includes multi-step forms, conditional logic, responses and more — all free"
+msgstr ""
+
+#: src/onboarding/components/StepWelcome.jsx:23
+msgid "Step 1 of 4"
+msgstr ""
+
+#: src/onboarding/components/StepWelcome.jsx:25
+msgid "Welcome to CF7 Mate"
+msgstr ""
+
+#: src/onboarding/components/StepWelcome.jsx:28
+msgid "Four short steps to get you started. Style your forms, choose features, get help when you need it — about a minute."
+msgstr ""
+
+#: includes/lite/builders/gutenberg/block.json
+msgctxt "block title"
+msgid "CF7 Styler"
+msgstr ""
+
+#: includes/lite/builders/gutenberg/block.json
+msgctxt "block description"
+msgid "Display and style a Contact Form 7 form with full design controls."
+msgstr ""
+
+#: includes/lite/builders/gutenberg/block.json
+msgctxt "block keyword"
+msgid "contact form"
+msgstr ""
+
+#: includes/lite/builders/gutenberg/block.json
+msgctxt "block keyword"
+msgid "cf7"
+msgstr ""
+
+#: includes/lite/builders/gutenberg/block.json
+msgctxt "block keyword"
+msgid "form"
+msgstr ""
+
+#: includes/lite/builders/gutenberg/block.json
+msgctxt "block keyword"
+msgid "styler"
 msgstr ""

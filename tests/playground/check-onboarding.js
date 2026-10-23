@@ -1,0 +1,38 @@
+async page => {
+  const checks = [];
+  const assert = (value, message) => { if (!value) throw new Error(message); checks.push(message); };
+  await page.goto(new URL('/wp-admin/admin.php?page=cf7-mate', page.url()).href);
+  const state = () => page.evaluate(async () => await wp.apiFetch({path:'/cf7mate-playground/v1/state'}));
+  const fresh = await state();
+  assert(['database_entries','analytics','webhook','partial_save'].every(key => fresh.features[key] === false), 'Fresh install leaves collection and sending opt-in');
+  await page.getByRole('link',{name:'Run Setup Wizard',exact:true}).click();
+  await page.getByRole('button',{name:"Let's get started",exact:true}).click();
+  const region = page.getByRole('region',{name:'Setup step'});
+  for (const name of ['Form responses','Form analytics','Webhooks','Save and continue']) await region.getByRole('switch',{name,exact:true}).click();
+  await region.getByRole('switch',{name:'Icon',exact:true}).click();
+  await page.getByRole('button',{name:'Next',exact:true}).click();
+  await page.getByRole('heading',{name:'Build forms with your AI',exact:true}).waitFor();
+  assert(await page.getByRole('link',{name:'Get Saddle',exact:true}).count()===1 && await page.getByRole('link',{name:'Explore Saddle Analytics',exact:true}).count()===1,'Onboarding introduces optional Saddle and Analytics without requiring installation');
+  await page.getByRole('button',{name:'Next',exact:true}).click();
+  await page.getByRole('button',{name:'Go to CF7 Mate dashboard',exact:true}).waitFor();
+  const url = page.url();
+  await page.route('**/admin-ajax.php', route => (route.request().postData() || '').includes('cf7m_complete_onboarding') ? route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({success:false})}) : route.continue());
+  await page.getByRole('button',{name:'Go to CF7 Mate dashboard',exact:true}).click();
+  await page.getByRole('alert').filter({hasText:'Could not save your setup.'}).waitFor();
+  assert(page.url() === url, 'Failed onboarding save keeps the guide open and supports retry');
+  await page.unrouteAll({behavior:'wait'});
+  let release;
+  const gate = new Promise(resolve => { release = resolve; });
+  await page.route('**/admin-ajax.php', async route => { if ((route.request().postData() || '').includes('cf7m_complete_onboarding')) await gate; await route.continue(); });
+  await page.getByRole('button',{name:'Go to CF7 Mate dashboard',exact:true}).click();
+  assert(await page.getByRole('button',{name:'Go to CF7 Mate dashboard',exact:true}).isDisabled(), 'Completion waits for the save and prevents duplicate clicks');
+  const navigation = page.waitForNavigation({waitUntil:"load"});
+  release();
+  await navigation;
+  await page.waitForFunction(() => !document.querySelector('[role=dialog]'));
+  await page.waitForLoadState('domcontentloaded');
+  await page.unrouteAll({behavior:'wait'});
+  const saved = await state();
+  assert(!!saved.onboarding_completed && ['database_entries','analytics','webhook','partial_save'].every(key=>saved.features[key]) && saved.features.icon === false, 'Onboarding persists all enabled and explicitly disabled choices before navigation');
+  return checks;
+}

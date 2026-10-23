@@ -62,7 +62,7 @@ class Range_Slider extends Feature_Base
                 if (!$name) {
                     continue;
                 }
-                if (!isset($_POST[$name]) || trim(wp_unslash($_POST[$name])) === '') { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                if (!isset($_POST[$name]) || !is_scalar($_POST[$name]) || trim(sanitize_text_field(wp_unslash($_POST[$name]))) === '') { // phpcs:ignore WordPress.Security.NonceVerification.Missing
                     $result->invalidate(
                         ['name' => $name, 'type' => 'cf7m-range*'],
                         wpcf7_get_message('invalid_required')

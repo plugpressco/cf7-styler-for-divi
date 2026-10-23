@@ -1,5 +1,5 @@
 /**
- * Responses app shell: header + Responses page (or upsell when not Pro / disabled).
+ * Responses app shell: header + Responses page with optional feature enablement.
  *
  * @package CF7_Mate
  */
@@ -10,9 +10,7 @@ import { Spinner } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 
 import { Header } from './components/Header';
-import { UpsellPlaceholder } from './components/UpsellPlaceholder';
-
-const getProPage = (name) => window.cf7mProPages && window.cf7mProPages[name];
+import { ResponsesPage } from './pages/ResponsesPage';
 
 function getEntryIdFromHash() {
 	const hash = (window.location.hash || '').replace(/^#\/?/, '');
@@ -22,9 +20,6 @@ function getEntryIdFromHash() {
 
 export function ResponsesApp() {
 	const [features, setFeatures] = useState({ database_entries: true });
-	const [isPro, setIsPro] = useState(
-		typeof dcsCF7Styler !== 'undefined' && !!dcsCF7Styler.is_pro,
-	);
 	const [loading, setLoading] = useState(true);
 	const [entryId, setEntryId] = useState(getEntryIdFromHash());
 
@@ -41,7 +36,6 @@ export function ResponsesApp() {
 					path: '/cf7-styler/v1/settings/features',
 				});
 				setFeatures(response.features);
-				setIsPro(response.is_pro);
 			} catch (error) {
 				console.error('Error loading features:', error);
 			} finally {
@@ -55,13 +49,12 @@ export function ResponsesApp() {
 			? dcsCF7Styler.dash_url
 			: 'admin.php?page=cf7-mate';
 
-	const ResponsesPage = getProPage('responses');
-	const showResponses = isPro && !!features.database_entries;
+	const showResponses = !!features.database_entries;
 
 	if (loading) {
 		return (
 			<div className="cf7m-wrap">
-				<Header isPro={false} />
+				<Header />
 				<div className="cf7m-resp__loading">
 					<Spinner />
 					<span>{__('Loading…', 'cf7-styler-for-divi')}</span>
@@ -72,21 +65,17 @@ export function ResponsesApp() {
 
 	return (
 		<div className="cf7m-wrap">
-			<Header isPro={isPro} />
+			<Header />
 			<div className="cf7m-responses">
-				{ResponsesPage && showResponses ? (
+				{showResponses ? (
 					<ResponsesPage
 						entryId={entryId}
 						onBack={() => {
 							window.location.href = dashUrl;
 						}}
 					/>
-				) : ResponsesPage && isPro && !features.database_entries ? (
-					<p className="cf7m-dash-row__desc">
-						{__('Enable Responses in Settings to view form submissions.', 'cf7-styler-for-divi')}
-					</p>
 				) : (
-					<UpsellPlaceholder feature="responses" />
+                    <main className="cf7m-content"><div className="cf7m-disabled-state"><h1>{__('Responses', 'cf7-styler-for-divi')}</h1><p>{__('Turn on response storage to keep and manage submissions in WordPress.', 'cf7-styler-for-divi')}</p><a className="cf7m-button" href={(typeof dcsCF7Styler !== 'undefined' ? dcsCF7Styler.dash_url : 'admin.php?page=cf7-mate') + '#/features'}>{__('Manage features', 'cf7-styler-for-divi')}</a></div></main>
 				)}
 			</div>
 		</div>

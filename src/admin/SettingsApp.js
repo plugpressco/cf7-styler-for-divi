@@ -14,22 +14,9 @@ import { Toast } from './components/Toast';
 import { SettingsPage } from './pages/SettingsPage';
 
 export function SettingsApp() {
-	const [features, setFeatures] = useState({
-		cf7_module: true,
-		bricks_module: true,
-		elementor_module: true,
-		gutenberg_module: true,
-		grid_layout: true,
-		multi_column: true,
-		multi_step: true,
-		star_rating: true,
-		database_entries: true,
-		range_slider: true,
-	});
-	const [isPro, setIsPro] = useState(
-		typeof dcsCF7Styler !== 'undefined' && !!dcsCF7Styler.is_pro,
-	);
+	const [features, setFeatures] = useState({});
 	const [loading, setLoading] = useState(true);
+	const [loadError, setLoadError] = useState('');
 	const [saving, setSaving] = useState(false);
 	const [toast, setToast] = useState(null);
 
@@ -38,14 +25,15 @@ export function SettingsApp() {
 	}, []);
 
 	const loadFeatures = async () => {
+		setLoading(true);
+		setLoadError('');
 		try {
 			const response = await apiFetch({
 				path: '/cf7-styler/v1/settings/features',
 			});
 			setFeatures(response.features);
-			setIsPro(response.is_pro);
 		} catch (error) {
-			console.error('Error loading features:', error);
+			setLoadError(error?.message || __('Could not load your settings.', 'cf7-styler-for-divi'));
 		} finally {
 			setLoading(false);
 		}
@@ -53,19 +41,17 @@ export function SettingsApp() {
 
 	const persistFeatures = async (newFeatures) => {
 		const previous = features;
-		// Optimistic update + immediate toast so the UI reacts instantly.
+		// Update the control immediately; confirm only after the server saves.
 		setFeatures(newFeatures);
 		setSaving(true);
-		setToast({
-			message: __('Saved', 'cf7-styler-for-divi'),
-			type: 'success',
-		});
+		setToast(null);
 		try {
 			await apiFetch({
 				path: '/cf7-styler/v1/settings/features',
 				method: 'POST',
 				data: { features: newFeatures },
 			});
+			setToast({ message: __('Settings saved.', 'cf7-styler-for-divi'), type: 'success' });
 		} catch (error) {
 			console.error('Error saving features:', error);
 			setFeatures(previous);
@@ -92,7 +78,7 @@ export function SettingsApp() {
 	if (loading) {
 		return (
 			<div className="cf7m-wrap">
-				<Header isPro={false} />
+				<Header />
 				<div className="cf7m-resp__loading">
 					<Spinner />
 					<span>{__('Loading…', 'cf7-styler-for-divi')}</span>
@@ -101,12 +87,15 @@ export function SettingsApp() {
 		);
 	}
 
+	if (loadError) {
+        return <div className="cf7m-wrap"><Header /><main className="cf7m-content"><div className="cf7m-disabled-state" role="alert"><h1>{__('Could not load settings', 'cf7-styler-for-divi')}</h1><p>{loadError}</p><button className="cf7m-button" type="button" onClick={loadFeatures}>{__('Try again', 'cf7-styler-for-divi')}</button></div></main></div>;
+    }
+
 	return (
 		<div className="cf7m-wrap">
-			<Header isPro={isPro} />
+			<Header />
 			<SettingsPage
 				features={features}
-				isPro={isPro}
 				onToggle={handleToggle}
 				onBulkToggle={handleBulkToggle}
 				saving={saving}

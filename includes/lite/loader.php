@@ -18,18 +18,6 @@ class Lite_Loader
 {
     private static $instance = null;
 
-    private static $defaults = [
-        'star_rating'       => true,
-        'range_slider'      => true,
-        'separator'         => true,
-        'image'             => true,
-        'icon'              => true,
-        'grid_layout'       => true,
-        'ai_form_generator' => true,
-        'phone_number'      => true,
-        'heading'           => true,
-    ];
-
     private static $features = [
         'star_rating'   => [
             'file'  => 'star-rating/module.php',
@@ -239,8 +227,7 @@ class Lite_Loader
 
     private function load_features()
     {
-        $saved    = get_option('cf7m_features', []);
-        $features = wp_parse_args($saved, self::$defaults);
+        $features = Feature_Settings::get();
         $path     = CF7M_PLUGIN_PATH . 'includes/lite/features/';
 
         foreach (self::$features as $key => $config) {

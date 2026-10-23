@@ -9,19 +9,13 @@
 import { __ } from '@wordpress/i18n';
 
 const StepWelcome = () => {
-	const isPro = typeof dcsOnboarding !== 'undefined' && !!dcsOnboarding.is_pro;
 
 	const highlights = [
 		__('Style Contact Form 7 forms — no code, just point and click', 'cf7-styler-for-divi'),
 		__('Works with Divi, Elementor, Bricks, and more', 'cf7-styler-for-divi'),
-		__('Works with your existing forms; change settings anytime', 'cf7-styler-for-divi'),
+		__('Includes multi-step forms, conditional logic, responses and more — all free', 'cf7-styler-for-divi'),
 	];
 
-	const proHighlights = [
-		__('Form entries — save and manage submissions', 'cf7-styler-for-divi'),
-		__('Multi-step forms, star rating, range slider', 'cf7-styler-for-divi'),
-		__('AI form generator, conditional logic & more', 'cf7-styler-for-divi'),
-	];
 
 	return (
 		<div className="cf7m-onboarding-step cf7m-step-welcome">
@@ -46,23 +40,7 @@ const StepWelcome = () => {
 					</li>
 				))}
 			</ul>
-			{!isPro && (
-				<>
-					<p className="cf7m-welcome-pro-label">{__('Best of Pro', 'cf7-styler-for-divi')}</p>
-					<ul className="cf7m-welcome-list cf7m-welcome-list--pro">
-						{proHighlights.map((text, i) => (
-							<li key={`pro-${i}`}>
-								<span className="cf7m-check-icon cf7m-check-icon--pro" aria-hidden="true">
-									<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-										<polyline points="20 6 9 17 4 12" />
-									</svg>
-								</span>
-								{text}
-							</li>
-						))}
-					</ul>
-				</>
-			)}
+
 		</div>
 	);
 };

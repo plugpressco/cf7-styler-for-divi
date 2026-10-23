@@ -1,6 +1,4 @@
 const path = require('path');
-const fs = require('fs');
-const wpPot = require('wp-pot');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -10,10 +8,8 @@ module.exports = {
 	entry: {
 		'bundle-4': './src/divi4/index.js',
 		lagecy: './src/divi4/lagecy.js',
-		'admin-notice': './src/admin/admin-notice.js',
 		onboarding: './src/onboarding/index.jsx',
 		admin: './src/admin/admin-index.js',
-		'admin-pro': './src/admin/admin-pro.js',
 		blocks: './src/gutenberg/index.js',
 		utils: './src/utils/index.js',
 	},
@@ -119,7 +115,14 @@ module.exports = {
 		],
 	},
 
-	externals: {
+	externals: [
+		function ({ request }, callback) {
+			if (request.startsWith('lodash/')) {
+				return callback(null, `(window.lodash || window._)[${JSON.stringify(request.slice(7))}]`);
+			}
+			callback();
+		},
+		{
 		$: 'jQuery',
 		jquery: 'jQuery',
 		lodash: '(window.lodash || window._)',
@@ -134,7 +137,8 @@ module.exports = {
 		'@wordpress/server-side-render': ['wp', 'serverSideRender'],
 		react: 'React',
 		'react-dom': 'ReactDOM',
-	},
+		},
+	],
 
 	optimization: {
 		minimizer: [new TerserPlugin({ extractComments: false })],
@@ -152,18 +156,3 @@ module.exports = {
 		errorDetails: true,
 	},
 };
-
-// POT file generation in production mode
-if (isProduction) {
-	const langDir = path.resolve(__dirname, 'languages');
-	if (!fs.existsSync(langDir)) {
-		fs.mkdirSync(langDir, { recursive: true });
-	}
-	wpPot({
-		package: 'CF7 Mate',
-		domain: 'cf7-styler-for-divi',
-		destFile: 'languages/cf7-styler-for-divi.pot',
-		relativeTo: './',
-		team: 'PlugPress <support@plugpress.io>',
-	});
-}

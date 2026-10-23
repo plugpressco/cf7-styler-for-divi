@@ -1,5 +1,5 @@
 /**
- * Responses page – Pro: full-width Notion-style list of form submissions
+ * Responses page: full-width Notion-style list of form submissions
  * + single entry view. Built with @wordpress/components.
  *
  * @package CF7_Mate
@@ -78,6 +78,9 @@ export function ResponsesPage({ entryId, onBack }) {
 	// confirmPending: { id: number|'bulk', action: 'trash'|'delete' } | null
 	const [confirmPending, setConfirmPending] = useState(null);
 	const restBase = '/cf7-styler/v1/entries';
+	const apiSettings = typeof dcsCF7Styler !== 'undefined' ? dcsCF7Styler : (window.wp?.apiSettings || {});
+	const apiRoot = (apiSettings.root || '').replace(/\/+$/, '');
+	const apiNonce = apiSettings.nonce || '';
 
 	// Auto-cancel inline confirm after 5s
 	useEffect(() => {
@@ -134,14 +137,14 @@ export function ResponsesPage({ entryId, onBack }) {
 	}, [entryId]);
 
 	const exportUrl = useMemo(() => {
-		if (typeof wp === 'undefined' || !wp.apiSettings?.root) return '';
+		if (!apiRoot || !apiNonce) return '';
 		const params = new URLSearchParams({ per_page: 500 });
 		if (statusFilter !== 'all') params.set('status', statusFilter);
 		if (formIdFilter !== 'all') params.set('form_id', formIdFilter);
 		if (searchTerm.trim()) params.set('search', searchTerm.trim());
-		params.set('_wpnonce', wp.apiSettings.nonce || '');
-		return `${wp.apiSettings.root}${restBase}/export?${params}`;
-	}, [statusFilter, formIdFilter, searchTerm]);
+		params.set('_wpnonce', apiNonce);
+		return `${apiRoot}${restBase}/export?${params}`;
+	}, [statusFilter, formIdFilter, searchTerm, apiRoot, apiNonce]);
 
 	const moveToTrash = async (id) => {
 		try {
@@ -345,9 +348,9 @@ export function ResponsesPage({ entryId, onBack }) {
 										<ArrowLeftIcon className="cf7m-resp__btn-icon" aria-hidden="true" />
 										{__('Back to list', 'cf7-styler-for-divi')}
 									</a>
-									{typeof wp !== 'undefined' && wp.apiSettings?.root && (
+									{apiRoot && apiNonce && (
 										<a
-											href={`${wp.apiSettings.root}cf7-styler/v1/entries/${singleEntry.id}/print?_wpnonce=${wp.apiSettings.nonce || ''}`}
+											href={`${apiRoot}${restBase}/${singleEntry.id}/print?_wpnonce=${encodeURIComponent(apiNonce)}`}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="cf7m-resp__action-btn"
@@ -436,7 +439,7 @@ export function ResponsesPage({ entryId, onBack }) {
 	return (
 		<div className="cf7m-resp">
 			<header className="cf7m-resp__head">
-				<div className="cf7m-resp__head-titles">
+				<div><div className="cf7m-resp__head-titles">
 					<h1 className="cf7m-resp__title">
 						{__('Responses', 'cf7-styler-for-divi')}
 					</h1>
@@ -445,7 +448,7 @@ export function ResponsesPage({ entryId, onBack }) {
 							{total}
 						</span>
 					)}
-				</div>
+				</div><p className="cf7m-resp__description">{__('Review and manage your form submissions.', 'cf7-styler-for-divi')}</p></div>
 				{exportUrl && entries.length > 0 && (
 					<a className="cf7m-resp__export" href={exportUrl}>
 						<ArrowDownTrayIcon className="cf7m-resp__icon" aria-hidden="true" />

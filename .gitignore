@@ -24,3 +24,8 @@ yarn-debug.log*
 yarn-error.log*
 *.zip
 .claude
+# Local validation artifacts
+.playwright-cli/
+output/
+package/
+release/

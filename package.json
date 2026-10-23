@@ -1,7 +1,6 @@
 {
   "name": "cf7-mate",
-  "version": "3.0.8",
-  "proVersion": "1.0.2",
+  "version": "4.0.0",
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.1",
@@ -62,9 +61,7 @@
   },
   "scripts": {
     "package:wp": "grunt package:wp",
-    "package:pro": "grunt package:pro",
     "build:wp": "npm run build && grunt package:wp",
-    "build:pro": "npm run build && grunt package:pro",
     "build": "npm run build:all",
     "build:all": "npm run build:divi4 && npm run build:divi5",
     "build:divi4": "cross-env NODE_ENV=production webpack --config webpack.config.js",
@@ -74,6 +71,8 @@
     "start:divi4": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "start:divi5": "cross-env NODE_ENV=development webpack --config webpack.divi5.config.js",
     "packages-update": "wp-scripts packages-update",
-    "make-pot": "wp i18n make-pot . languages/cf7-styler-for-divi.pot --domain=cf7-styler-for-divi"
+    "make-pot": "wp i18n make-pot . languages/cf7-styler-for-divi.pot --domain=cf7-styler-for-divi --exclude=node_modules,vendor,update-server,tests,docs,output,.playwright-cli,dist,includes/pro/features/calculator,includes/pro/features/heading,includes/pro/features/phone-number --skip-audit",
+    "test": "php tests/feature-settings.php",
+    "verify:package": "node scripts/verify-package.js"
   }
 }

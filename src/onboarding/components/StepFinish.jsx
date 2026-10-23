@@ -1,34 +1,33 @@
 /**
- * Step Finish – You're all set. What you can do now, Pro benefits, and clear next actions.
+ * Step Finish – You're all set. What you can do now and clear next actions.
  * @since 3.0.0
  */
 
+import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 const StepFinish = ({ onComplete }) => {
-	const isPro = typeof dcsOnboarding !== 'undefined' && !!dcsOnboarding.is_pro;
 	const cf7Url = typeof dcsOnboarding !== 'undefined' && dcsOnboarding.cf7_admin_url
 		? dcsOnboarding.cf7_admin_url
 		: '/wp-admin/admin.php?page=wpcf7';
 	const dashboardUrl = typeof dcsOnboarding !== 'undefined' && dcsOnboarding.dashboard_url
 		? dcsOnboarding.dashboard_url
 		: '/wp-admin/admin.php?page=cf7-mate';
-	const pricingUrl = typeof dcsOnboarding !== 'undefined' && dcsOnboarding.pricing_url
-		? dcsOnboarding.pricing_url
-		: 'https://cf7mate.com/pricing';
 
-	const goToCf7 = () => {
-		if (onComplete) onComplete();
-		window.location.href = cf7Url;
-	};
+	const [saving, setSaving] = useState(false);
+	const [error, setError] = useState('');
 
-	const goToDashboard = () => {
-		if (onComplete) onComplete();
-		window.location.href = dashboardUrl;
-	};
-
-	const closeGuide = () => {
-		if (onComplete) onComplete();
+	const finish = async (url) => {
+		if (saving) return;
+		setSaving(true);
+		setError('');
+		try {
+			if (onComplete) await onComplete();
+			if (url) window.location.href = url;
+		} catch (err) {
+			setError(__('Could not save your setup. Please try again.', 'cf7-styler-for-divi'));
+			setSaving(false);
+		}
 	};
 
 	return (
@@ -58,25 +57,17 @@ const StepFinish = ({ onComplete }) => {
 				</ul>
 			</div>
 
-			{!isPro && (
-				<div className="cf7m-finish-pro-teaser">
-					<p className="cf7m-finish-pro-teaser-title">{__('With Pro you get', 'cf7-styler-for-divi')}</p>
-					<p className="cf7m-finish-pro-teaser-text">
-						{__('Form entries, multi-step forms, AI form generator, conditional logic, and 14 powerful modules.', 'cf7-styler-for-divi')}{' '}
-						<a href={pricingUrl} target="_blank" rel="noopener noreferrer">{__('Unlock Pro', 'cf7-styler-for-divi')}</a>
-					</p>
-				</div>
-			)}
 
-			<div className="cf7m-finish-actions">
-				<button type="button" className="cf7m-finish-btn cf7m-finish-btn-primary" onClick={goToDashboard}>
+			{error && <p role="alert">{error}</p>}
+			<div className="cf7m-finish-actions" aria-busy={saving}>
+				<button type="button" className="cf7m-finish-btn cf7m-finish-btn-primary" disabled={saving} onClick={() => finish(dashboardUrl)}>
 					{__('Go to CF7 Mate dashboard', 'cf7-styler-for-divi')}
 				</button>
-				<button type="button" className="cf7m-finish-btn cf7m-finish-btn-secondary" onClick={goToCf7}>
+				<button type="button" className="cf7m-finish-btn cf7m-finish-btn-secondary" disabled={saving} onClick={() => finish(cf7Url)}>
 					{__('Go to Contact Form 7', 'cf7-styler-for-divi')}
 				</button>
 			</div>
-			<button type="button" className="cf7m-finish-close-guide" onClick={closeGuide}>
+			<button type="button" className="cf7m-finish-close-guide" disabled={saving} onClick={() => finish()}>
 				{__('Close guide', 'cf7-styler-for-divi')}
 			</button>
 		</div>

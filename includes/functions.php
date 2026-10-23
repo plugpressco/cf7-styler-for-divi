@@ -32,52 +32,28 @@ function cf7m_get_contact_forms()
 }
 
 
-function cf7m_get_pricing_url($coupon = '')
-{
-    $url = CF7M_URL_PRICING;
-
-    if ($coupon) {
-        $url = add_query_arg('coupon', rawurlencode($coupon), $url);
-    }
-
-    return $url;
-}
-
+/** @deprecated 4.0.0 All supported local features are now available without a paid edition. */
 function cf7m_is_pro(): bool
 {
-    // Pro build = pro features unlocked (license gates updates, not access).
-    if (defined('CF7M_IS_PRO_VERSION') && CF7M_IS_PRO_VERSION) {
-        return true;
-    }
-    // Local development bypass — wp-config.php: define('CF7M_DEV_MODE', true).
-    if (defined('CF7M_DEV_MODE') && CF7M_DEV_MODE) {
-        return true;
-    }
-    return false;
+    return true;
 }
 
+/** @deprecated 4.0.0 Licensing has been retired. This does not grant a fictitious license. */
 function cf7m_has_valid_license(): bool
 {
-    if (!cf7m_is_pro()) {
-        return false;
-    }
-    if (defined('CF7M_DEV_MODE') && CF7M_DEV_MODE) {
-        return true;
-    }
-    if (class_exists('CF7_Mate\License\License_Manager')) {
-        return \CF7_Mate\License\License_Manager::instance()->is_valid();
-    }
     return false;
 }
 
+/** @deprecated 4.0.0 Use the feature settings for optional behavior. */
 function cf7m_can_use_premium()
 {
-    return cf7m_is_pro();
+    return true;
 }
 
+/** @deprecated 4.0.0 All supported local features are free. */
 function cf7m_is_premium()
 {
-    return cf7m_is_pro();
+    return true;
 }
 
 function cf7m_global_assets_list($global_list)

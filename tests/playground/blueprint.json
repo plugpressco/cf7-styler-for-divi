@@ -1,0 +1,53 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "CF7 Mate release playground",
+    "author": "PlugPress"
+  },
+  "landingPage": "/wp-admin/admin.php?page=cf7-mate",
+  "preferredVersions": {
+    "php": "8.3",
+    "wp": "latest"
+  },
+  "constants": {
+    "WP_DEBUG": true,
+    "WP_DEBUG_LOG": true,
+    "WP_DEBUG_DISPLAY": false
+  },
+  "steps": [
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/mu-plugins/cf7mate-playground.php",
+      "data": "<?php\ndefine(\"CF7M_PLAYGROUND\", true);\n/** Local Playground fixture. Never installed in a customer site or release ZIP. */\nif (!defined('CF7M_PLAYGROUND') || !CF7M_PLAYGROUND) { return; }\n\nadd_filter('wpcf7_skip_mail', '__return_true');\nadd_filter('wpcf7_spam', '__return_false', 999);\nadd_filter('pre_wp_mail', static function () { return true; });\nadd_filter('pre_http_request', static function ($pre, $args, $url) {\n    $host = wp_parse_url($url, PHP_URL_HOST);\n    $ai_hosts = ['api.openai.com', 'api.anthropic.com', 'generativelanguage.googleapis.com', 'openrouter.ai'];\n    if (!in_array($host, $ai_hosts, true) && $url !== 'https://example.com/cf7mate-playground') { return $pre; }\n    $log = get_option('cf7m_playground_requests', []);\n    $log[] = ['host'=>$host, 'kind'=>in_array($host,$ai_hosts,true)?'ai':'webhook', 'time'=>time()];\n    update_option('cf7m_playground_requests', array_slice($log,-20), false);\n    $text = '<label>Name [text* your-name]</label><label>Email [email* your-email]</label><label>Message [textarea your-message]</label>[submit \"Send\"]';\n    if (strpos((string)($args['body']??''), 'one word') !== false) { $text = 'OK'; }\n    $data = ['choices'=>[['message'=>['content'=>$text]]], 'content'=>[['type'=>'text','text'=>$text]], 'candidates'=>[['content'=>['parts'=>[['text'=>$text]]]]]];\n    return ['headers'=>[],'body'=>wp_json_encode($data),'response'=>['code'=>200,'message'=>'OK'],'cookies'=>[]];\n}, 10, 3);\n\nadd_action('rest_api_init', static function () {\n    register_rest_route('cf7mate-playground/v1','/state',[\n        'methods'=>'GET',\n        'permission_callback'=>static function () { return current_user_can('manage_options'); },\n        'callback'=>static function () {\n            global $wp_version;\n            return ['php'=>PHP_VERSION,'wordpress'=>$wp_version,'fixtures'=>get_option('cf7m_playground_fixtures',[]),\n                'features'=>\\CF7_Mate\\Feature_Settings::get(), 'onboarding_completed'=>get_option('cf7m_onboarding_completed'),\n                'outbound_sink'=>get_option('cf7m_playground_requests',[]), 'white_label'=>\\CF7_Mate\\Pro\\White_Label::get()];\n        }\n    ]);\n});\n"
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "bundled",
+        "path": "/contact-form-7.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "bundled",
+        "path": "/cf7-styler-for-divi.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php\n/** Called only by the local Playground Blueprint. */\nrequire '/wordpress/wp-load.php';\nif (!defined('CF7M_PLAYGROUND') || !CF7M_PLAYGROUND) { throw new RuntimeException('Playground fixtures are not enabled.'); }\n$forms = [\n    'contact' => ['title'=>'Playground: Contact', 'markup'=>'<label>Your name [text* your-name]</label><label>Your email [email* your-email]</label><label>Message [textarea your-message]</label>[submit \"Send message\"]'],\n    'wizard' => ['title'=>'Playground: Multi-step and conditional', 'markup'=>'[cf7m-presets style=\"minimal\"][cf7m-step title=\"About you\"]<label>Your name [text* your-name]</label><label>Your email [email* your-email]</label><label>Reason [select reason \"General\" \"Support\"]</label>[/cf7m-step][cf7m-step title=\"Details\"][cf7m-if field:reason is:Support]<label>Support details [textarea* support-details]</label>[/cf7m-if]<label>Additional notes [textarea notes]</label>[submit \"Send request\"][/cf7m-step][/cf7m-presets]'],\n    'resume' => ['title'=>'Playground: Save and continue', 'markup'=>'<label>Your name [text* your-name]</label><label>Your email [email* your-email]</label><label>Project details [textarea project-details]</label><label>Reason [select reason \"General\" \"Support\"]</label>[cf7m-if field:reason is:Support]<label>Support details [textarea support-details]</label>[/cf7m-if]<label>Interests [select interests multiple \"Design\" \"Development\" \"Support\"]</label>[checkbox updates default:1 \"Send updates\"][submit \"Submit project\"]'],\n    'closed' => ['title'=>'Playground: Closed registration', 'markup'=>'<label>Your name [text* your-name]</label>[submit \"Register\"]'],\n];\n$fixtures=[];\nforeach ($forms as $key=>$config) {\n    $form=WPCF7_ContactForm::get_template(); $form->set_title($config['title']); $form->set_properties(['form'=>$config['markup']]); $id=$form->save();\n    if ($key==='resume') { update_post_meta($id,'_cf7m_partial_save_enabled','1'); }\n    if ($key==='closed') {\n        update_post_meta($id,'_cf7m_schedule_enabled','1'); update_post_meta($id,'_cf7m_schedule_end','2000-01-01 00:00:00');\n        update_post_meta($id,'_cf7m_schedule_msg','Registration is closed. Please try our contact form.');\n    }\n    $page=wp_insert_post(['post_type'=>'page','post_status'=>'publish','post_title'=>$config['title'],'post_content'=>'[contact-form-7 id=\"'.$id.'\"]']);\n    $fixtures[$key]=['form_id'=>$id,'page_id'=>$page,'url'=>get_permalink($page)];\n}\nupdate_option('cf7m_playground_fixtures',$fixtures,false);\n"
+    },
+    {
+      "step": "login",
+      "username": "admin",
+      "password": "password"
+    }
+  ]
+}

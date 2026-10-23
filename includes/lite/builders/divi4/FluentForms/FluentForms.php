@@ -1,12 +1,17 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Preserve the original public Divi integration class name.
 class DCS_FFStyler extends ET_Builder_Module
 {
 
     public $module_credits = array(
-        'module_uri' => 'https://cf7mate.com',
+        'module_uri' => 'https://plugpress.io/cf7-mate/',
         'author'     => 'PlugPress',
-        'author_uri' => 'https://cf7mate.com',
+        'author_uri' => 'https://plugpress.io',
     );
 
     public $icon_path;

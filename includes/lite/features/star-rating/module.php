@@ -55,7 +55,7 @@ class Star_Rating extends Feature_Base
                 if (!$name) {
                     continue;
                 }
-                $posted = isset($_POST[$name]) ? trim(wp_unslash($_POST[$name])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                $posted = isset($_POST[$name]) && is_scalar($_POST[$name]) ? trim(sanitize_text_field(wp_unslash($_POST[$name]))) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
                 if ($posted === '' || $posted === '0') {
                     $result->invalidate(
                         ['name' => $name, 'type' => 'cf7m-star*'],

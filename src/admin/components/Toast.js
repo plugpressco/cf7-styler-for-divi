@@ -13,7 +13,7 @@ export function Toast({ message, type, onClose }) {
 	}, [onClose]);
 
 	return (
-		<div className={`cf7m-toast cf7m-toast--${type}`}>
+		<div className={`cf7m-toast cf7m-toast--${type}`} role={type === 'error' ? 'alert' : 'status'}>
 			<span>{message}</span>
 		</div>
 	);

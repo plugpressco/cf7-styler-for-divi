@@ -73,7 +73,7 @@ class Rest_API {
 			array(
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_onboarding_status' ),
-				'permission_callback' => array( $this, 'check_edit_permission' ),
+				'permission_callback' => array( $this, 'check_admin_permission' ),
 			)
 		);
 
@@ -83,7 +83,7 @@ class Rest_API {
 			array(
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'complete_onboarding' ),
-				'permission_callback' => array( $this, 'check_edit_permission' ),
+				'permission_callback' => array( $this, 'check_admin_permission' ),
 			)
 		);
 
@@ -141,91 +141,18 @@ class Rest_API {
 				array(
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_webhook_settings' ),
-					'permission_callback' => array( $this, 'check_pro_permission' ),
+					'permission_callback' => array( $this, 'check_admin_permission' ),
 				),
 				array(
 					'methods'             => \WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'save_webhook_settings' ),
-					'permission_callback' => array( $this, 'check_pro_permission' ),
+					'permission_callback' => array( $this, 'check_admin_permission' ),
 				),
 			)
 		);
 
-		// White label endpoint (Agency plan only)
-		register_rest_route(
-			$namespace,
-			'/settings/white-label',
-			array(
-				array(
-					'methods'             => \WP_REST_Server::READABLE,
-					'callback'            => array( $this, 'get_white_label' ),
-					'permission_callback' => array( $this, 'check_agency_permission' ),
-				),
-				array(
-					'methods'             => \WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'save_white_label' ),
-					'permission_callback' => array( $this, 'check_agency_permission' ),
-					'args'                => array(
-						'enabled'     => array( 'type' => 'boolean' ),
-						'plugin_name' => array( 'type' => 'string', 'sanitize_callback' => 'sanitize_text_field' ),
-						'logo_url'    => array( 'type' => 'string', 'sanitize_callback' => 'esc_url_raw' ),
-						'docs_url'    => array( 'type' => 'string', 'sanitize_callback' => 'esc_url_raw' ),
-						'support_url' => array( 'type' => 'string', 'sanitize_callback' => 'esc_url_raw' ),
-					),
-				),
-			)
-		);
 
-		// License endpoints
-		register_rest_route(
-			$namespace,
-			'/license/status',
-			array(
-				'methods'             => \WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_license_status' ),
-				'permission_callback' => array( $this, 'check_admin_permission' ),
-			)
-		);
 
-		register_rest_route(
-			$namespace,
-			'/license/activate',
-			array(
-				'methods'             => \WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'activate_license' ),
-				'permission_callback' => array( $this, 'check_admin_permission' ),
-				'args'                => array(
-					'license_key' => array(
-						'required'          => true,
-						'type'              => 'string',
-						'sanitize_callback' => 'sanitize_text_field',
-						'validate_callback' => function( $value ) {
-							return ! empty( trim( $value ) );
-						},
-					),
-				),
-			)
-		);
-
-		register_rest_route(
-			$namespace,
-			'/license/deactivate',
-			array(
-				'methods'             => \WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'deactivate_license' ),
-				'permission_callback' => array( $this, 'check_admin_permission' ),
-			)
-		);
-
-		register_rest_route(
-			$namespace,
-			'/license/validate',
-			array(
-				'methods'             => \WP_REST_Server::CREATABLE,
-				'callback'            => array( $this, 'validate_license' ),
-				'permission_callback' => array( $this, 'check_admin_permission' ),
-			)
-		);
 	}
 
 	/**
@@ -249,41 +176,17 @@ class Rest_API {
 	}
 
 	/**
-	 * Check admin permission AND valid pro license.
-	 * Used for pro-only endpoints (webhook, AI settings, etc.).
-	 *
-	 * @since  3.0.0
-	 * @return bool|\WP_Error
-	 */
-	public function check_pro_permission() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-		if ( ! function_exists( 'cf7m_is_pro' ) || ! cf7m_is_pro() ) {
-			return new \WP_Error(
-				'cf7m_pro_required',
-				__( 'A valid CF7 Mate Pro license is required.', 'cf7-styler-for-divi' ),
-				array( 'status' => 403 )
-			);
-		}
-		return true;
-	}
-
-	/**
 	 * Get features settings.
 	 *
 	 * @since  3.0.0
 	 * @return \WP_REST_Response
 	 */
 	public function get_features() {
-		$defaults = self::get_default_features();
-		$saved    = get_option( 'cf7m_features', array() );
-		$features = wp_parse_args( $saved, $defaults );
+		$features = \CF7_Mate\Feature_Settings::get();
 
 		return rest_ensure_response(
 			array(
 				'features' => $features,
-				'is_pro'   => function_exists( 'cf7m_is_pro' ) && cf7m_is_pro(),
 			)
 		);
 	}
@@ -306,14 +209,7 @@ class Rest_API {
 			);
 		}
 
-		$defaults  = self::get_default_features();
-		$sanitized = array();
-
-		foreach ( $defaults as $key => $default ) {
-			$sanitized[ $key ] = isset( $features[ $key ] ) ? (bool) $features[ $key ] : $default;
-		}
-
-		update_option( 'cf7m_features', $sanitized, false );
+		$sanitized = \CF7_Mate\Feature_Settings::save( $features );
 
 		return rest_ensure_response(
 			array(
@@ -324,7 +220,7 @@ class Rest_API {
 	}
 
 	/**
-	 * Get webhook settings (Pro). Returns list of webhook URLs.
+	 * Get webhook settings. Returns list of webhook URLs.
 	 *
 	 * @since  3.0.0
 	 * @return \WP_REST_Response
@@ -500,32 +396,7 @@ class Rest_API {
 	 * @return array
 	 */
 	public static function get_default_features() {
-		return array(
-			'cf7_module'        => true,
-			'bricks_module'     => true,
-			'elementor_module'  => true,
-			'gutenberg_module'  => true,
-			'grid_layout'       => true,
-			'multi_column'      => true,
-			'multi_step'        => true,
-			'star_rating'       => true,
-			'database_entries'  => true,
-			'range_slider'      => true,
-			'phone_number'      => true,
-			'separator'         => true,
-			'heading'           => true,
-			'image'             => true,
-			'icon'              => true,
-			'calculator'        => true,
-			'conditional'       => true,
-			'ai_form_generator' => true,
-			'presets'           => true,
-			'webhook'           => true,
-			'analytics'         => true,
-			'form_scheduling'   => true,
-			'email_routing'     => true,
-			'partial_save'      => false,
-		);
+		return \CF7_Mate\Feature_Settings::defaults();
 	}
 
 	/**
@@ -536,11 +407,7 @@ class Rest_API {
 	 * @return bool
 	 */
 	public static function is_feature_enabled( $feature ) {
-		$defaults = self::get_default_features();
-		$saved    = get_option( 'cf7m_features', array() );
-		$features = wp_parse_args( $saved, $defaults );
-
-		return isset( $features[ $feature ] ) ? (bool) $features[ $feature ] : false;
+		return \CF7_Mate\Feature_Settings::enabled( $feature );
 	}
 
 	/**
@@ -628,146 +495,6 @@ class Rest_API {
 		);
 	}
 
-	/**
-	 * Get license status.
-	 *
-	 * @return \WP_REST_Response
-	 */
-	public function get_license_status() {
-		if ( ! class_exists( 'CF7_Mate\License\License_Manager' ) ) {
-			return rest_ensure_response(
-				array(
-					'status'     => '',
-					'is_valid'   => false,
-					'has_key'    => false,
-					'masked_key' => '',
-					'expires_at' => '',
-				)
-			);
-		}
-
-		$lm = \CF7_Mate\License\License_Manager::instance();
-		return rest_ensure_response( $lm->get_status() );
-	}
-
-	/**
-	 * Activate a license.
-	 *
-	 * @param \WP_REST_Request $request Request object.
-	 * @return \WP_REST_Response|\WP_Error
-	 */
-	public function activate_license( \WP_REST_Request $request ) {
-		$key = $request->get_param( 'license_key' );
-
-		if ( ! class_exists( 'CF7_Mate\License\License_Manager' ) ) {
-			return new \WP_Error(
-				'license_not_available',
-				__( 'License manager is not available.', 'cf7-styler-for-divi' ),
-				array( 'status' => 400 )
-			);
-		}
-
-		$lm     = \CF7_Mate\License\License_Manager::instance();
-		$result = $lm->activate( $key );
-
-		if ( is_wp_error( $result ) ) {
-			return new \WP_Error(
-				$result->get_error_code(),
-				$result->get_error_message(),
-				array( 'status' => 400 )
-			);
-		}
-
-		return rest_ensure_response( array_merge( array( 'success' => true ), $result ) );
-	}
-
-	/**
-	 * Deactivate the current license.
-	 *
-	 * @return \WP_REST_Response|\WP_Error
-	 */
-	public function deactivate_license() {
-		if ( ! class_exists( 'CF7_Mate\License\License_Manager' ) ) {
-			return new \WP_Error(
-				'license_not_available',
-				__( 'License manager is not available.', 'cf7-styler-for-divi' ),
-				array( 'status' => 400 )
-			);
-		}
-
-		$lm     = \CF7_Mate\License\License_Manager::instance();
-		$result = $lm->deactivate();
-
-		if ( is_wp_error( $result ) ) {
-			return new \WP_Error(
-				$result->get_error_code(),
-				$result->get_error_message(),
-				array( 'status' => 400 )
-			);
-		}
-
-		return rest_ensure_response( array( 'success' => true ) );
-	}
-
-	/**
-	 * Re-validate the current license against Lemon Squeezy on demand.
-	 *
-	 * @return \WP_REST_Response|\WP_Error
-	 */
-	public function validate_license() {
-		if ( ! class_exists( 'CF7_Mate\License\License_Manager' ) ) {
-			return new \WP_Error(
-				'license_not_available',
-				__( 'License manager is not available.', 'cf7-styler-for-divi' ),
-				array( 'status' => 400 )
-			);
-		}
-
-		$lm    = \CF7_Mate\License\License_Manager::instance();
-		$valid = $lm->validate();
-
-		return rest_ensure_response(
-			array_merge(
-				array( 'success' => true, 'is_valid' => (bool) $valid ),
-				$lm->get_status()
-			)
-		);
-	}
-
-	/**
-	 * Check permission for Agency-plan-only endpoints.
-	 *
-	 * @return bool|\WP_Error
-	 */
-	public function check_agency_permission() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-		if ( ! class_exists( 'CF7_Mate\Pro\White_Label' )
-			|| ! \CF7_Mate\Pro\White_Label::is_agency_plan() ) {
-			return new \WP_Error(
-				'cf7m_agency_required',
-				__( 'An Agency plan license is required.', 'cf7-styler-for-divi' ),
-				array( 'status' => 403 )
-			);
-		}
-		return true;
-	}
-
-	/**
-	 * GET /settings/white-label — return current white label settings.
-	 */
-	public function get_white_label(): \WP_REST_Response {
-		return rest_ensure_response( \CF7_Mate\Pro\White_Label::get() );
-	}
-
-	/**
-	 * POST /settings/white-label — save white label settings.
-	 */
-	public function save_white_label( \WP_REST_Request $request ): \WP_REST_Response {
-		$saved = \CF7_Mate\Pro\White_Label::save( $request->get_params() );
-		return rest_ensure_response( array( 'success' => true, 'settings' => $saved ) );
-	}
 }
 
 Rest_API::instance();

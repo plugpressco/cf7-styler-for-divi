@@ -69,13 +69,26 @@ class Grid extends Feature_Base
 
     private function register_shortcodes()
     {
-        add_filter('wpcf7_autop_or_not', '__return_false');
+        add_filter('wpcf7_autop_or_not', [$this, 'disable_form_autop'], 10, 2);
         add_filter('wpcf7_form_elements', 'do_shortcode');
 
         add_shortcode(self::ROW_TAG, [$this, 'render_row']);
         foreach (array_keys(self::COLUMN_MAP) as $tag) {
             add_shortcode($tag, [$this, 'render_column']);
         }
+    }
+
+    /**
+     * Grid markup needs CF7's auto-p off in forms. Newer CF7 also asks for HTML
+     * mail ('for' => 'mail'); keep its default there so line breaks survive.
+     */
+    public function disable_form_autop($autop, $options = [])
+    {
+        if (is_array($options) && isset($options['for']) && 'mail' === $options['for']) {
+            return $autop;
+        }
+
+        return false;
     }
 
     public function enqueue_admin_scripts()
@@ -149,9 +162,14 @@ class Grid extends Feature_Base
         $args = wp_parse_args($args, ['id' => '']);
         $type = $args['id'];
         $tag  = '[' . $type . '][/' . $type . ']';
+        // Standard insert-box markup: CF7 inserts the tag itself (inline handlers are stripped by CF7 6).
 ?>
-        <input type="text" class="tag code" readonly="readonly" onfocus="this.select()" value="<?php echo esc_attr($tag); ?>">
-        <button class="button button-primary" onclick="insertGridShortcode('<?php echo esc_js($type); ?>')"><?php esc_html_e('Insert', 'cf7-styler-for-divi'); ?></button>
+        <div class="insert-box">
+            <input type="text" name="<?php echo esc_attr($type); ?>" class="tag code" readonly="readonly" onfocus="this.select()" value="<?php echo esc_attr($tag); ?>">
+            <div class="submitbox">
+                <input type="button" class="button button-primary insert-tag" value="<?php esc_attr_e('Insert Tag', 'cf7-styler-for-divi'); ?>">
+            </div>
+        </div>
 <?php
     }
 

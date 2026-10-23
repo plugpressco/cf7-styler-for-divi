@@ -24,6 +24,13 @@ abstract class Feature_Base
         if (!$post || !is_singular()) {
             return false;
         }
+        foreach (['_elementor_data', '_bricks_page_content_2', '_bricks_page_header_2', '_bricks_page_footer_2'] as $key) {
+            $builder_data = get_post_meta($post->ID, $key, true);
+            $builder_data = is_string($builder_data) ? $builder_data : wp_json_encode($builder_data);
+            if (strpos((string) $builder_data, 'cf7') !== false) {
+                return true;
+            }
+        }
         if (has_shortcode($post->post_content, 'contact-form-7')) {
             return true;
         }

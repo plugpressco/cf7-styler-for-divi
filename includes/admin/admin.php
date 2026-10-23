@@ -14,6 +14,7 @@ class Admin
     const RESPONSES_PAGE_SLUG = 'cf7-mate-responses';
     const ANALYTICS_PAGE_SLUG = 'cf7-mate-analytics';
     const SETTINGS_PAGE_SLUG  = 'cf7-mate';
+    const SADDLE_PAGE_SLUG    = 'cf7-mate-saddle';
 
     public static function get_instance()
     {
@@ -26,8 +27,33 @@ class Admin
     public function __construct()
     {
         add_action('admin_menu', [$this, 'add_menu'], 20);
-        add_filter('cf7m_admin_app_localize', [$this, 'inject_license_data'], 10, 2);
+        add_action('admin_notices', [$this, 'migration_notice']);
+        add_action('admin_init', [$this, 'dismiss_migration_notice']);
         add_filter('plugin_action_links_' . CF7M_BASENAME, [$this, 'add_plugin_action_links']);
+    }
+
+    public function dismiss_migration_notice()
+    {
+        if (isset($_GET['cf7m_dismiss_free_notice'], $_GET['_wpnonce']) && current_user_can('manage_options')
+            && wp_verify_nonce(sanitize_text_field(wp_unslash($_GET['_wpnonce'])), 'cf7m_free_notice')) {
+            update_option('cf7m_free_notice_dismissed', true, false);
+        }
+    }
+
+    public function migration_notice()
+    {
+        if (!current_user_can('manage_options') || get_option('cf7m_free_notice_dismissed')
+            || !in_array(get_option('cf7m_edition_origin'), ['lite', 'fresh'], true)) {
+            return;
+        }
+        $screen = get_current_screen();
+        if (!$screen || strpos($screen->id, 'cf7-mate') === false) {
+            return;
+        }
+        $dismiss = wp_nonce_url(admin_url('admin.php?page=cf7-mate&cf7m_dismiss_free_notice=1'), 'cf7m_free_notice');
+        echo '<div class="notice notice-info"><p>';
+        echo esc_html__('All CF7 Mate features are now free. Response storage, analytics, webhooks and save-and-continue are optional. Review the feature descriptions and enable only what you want to use.', 'cf7-styler-for-divi');
+        echo ' <a href="' . esc_url($dismiss) . '">' . esc_html__('Dismiss this notice', 'cf7-styler-for-divi') . '</a></p></div>';
     }
 
     public function add_plugin_action_links($links)
@@ -69,6 +95,12 @@ class Admin
             self::SETTINGS_PAGE_SLUG,
             [$this, 'render_settings_page']
         );
+        add_submenu_page(self::SETTINGS_PAGE_SLUG, __('Saddle', 'cf7-styler-for-divi'), __('Saddle', 'cf7-styler-for-divi'), 'manage_options', self::SADDLE_PAGE_SLUG, [$this, 'render_saddle_page']);
+    }
+
+    public function render_saddle_page()
+    {
+        $this->render_app_root(['app' => 'settings', 'current_page' => 'saddle']);
     }
 
     public function render_responses_page()
@@ -97,6 +129,9 @@ class Admin
 
     public function render_app_root(array $options = [])
     {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
         $app          = isset($options['app']) ? $options['app'] : 'settings';
         $current_page = isset($options['current_page']) ? $options['current_page'] : 'settings';
 
@@ -125,7 +160,7 @@ class Admin
             $style_ver
         );
 
-        // Allow pro (or add-ons) to enqueue their own scripts/styles.
+        // Allow integrations to enqueue their own scripts/styles.
         do_action('cf7m_admin_enqueue_scripts', $app);
 
         $builders = $this->detect_builders();
@@ -136,14 +171,12 @@ class Admin
         $localize = [
             'root'                   => esc_url_raw(get_rest_url()),
             'ajax_url'               => admin_url('admin-ajax.php'),
-            'is_pro'                 => cf7m_is_pro(),
-            'pricing_url'            => CF7M_URL_PRICING,
             'docs_url'               => defined('CF7M_URL_DOCS') ? CF7M_URL_DOCS : '',
             'support_url'            => defined('CF7M_URL_SUPPORT') ? CF7M_URL_SUPPORT : '',
             'community_url'          => defined('CF7M_URL_COMMUNITY') ? CF7M_URL_COMMUNITY : '',
             'builders'               => $builders,
-            'promo_code'             => '',
-            'promo_text'             => '',
+            'feature_metadata'       => Feature_Settings::metadata(),
+            'features'               => Feature_Settings::get(),
             'nonce'                  => wp_create_nonce('wp_rest'),
             'pluginUrl'              => CF7M_PLUGIN_URL,
             'show_guided_setup_link' => $show_guided_setup_link,
@@ -151,6 +184,8 @@ class Admin
             'cf7_admin_url'          => admin_url('admin.php?page=wpcf7'),
             'dash_url'               => admin_url('admin.php?page=' . self::SETTINGS_PAGE_SLUG),
             'responses_url'          => admin_url('admin.php?page=' . self::RESPONSES_PAGE_SLUG),
+            'saddle'                 => Saddle_Setup::config(),
+            'saddle_url'              => admin_url('admin.php?page=' . self::SADDLE_PAGE_SLUG),
             'analytics_url'          => admin_url('admin.php?page=' . self::ANALYTICS_PAGE_SLUG),
             'currentPage'            => $current_page,
             'app'                    => $app,
@@ -194,15 +229,4 @@ class Admin
         ];
     }
 
-    public function inject_license_data($localize, $options)
-    {
-        if (class_exists('CF7_Mate\License\License_Manager')) {
-            $license_manager = \CF7_Mate\License\License_Manager::instance();
-            $status = $license_manager->get_status();
-            $status['is_agency'] = class_exists('CF7_Mate\Pro\White_Label')
-                && \CF7_Mate\Pro\White_Label::is_agency_plan();
-            $localize['license'] = $status;
-        }
-        return $localize;
-    }
 }

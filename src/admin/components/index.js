@@ -9,5 +9,4 @@
 // This file kept for organizational purposes
 
 export { Header } from './Header';
-export { DashboardView } from './DashboardView';
 export { FeaturesSection } from './FeaturesSection';

@@ -45,18 +45,28 @@ tailwind.config.js
 webpack.config.js
 webpack.divi5.config.js
 wp-textdomain.js
-*.LICENSE.txt
 *.map
 *.sh
 *.zip
 
-# Pro bootstrap (free build uses cf7-styler.php only)
-cf7-mate-pro.php
-
-# Premium-only features (excluded from free WordPress.org version)
-# Freemius auto-strips these via @fs_premium_only directive
-/includes/pro
-/assets/pro
-/dist/js/admin-pro.js
+# Development and legacy distribution infrastructure
+AGENTS.md
+THIRD-PARTY-REPORT.md
+/scripts
+/output
+/package
 /update-server
 changelog-pro.txt
+cf7-mate-pro.php
+/includes/stubs
+/includes/pro/license
+/includes/pro/features/calculator
+/includes/pro/features/heading
+/includes/pro/features/phone-number
+/assets/pro/js/cf7m-calculator.js
+/assets/pro/js/cf7m-phone-number.js
+/assets/pro/js/cf7m-star-rating.js
+/assets/pro/js/cf7m-range-slider.js
+/assets/pro/css/cf7m-phone-number.css
+
+/includes/pro/white-label

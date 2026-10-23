@@ -22,7 +22,7 @@
     var nameEl = panel.querySelector('input.tg-name[name="name"]');
     var maxEl = panel.querySelector('input[name="max"]');
     var defaultEl = panel.querySelector('input[name="default"]');
-    var starColorEl = panel.querySelector('input[name="star_color"]');
+    var starColorEl = panel.querySelector('input[name="color"]') || panel.querySelector('input[name="star_color"]');
     var requiredEl = panel.querySelector('input[name="required"]');
     var name = (nameEl && nameEl.value) ? nameEl.value.trim() : "rating";
     var max = (maxEl && maxEl.value) ? maxEl.value : "5";
@@ -31,7 +31,7 @@
     var required = requiredEl && requiredEl.checked;
     var type = required ? "cf7m-star*" : "cf7m-star";
     var tag = "[" + type + " " + name + " max:" + max + " default:" + def;
-    if (starColor) tag += " star_color:" + starColor;
+    if (starColor) tag += " color:" + starColor;
     tag += "]";
     input.value = tag;
   }
@@ -69,26 +69,6 @@
     input.value = tag;
   }
 
-  function updateHeadingTag(panel) {
-    var input = panel.querySelector('input.tag.code[name="cf7m-heading"]');
-    if (!input) return;
-    var levelEl = panel.querySelector('select[name="level"]');
-    var contentEl = panel.querySelector('input[name="content"]');
-    var fontSizeEl = panel.querySelector('input[name="font_size"]');
-    var fontFamilyEl = panel.querySelector('input[name="font_family"]');
-    var textColorEl = panel.querySelector('input[name="text_color"]');
-    var level = (levelEl && levelEl.value) ? levelEl.value : "3";
-    var content = (contentEl && contentEl.value) ? contentEl.value : "Your heading";
-    var fontSize = (fontSizeEl && fontSizeEl.value) ? fontSizeEl.value.trim() : "";
-    var fontFamily = (fontFamilyEl && fontFamilyEl.value) ? fontFamilyEl.value.trim() : "";
-    var textColor = (textColorEl && textColorEl.value) ? textColorEl.value.trim() : "";
-    var opts = "level:" + level;
-    if (fontSize) opts += " font_size:" + fontSize;
-    if (fontFamily) opts += " font_family:\"" + fontFamily.replace(/"/g, "\\\"") + "\"";
-    if (textColor) opts += " text_color:" + textColor;
-    input.value = "[cf7m-heading " + opts + "]" + content + "[/cf7m-heading]";
-  }
-
   function findPanel(el) {
     for (; el; el = el.parentElement) {
       if (el.classList && (el.classList.contains("cf7m-tag-panel") || el.classList.contains("ui-dialog-content") || el.classList.contains("tag-generator-panel"))) {
@@ -107,27 +87,19 @@
       var panel = findPanel(input);
       if (panel) updateRangeTag(panel);
     });
-    [].forEach.call(document.querySelectorAll('input.tag.code[name="cf7m-heading"]'), function (input) {
-      var panel = findPanel(input);
-      if (panel) updateHeadingTag(panel);
-    });
   }
 
   function onPanelChange(e) {
     var target = e.target;
     var panel = findPanel(target);
     if (!panel) return;
-    var starFields = ["name", "max", "default", "required", "star_color"];
+    var starFields = ["name", "max", "default", "required", "color", "star_color"];
     if (starFields.indexOf(target.name) !== -1 && panel.querySelector('input.tag.code[name="cf7m-star"]')) {
       updateStarTag(panel);
     }
     var rangeFields = ["name", "min", "max", "step", "default", "prefix", "suffix", "required", "track_color", "thumb_color"];
     if (rangeFields.indexOf(target.name) !== -1 && panel.querySelector('input.tag.code[name="cf7m-range"]')) {
       updateRangeTag(panel);
-    }
-    var headingFields = ["level", "content", "font_size", "font_family", "text_color"];
-    if (headingFields.indexOf(target.name) !== -1 && panel.querySelector('input.tag.code[name="cf7m-heading"]')) {
-      updateHeadingTag(panel);
     }
   }
 

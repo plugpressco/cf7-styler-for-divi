@@ -4,11 +4,13 @@
  * @package CF7_Mate
  */
 
-export function Toggle({ checked, onChange, disabled }) {
+export function Toggle({ checked, onChange, disabled, label, id }) {
 	return (
 		<button
 			type="button"
 			role="switch"
+			id={id}
+			aria-label={label}
 			aria-checked={checked}
 			disabled={disabled}
 			onClick={() => !disabled && onChange(!checked)}

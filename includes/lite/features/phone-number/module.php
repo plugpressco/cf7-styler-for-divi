@@ -78,10 +78,11 @@ class Phone_Number extends Feature_Base
                 if (!$name) {
                     continue;
                 }
-                $posted = isset($_POST[$name]) ? trim(wp_unslash($_POST[$name])) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+                $posted = isset($_POST[$name]) && is_scalar($_POST[$name]) ? trim(sanitize_text_field(wp_unslash($_POST[$name]))) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
                 // Strip the dial prefix ("+1 ") and any whitespace — count
                 // only digits when deciding whether the user supplied a value.
-                $digits = preg_replace('/[^0-9]/', '', $posted);
+                $number = preg_replace('/^\+\d{1,4}(?:\s+|$)/', '', $posted);
+                $digits = preg_replace('/[^0-9]/', '', $number);
                 if ($digits === '') {
                     $result->invalidate(
                         ['name' => $name, 'type' => 'cf7m-phone*'],
@@ -128,11 +129,14 @@ class Phone_Number extends Feature_Base
 
         $label = '';
         $description = '';
-        if (preg_match_all('/\b(label|description|desc):"([^"]*)"/', $raw_atts, $m, PREG_SET_ORDER)) {
+        $placeholder = '';
+        if (preg_match_all('/\b(label|description|desc|placeholder):"([^"]*)"/', $raw_atts, $m, PREG_SET_ORDER)) {
             foreach ($m as $match) {
                 $val = trim($match[2]);
                 if ($match[1] === 'label') {
                     $label = $val;
+                } elseif ($match[1] === 'placeholder') {
+                    $placeholder = $val;
                 } else {
                     $description = $val;
                 }
@@ -143,7 +147,6 @@ class Phone_Number extends Feature_Base
         $name = !empty($parts[0]) ? sanitize_key($parts[0]) : 'phone';
 
         $default_country = 'US';
-        $placeholder = '';
 
         for ($i = 1; $i < count($parts); $i++) {
             $part = $parts[$i];
@@ -152,7 +155,7 @@ class Phone_Number extends Feature_Base
                 if (strlen($default_country) !== 2) {
                     $default_country = 'US';
                 }
-            } elseif (strpos($part, 'placeholder:') === 0) {
+            } elseif (strpos($part, 'placeholder:') === 0 && $placeholder === '') {
                 $placeholder = trim(trim(substr($part, 12)), '"');
             }
         }

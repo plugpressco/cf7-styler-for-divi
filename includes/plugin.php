@@ -42,11 +42,11 @@ class Plugin
             'functions.php',
             'assets.php',
             'rest-api.php',
-            'notices/review.php',
-            'notices/upgrade.php',
-            'notices/dotyard.php',
 
             'admin/admin.php',
+            'admin/form-editor.php',
+            'admin/saddle.php',
+            'saddle-abilities.php',
             'admin/onboarding.php',
         ];
 
@@ -63,10 +63,7 @@ class Plugin
             require_once $lite_loader;
         }
 
-        // Bootstrap License Manager early (before plugins_loaded priority 5) so cf7m_is_pro() can call it.
-        $this->bootstrap_license_manager();
-
-        // Load Premium Features early so form-tag registration (wpcf7_init) is hooked before CF7 runs.
+        // Register advanced CF7 hooks before Contact Form 7 initializes.
         add_action('plugins_loaded', [$this, 'load_premium_loader'], 5);
 
         // Load builder integrations (Elementor, Bricks) when respective builder is available.
@@ -99,33 +96,8 @@ class Plugin
         }
     }
 
-    private function bootstrap_license_manager()
-    {
-        // Bootstrap whenever pro code is available — pro build OR dev mode bypass.
-        if (!function_exists('cf7m_is_pro') || !cf7m_is_pro()) {
-            return;
-        }
-
-        // Load Singleton trait first (needed by License_Manager)
-        $trait_file = CF7M_PLUGIN_PATH . 'includes/pro/Traits/singleton.php';
-        if (file_exists($trait_file)) {
-            require_once $trait_file;
-        }
-
-        $license_file = CF7M_PLUGIN_PATH . 'includes/pro/license/class-license-manager.php';
-        if (!file_exists($license_file)) {
-            return;
-        }
-
-        require_once $license_file;
-        \CF7_Mate\License\License_Manager::instance();
-    }
-
     public function load_premium_loader()
     {
-        if (!cf7m_is_pro()) {
-            return;
-        }
         $premium_loader = CF7M_PLUGIN_PATH . 'includes/pro/loader.php';
         if (!file_exists($premium_loader)) {
             return;
@@ -135,26 +107,7 @@ class Plugin
 
     private function is_feature_enabled($feature)
     {
-        $defaults = [
-            'cf7_module' => true,
-            'bricks_module' => true,
-            'elementor_module' => true,
-            'gutenberg_module' => true,
-            'grid_layout' => true,
-            'multi_column' => true,
-            'multi_step' => true,
-            'star_rating' => true,
-            'database_entries' => true,
-            'range_slider' => true,
-            'separator' => true,
-            'heading' => true,
-            'image' => true,
-            'icon' => true,
-        ];
-        $saved = get_option('cf7m_features', []);
-        $features = wp_parse_args($saved, $defaults);
-
-        return isset($features[$feature]) ? (bool) $features[$feature] : false;
+        return Feature_Settings::enabled($feature);
     }
 
     private function define_hooks()
@@ -261,19 +214,9 @@ class Plugin
 
     private function init_components()
     {
-        // Review request notice (free only — gated on dismissal state internally).
-        if (class_exists(__NAMESPACE__ . '\Admin_Review_Notice')) {
-            Admin_Review_Notice::instance();
-        }
-
-        // Subtle Pro upgrade notice (free only — self-skips when cf7m_is_pro()).
-        if (class_exists(__NAMESPACE__ . '\Admin_Upgrade_Notice')) {
-            Admin_Upgrade_Notice::instance();
-        }
-
-        // dotyard service nudge (settings page only, 2h after install, dismiss = forever).
-        if (class_exists(__NAMESPACE__ . '\Admin_Dotyard_Nudge')) {
-            Admin_Dotyard_Nudge::instance();
+        new Saddle_Abilities();
+        if (is_admin()) {
+            new Form_Editor();
         }
 
         // Initialize onboarding

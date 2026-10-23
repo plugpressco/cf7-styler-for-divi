@@ -52,6 +52,10 @@ class Onboarding
         if ($param !== '1') {
             return;
         }
+        $nonce = isset($_GET['_wpnonce']) ? sanitize_text_field(wp_unslash($_GET['_wpnonce'])) : '';
+        if (!wp_verify_nonce($nonce, 'cf7m_guided_setup')) {
+            return;
+        }
         self::reset_onboarding();
         set_transient('cf7m_run_onboarding_' . get_current_user_id(), '1', 60);
         wp_safe_redirect(admin_url('admin.php?page=cf7-mate'));
@@ -104,8 +108,9 @@ class Onboarding
             'create_page_url' => admin_url('post-new.php?post_type=page'),
             'cf7_admin_url' => admin_url('admin.php?page=wpcf7'),
             'dashboard_url' => admin_url('admin.php?page=cf7-mate'),
-            'pricing_url' => defined('CF7M_URL_PRICING') ? CF7M_URL_PRICING : '',
-            'is_pro' => function_exists('cf7m_is_pro') && cf7m_is_pro(),
+            'features' => Feature_Settings::get(),
+            'feature_metadata' => Feature_Settings::metadata(),
+            'saddle' => Saddle_Setup::config(),
             'onboarding_completed' => $this->is_onboarding_completed(),
             'version' => defined('CF7M_VERSION') ? CF7M_VERSION : '3.0.0',
         ]);
@@ -143,7 +148,7 @@ class Onboarding
             return;
         }
 
-        $setup_url    = esc_url(admin_url('admin.php?page=cf7-mate&cf7m_guided_setup=1'));
+        $setup_url    = esc_url(wp_nonce_url(admin_url('admin.php?page=cf7-mate&cf7m_guided_setup=1'), 'cf7m_guided_setup'));
         $dismiss_nonce = wp_create_nonce('cf7m_skip_setup_notice');
         ?>
         <div id="cf7m-setup-notice" class="notice notice-info" style="display:flex;align-items:center;padding:16px 40px 16px 16px;gap:16px;border-left-color:#3044D7;background:#f0f2ff;">
@@ -278,31 +283,7 @@ class Onboarding
             $features = json_decode($features_json, true);
 
             if (is_array($features)) {
-                $defaults = [
-                    'cf7_module' => true,
-                    'bricks_module' => true,
-                    'elementor_module' => true,
-                    'gutenberg_module' => true,
-                    'grid_layout' => true,
-                    'multi_column' => true,
-                    'multi_step' => true,
-                    'star_rating' => true,
-                    'database_entries' => true,
-                    'range_slider' => true,
-                    'separator' => true,
-                    'heading' => true,
-                    'image' => true,
-                    'icon' => true,
-                    'ai_form_generator' => true,
-                    'conditional' => true,
-                ];
-
-                $sanitized = [];
-                foreach ($defaults as $key => $default) {
-                    $sanitized[$key] = isset($features[$key]) ? (bool) $features[$key] : $default;
-                }
-
-                update_option('cf7m_features', $sanitized);
+                Feature_Settings::save($features);
             }
         }
 

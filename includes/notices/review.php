@@ -96,7 +96,7 @@ class Admin_Review_Notice {
 
 	private function render() {
 		$review_url  = 'https://wordpress.org/support/plugin/cf7-styler-for-divi/reviews/#new-post';
-		$support_url = 'https://cf7mate.com/support';
+		$support_url = 'https://plugpress.io/support/';
 		$nonce       = wp_create_nonce( 'cf7m_dismiss_review' );
 		?>
 		<div id="<?php echo esc_attr( self::NOTICE_ID ); ?>" class="cf7m-rn-wrap notice">

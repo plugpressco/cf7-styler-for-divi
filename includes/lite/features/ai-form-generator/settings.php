@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Explicitly configured provider integrations support WordPress 6.0, before the WP 7.0 AI Client.
 
 namespace CF7_Mate\Lite\Features\AI_Form_Generator;
 

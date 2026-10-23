@@ -1,24 +1,49 @@
-name: 'Release to WordPress.org'
+name: Release to WordPress.org
 on:
-    push:
-        tags:
-            - '*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version matching package.json and readme.txt
+        required: true
+permissions:
+  contents: read
 jobs:
-    tag:
-        name: New tag
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - name: Remove premium-only files
-              run: |
-                  rm -rf includes/pro
-                  rm -rf assets/pro
-                  rm -f dist/js/settings-pro.js
-                  rm -f dist/js/responses-pro.js
-                  rm -f dist/js/analytics-pro.js
-            - name: WordPress Plugin Deploy
-              uses: 10up/action-wordpress-plugin-deploy@stable
-              env:
-                  SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-                  SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-                  SLUG: 'cf7-styler-for-divi'
+  release:
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer:v2, wp-cli
+      - name: Validate release version
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: node -e 'const v=process.env.RELEASE_VERSION; if (!/^\d+\.\d+\.\d+$/.test(v) || require("./package.json").version !== v) process.exit(1)'
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer compat
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: npm run build
+      - run: npm run make-pot
+      - run: npm run package:wp
+      - run: npm run verify:package
+      - name: Stage the verified archive
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: unzip -q "cf7-styler-for-divi-${RELEASE_VERSION}.zip" -d release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wordpress-release
+          path: cf7-styler-for-divi-*.zip
+      - uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: cf7-styler-for-divi
+          VERSION: ${{ inputs.version }}
+          BUILD_DIR: release/cf7-styler-for-divi

@@ -8,7 +8,7 @@ const TOTAL_STEPS = 4;
 const Onboarding = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [currentStep, setCurrentStep] = useState(1);
-	const [featureSettings, setFeatureSettings] = useState({});
+	const [featureSettings, setFeatureSettings] = useState(() => (typeof dcsOnboarding !== 'undefined' && dcsOnboarding.features) || {});
 
 	useEffect(() => {
 		fetch(dcsOnboarding.ajax_url, {
@@ -96,7 +96,7 @@ const Onboarding = () => {
 	};
 
 	const completeOnboarding = () => {
-		fetch(dcsOnboarding.ajax_url, {
+		return fetch(dcsOnboarding.ajax_url, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
@@ -109,12 +109,10 @@ const Onboarding = () => {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				if (data.success) {
-					setIsVisible(false);
+				if (!data.success) {
+					throw new Error('Onboarding settings were not saved.');
 				}
-			})
-			.catch((error) => {
-				console.error('Error completing onboarding:', error);
+				setIsVisible(false);
 			});
 	};
 

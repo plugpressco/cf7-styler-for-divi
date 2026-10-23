@@ -19,7 +19,7 @@ const EXAMPLE_PAYLOAD = {
 	ip: '192.168.1.1',
 };
 
-export function WebhookPage({ features, isPro, onToggle, saving: parentSaving }) {
+export function WebhookPage({ features, onToggle, saving: parentSaving }) {
 	const webhookEnabled = !!(features && features.webhook);
 
 	const [urls, setUrls]           = useState([]);
@@ -117,23 +117,19 @@ export function WebhookPage({ features, isPro, onToggle, saving: parentSaving })
 					</span>
 				</div>
 				<Toggle
+					label={__('Webhooks', 'cf7-styler-for-divi')}
 					checked={webhookEnabled}
 					onChange={(v) => onToggle && onToggle('webhook', v)}
-					disabled={!!parentSaving || !isPro}
+					disabled={!!parentSaving}
 				/>
 			</div>
 
-			{!isPro && (
-				<p className="cf7m-tool-section__locked">
-					{__('Webhooks require CF7 Mate Pro.', 'cf7-styler-for-divi')}
-				</p>
-			)}
-
-			{webhookEnabled && isPro && (
+			{!webhookEnabled && <p className="cf7m-tool-section__locked">{__('Enable webhooks to add a destination for new submissions.', 'cf7-styler-for-divi')}</p>}
+			{webhookEnabled && (
 				<div className="cf7m-tool-section__body">
 
 					{notice && (
-						<div className={`cf7m-tool-notice cf7m-tool-notice--${notice.type}`}>
+						<div className={`cf7m-tool-notice cf7m-tool-notice--${notice.type}`} role={notice.type === 'error' ? 'alert' : 'status'}>
 							{notice.message}
 							<button
 								type="button"

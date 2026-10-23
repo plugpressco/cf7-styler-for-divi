@@ -9,12 +9,23 @@ jQuery(function ($) {
         'dipe_three_fourth', // Three fourths (9/12)
     ];
 
+    // CF7 5.x recomposes generator tags on load and would drop the closing tag.
+    const taggen = window.wpcf7 && window.wpcf7.taggen;
+    if (taggen && typeof taggen.update === 'function') {
+        gridShortcodeTypes.forEach((type) => {
+            const tag = `[${type}][/${type}]`;
+            taggen.update[type] = ($form) => $form.find('input.tag').val(tag);
+            $(`form.tag-generator-panel[data-id="${type}"] input.tag`).val(tag);
+        });
+    }
+
     $('#tag-generator-list button').on('click', function (e) {
         e.preventDefault();
         const target = $(this).data('target');
         const shortcodeType = extractShortcodeType('target', target);
 
-        if (shortcodeType.startsWith('dipe')) {
+        // CF7 5.x/6.x open their own dialogs; jQuery UI is only present on old setups.
+        if (shortcodeType.startsWith('dipe') && $.fn.dialog) {
             $(`#${target}`).dialog({
                 modal: true,
                 dialogClass: 'wp-dialog',
@@ -26,7 +37,9 @@ jQuery(function ($) {
 
     window.insertGridShortcode = function (shortcodeType) {
         insertGridLayoutShortcode(shortcodeType);
-        $(`#tag-generator-panel-${shortcodeType}`).dialog('close');
+        if ($.fn.dialog) {
+            $(`#tag-generator-panel-${shortcodeType}`).dialog('close');
+        }
     };
 
     function extractShortcodeType(paramName, target) {

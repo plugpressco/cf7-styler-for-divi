@@ -41,7 +41,7 @@ const OnboardingModal = ({
 			case 1:
 				return <StepWelcome />;
 			case 2:
-				return <StepFeatures onFeaturesChange={onFeatureToggle} />;
+				return <StepFeatures features={featureSettings} onFeaturesChange={onFeatureToggle} />;
 			case 3:
 				return <StepHelp />;
 			case 4:
