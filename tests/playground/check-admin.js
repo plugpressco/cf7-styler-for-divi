@@ -34,6 +34,8 @@ async page => {
   assert((await page.locator('#wpcf7-form').inputValue()).includes('[email* your-email]'),'Generated markup inserts into the CF7 editor');
   // Leave the saved fixture markup intact; inserting is an editor-only draft.
   await page.locator('#wpcf7-form').fill(originalMarkup);
+  // Discard the draft: CF7 5.x asks before leaving an edited form, which would block the run.
+  await page.evaluate(()=>{window.onbeforeunload=null;if(window.jQuery)window.jQuery(window).off('beforeunload');});
   await page.goto(base+'/playground-contact/');
   await page.getByRole('textbox',{name:'Your name',exact:true}).fill('Admin Browser Fixture');
   await page.getByRole('textbox',{name:'Your email',exact:true}).fill('fixture@example.test');
@@ -64,6 +66,8 @@ async page => {
   assert(await page.getByRole('heading',{name:'Quick MCP setup',exact:true}).count()===1,'Saddle submenu explains connection setup');
   assert(await page.getByRole('link',{name:'White label',exact:true}).count()===0,'Retired white label is absent');
   assert(await page.getByRole('link',{name:'Get Saddle Analytics',exact:true}).count()===1,'Optional Saddle Analytics recommendation is available');
+  assert(await page.getByRole('link',{name:'Community',exact:true}).count()===0,'Help keeps documentation and support only');
+  assert(await page.locator('[id^="toplevel_page_wpcf7"]').evaluate(el=>el.classList.contains('wp-has-current-submenu')),'The Saddle tab keeps the Contact menu open');
   const state=await page.evaluate(async()=>await wp.apiFetch({path:'/cf7mate-playground/v1/state'}));
   assert(state.outbound_sink.some(item=>item.kind==='ai')&&state.outbound_sink.some(item=>item.kind==='webhook'),'AI and webhook activity is recorded by local sinks');
   return checks;

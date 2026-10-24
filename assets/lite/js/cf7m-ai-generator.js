@@ -94,7 +94,7 @@
 			'      <label for="cf7m-ai-code" class="screen-reader-text">Form code</label>',
 			'      <textarea id="cf7m-ai-code" class="cf7m-ai-code" rows="14" spellcheck="false"></textarea>',
 			'      <div class="cf7m-ai-actions">',
-			'        <button type="button" class="cf7m-ai-btn cf7m-ai-btn--ghost" id="cf7m-ai-back">&larr; ' + esc( strings.regenerate || 'New prompt' ) + '</button>',
+			'        <button type="button" class="cf7m-ai-btn cf7m-ai-btn--ghost" id="cf7m-ai-back">' + ( document.documentElement.dir === 'rtl' ? '&rarr;' : '&larr;' ) + ' ' + esc( strings.regenerate || 'New prompt' ) + '</button>',
 			'        <span class="cf7m-ai-spacer"></span>',
 			'        <button type="button" class="cf7m-ai-btn cf7m-ai-btn--ghost" id="cf7m-ai-copy">' + esc( strings.copy || 'Copy' ) + '</button>',
 			'        <button type="button" class="cf7m-ai-btn cf7m-ai-btn--primary" id="cf7m-ai-insert">' + esc( strings.insert || 'Insert' ) + '</button>',

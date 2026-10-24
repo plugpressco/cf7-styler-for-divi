@@ -1,20 +1,12 @@
 /**
- * Responses page: full-width Notion-style list of form submissions
- * + single entry view. Built with @wordpress/components.
+ * Responses: stored submissions list and single response view.
  *
  * @package CF7_Mate
  */
 
 import { useState, useEffect, useCallback, useMemo } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import {
-	Button,
-	SearchControl,
-	SelectControl,
-	CheckboxControl,
-	Spinner,
-} from '@wordpress/components';
 import {
 	EyeIcon,
 	TrashIcon,
@@ -25,44 +17,98 @@ import {
 	InboxIcon,
 	PrinterIcon,
 	ArrowLeftIcon,
-	ArrowPathIcon,
 } from '@heroicons/react/24/outline';
+import { Main } from '../components/Layout';
+import {
+	Avatar,
+	Badge,
+	Button,
+	Card,
+	CardTitle,
+	Checkbox,
+	EmptyState,
+	LoadingState,
+	NativeSelect,
+	PageHeader,
+	SearchInput,
+	Table,
+	TableCell,
+	TableHead,
+	TableRow,
+	Toast,
+	buttonVariants,
+} from '../components/ui';
+import { cn } from '../lib/utils';
+import { getConfig } from '../utils/config';
 
 const STATUS_OPTIONS = [
 	{ label: __('All statuses', 'cf7-styler-for-divi'), value: 'all' },
-	{ label: __('New', 'cf7-styler-for-divi'), value: 'new' },
+	{ label: __('Unread', 'cf7-styler-for-divi'), value: 'new' },
 	{ label: __('Read', 'cf7-styler-for-divi'), value: 'read' },
 	{ label: __('Trash', 'cf7-styler-for-divi'), value: 'trash' },
 ];
 
+const STATUS_LABELS = {
+	new: { label: __('Unread', 'cf7-styler-for-divi'), tone: 'coral' },
+	read: { label: __('Read', 'cf7-styler-for-divi'), tone: 'sage' },
+	trash: { label: __('Trash', 'cf7-styler-for-divi'), tone: 'danger' },
+};
+
+const NONE = __('None', 'cf7-styler-for-divi');
+
 function getFirstFieldValue(entry) {
 	const data = entry?.data && typeof entry.data === 'object' ? entry.data : {};
 	const firstKey = Object.keys(data)[0];
-	return firstKey != null ? String(data[firstKey] ?? '').slice(0, 80) : '—';
+	const value = firstKey != null ? String(data[firstKey] ?? '').slice(0, 80) : '';
+	return value || NONE;
 }
 
 function parseUserAgent(ua) {
-	if (!ua || typeof ua !== 'string') return { browser: '—', device: '—' };
+	if (!ua || typeof ua !== 'string') return { browser: NONE, device: NONE };
 	const u = ua.toLowerCase();
-	let browser = '—';
+	let browser = NONE;
 	if (u.includes('chrome') && !u.includes('edg')) browser = 'Chrome';
 	else if (u.includes('firefox')) browser = 'Firefox';
 	else if (u.includes('safari') && !u.includes('chrome')) browser = 'Safari';
 	else if (u.includes('edg')) browser = 'Edge';
-	let device = '—';
-	if (u.includes('mobile') || u.includes('android') || u.includes('iphone')) device = 'Mobile';
-	else if (u.includes('ipad') || u.includes('tablet')) device = 'Tablet';
+	let device = NONE;
+	if (u.includes('mobile') || u.includes('android') || u.includes('iphone')) device = __('Mobile', 'cf7-styler-for-divi');
+	else if (u.includes('ipad') || u.includes('tablet')) device = __('Tablet', 'cf7-styler-for-divi');
 	else if (u.includes('mac') || u.includes('apple')) device = 'Apple';
 	else if (u.includes('win')) device = 'Windows';
 	return { browser, device };
 }
 
-function StatusPill({ status }) {
-	const label = status === 'trash' ? __('Trash', 'cf7-styler-for-divi') : status;
-	return <span className={`cf7m-resp-pill cf7m-resp-pill--${status}`}>{label}</span>;
+function StatusBadge({ status }) {
+	const item = STATUS_LABELS[status] || { label: status, tone: 'default' };
+	return <Badge tone={item.tone}>{item.label}</Badge>;
 }
 
-export function ResponsesPage({ entryId, onBack }) {
+/** Inline yes/no prompt that replaces an action until answered. */
+function Confirm({ label, onYes, onNo }) {
+	return (
+		<span className="inline-flex items-center gap-2 text-[13px]">
+			<span className="text-muted-foreground">{label}</span>
+			<Button variant="danger" onClick={onYes}>{__('Yes', 'cf7-styler-for-divi')}</Button>
+			<Button variant="link" className="text-muted-foreground" onClick={onNo}>{__('No', 'cf7-styler-for-divi')}</Button>
+		</span>
+	);
+}
+
+function DataList({ rows }) {
+	return (
+		<dl>
+			{rows.map(([key, value]) => (
+				<div key={key} className="grid grid-cols-[150px_minmax(0,1fr)] gap-x-4 gap-y-1 border-t border-divider px-[18px] py-2.5 text-[13px] first:border-0 max-[782px]:grid-cols-1">
+					<dt className="text-muted-foreground">{key}</dt>
+					<dd className="whitespace-pre-line break-words"><bdi>{value}</bdi></dd>
+				</div>
+			))}
+		</dl>
+	);
+}
+
+export function ResponsesPage({ entryId }) {
 	const [entries, setEntries] = useState([]);
 	const [total, setTotal] = useState(0);
 	const [pages, setPages] = useState(0);
@@ -77,10 +123,12 @@ export function ResponsesPage({ entryId, onBack }) {
 	const [selectedIds, setSelectedIds] = useState([]);
 	// confirmPending: { id: number|'bulk', action: 'trash'|'delete' } | null
 	const [confirmPending, setConfirmPending] = useState(null);
+	const [toast, setToast] = useState(null);
 	const restBase = '/cf7-styler/v1/entries';
-	const apiSettings = typeof dcsCF7Styler !== 'undefined' ? dcsCF7Styler : (window.wp?.apiSettings || {});
+	const apiSettings = getConfig();
 	const apiRoot = (apiSettings.root || '').replace(/\/+$/, '');
 	const apiNonce = apiSettings.nonce || '';
+	const failed = () => setToast({ type: 'error', message: __('Could not update the response. Try again.', 'cf7-styler-for-divi') });
 
 	// Auto-cancel inline confirm after 5s
 	useEffect(() => {
@@ -159,7 +207,9 @@ export function ResponsesPage({ entryId, onBack }) {
 			}
 			setSelectedIds((prev) => prev.filter((x) => x !== id));
 			if (entryId === id) window.location.hash = '#/';
-		} catch (e) {}
+		} catch (e) {
+			failed();
+		}
 	};
 
 	const deletePermanently = async (id) => {
@@ -169,7 +219,9 @@ export function ResponsesPage({ entryId, onBack }) {
 			setSingleEntry(null);
 			setSelectedIds((prev) => prev.filter((x) => x !== id));
 			if (entryId === id) window.location.hash = '#/';
-		} catch (e) {}
+		} catch (e) {
+			failed();
+		}
 	};
 
 	const updateStatus = async (id, status) => {
@@ -185,7 +237,9 @@ export function ResponsesPage({ entryId, onBack }) {
 			if (singleEntry?.id === id) {
 				setSingleEntry((s) => (s ? { ...s, status } : null));
 			}
-		} catch (e) {}
+		} catch (e) {
+			failed();
+		}
 	};
 
 	const bulkMoveToTrash = async () => {
@@ -200,7 +254,10 @@ export function ResponsesPage({ entryId, onBack }) {
 			}
 			setEntries((prev) => prev.filter((e) => !selectedIds.includes(e.id)));
 			setSelectedIds([]);
-		} catch (e) {}
+		} catch (e) {
+			failed();
+			fetchEntries();
+		}
 	};
 
 	const bulkDeletePermanently = async () => {
@@ -214,7 +271,9 @@ export function ResponsesPage({ entryId, onBack }) {
 			setEntries((prev) => prev.filter((e) => !selectedIds.includes(e.id)));
 			setSelectedIds([]);
 			setSingleEntry(null);
-		} catch (e) {}
+		} catch (e) {
+			failed();
+		}
 	};
 
 	const toggleSelect = (id) =>
@@ -243,509 +302,296 @@ export function ResponsesPage({ entryId, onBack }) {
 		];
 	}, [entries]);
 
+	const toastNode = toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />;
+
 	// ===== Single entry view =====
 	if (entryId) {
+		const { browser, device } = parseUserAgent(singleEntry?.user_agent);
+		const fields = Object.entries(singleEntry?.data || {}).map(([key, value]) => [key, typeof value === 'object' ? JSON.stringify(value) : String(value)]);
+		const details = singleEntry ? [
+			[__('Form', 'cf7-styler-for-divi'), singleEntry.form_title || NONE],
+			[__('Submitted', 'cf7-styler-for-divi'), singleEntry.created ? <span dir="ltr">{singleEntry.created}</span> : NONE],
+			[__('IP address', 'cf7-styler-for-divi'), singleEntry.ip || NONE],
+			[__('Browser', 'cf7-styler-for-divi'), browser],
+			[__('Device', 'cf7-styler-for-divi'), device],
+		] : [];
+		const confirming = (action) => confirmPending?.id === singleEntry?.id && confirmPending?.action === action;
 		return (
-			<div className="cf7m-resp">
-				<nav className="cf7m-resp__crumb" aria-label={__('Breadcrumb', 'cf7-styler-for-divi')}>
-					<a href="#/" className="cf7m-resp__crumb-link">
-						{__('Responses', 'cf7-styler-for-divi')}
-					</a>
-					<span className="cf7m-resp__crumb-sep" aria-hidden="true">/</span>
-					<span className="cf7m-resp__crumb-current">
-						{__('Response', 'cf7-styler-for-divi')} #{entryId}
-					</span>
+			<>
+			<Main>
+				<nav aria-label={__('Breadcrumb', 'cf7-styler-for-divi')} className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
+					<a href="#/" className="text-primary hover:underline">{__('Responses', 'cf7-styler-for-divi')}</a>
+					<span aria-hidden="true">/</span>
+					{/* translators: %d: response ID. */}
+					<span>{sprintf(__('Response #%d', 'cf7-styler-for-divi'), entryId)}</span>
 				</nav>
 
-				{singleLoading ? (
-					<div className="cf7m-resp__empty">
-						<Spinner />
-					</div>
-				) : !singleEntry ? (
-					<div className="cf7m-resp__empty">
-						<p>{__('Response not found.', 'cf7-styler-for-divi')}</p>
-					</div>
-				) : (
-					<div className="cf7m-resp__single">
-						<div className="cf7m-resp__single-main">
-							<section className="cf7m-resp__panel">
-								<header className="cf7m-resp__panel-header">
-									<h2 className="cf7m-resp__panel-title">
-										{__('Submitted Data', 'cf7-styler-for-divi')}
-									</h2>
-								</header>
-								<div className="cf7m-resp__panel-body">
-									{Object.entries(singleEntry.data || {}).length === 0 ? (
-										<p className="cf7m-resp__muted">
-											{__('No field data.', 'cf7-styler-for-divi')}
-										</p>
-									) : (
-										<dl className="cf7m-resp__data">
-											{Object.entries(singleEntry.data || {}).map(([key, value]) => (
-												<div key={key} className="cf7m-resp__data-row">
-													<dt className="cf7m-resp__data-key">{key}</dt>
-													<dd className="cf7m-resp__data-val">
-														{typeof value === 'object'
-															? JSON.stringify(value)
-															: String(value)}
-													</dd>
-												</div>
-											))}
-										</dl>
-									)}
-								</div>
-							</section>
-
-							<section className="cf7m-resp__panel">
-								<header className="cf7m-resp__panel-header">
-									<h2 className="cf7m-resp__panel-title">
-										{__('Submission Info', 'cf7-styler-for-divi')}
-									</h2>
-								</header>
-								<div className="cf7m-resp__panel-body">
-									{(() => {
-										const { browser, device } = parseUserAgent(singleEntry.user_agent);
-										const meta = [
-											['ID', `#${singleEntry.id}`],
-											[__('Form', 'cf7-styler-for-divi'), singleEntry.form_title || '—'],
-											[__('IP', 'cf7-styler-for-divi'), singleEntry.ip || '—'],
-											[__('Browser', 'cf7-styler-for-divi'), browser],
-											[__('Device', 'cf7-styler-for-divi'), device],
-											[__('Date', 'cf7-styler-for-divi'), singleEntry.created || '—'],
-										];
-										return (
-											<dl className="cf7m-resp__data">
-												{meta.map(([k, v]) => (
-													<div key={k} className="cf7m-resp__data-row">
-														<dt className="cf7m-resp__data-key">{k}</dt>
-														<dd className="cf7m-resp__data-val">{v}</dd>
-													</div>
-												))}
-												<div className="cf7m-resp__data-row">
-													<dt className="cf7m-resp__data-key">
-														{__('Status', 'cf7-styler-for-divi')}
-													</dt>
-													<dd className="cf7m-resp__data-val">
-														<StatusPill status={singleEntry.status} />
-													</dd>
-												</div>
-											</dl>
-										);
-									})()}
-								</div>
-							</section>
-						</div>
-
-						<aside className="cf7m-resp__single-side">
-							<div className="cf7m-resp__panel">
-								<header className="cf7m-resp__panel-header">
-									<h2 className="cf7m-resp__panel-title">
-										{__('Actions', 'cf7-styler-for-divi')}
-									</h2>
-								</header>
-								<div className="cf7m-resp__panel-body cf7m-resp__actions">
-									<a href="#/" className="cf7m-resp__action-btn">
-										<ArrowLeftIcon className="cf7m-resp__btn-icon" aria-hidden="true" />
-										{__('Back to list', 'cf7-styler-for-divi')}
+				{singleLoading && <LoadingState rows={4} />}
+				{!singleLoading && !singleEntry && (
+					<EmptyState icon={<InboxIcon />} title={__('Response not found.', 'cf7-styler-for-divi')} action={<a className={buttonVariants()} href="#/">{__('Back to responses', 'cf7-styler-for-divi')}</a>} />
+				)}
+				{!singleLoading && singleEntry && (
+					<>
+						<PageHeader
+							/* translators: %d: response ID. */
+							title={sprintf(__('Response #%d', 'cf7-styler-for-divi'), singleEntry.id)}
+							meta={<StatusBadge status={singleEntry.status} />}
+							actions={(
+								<>
+									<a href="#/" className={buttonVariants({ variant: 'ghost' })}>
+										<ArrowLeftIcon aria-hidden="true" className="rtl:-scale-x-100" />
+										{__('Back', 'cf7-styler-for-divi')}
 									</a>
 									{apiRoot && apiNonce && (
 										<a
 											href={`${apiRoot}${restBase}/${singleEntry.id}/print?_wpnonce=${encodeURIComponent(apiNonce)}`}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="cf7m-resp__action-btn"
+											className={buttonVariants()}
 										>
-											<PrinterIcon className="cf7m-resp__btn-icon" aria-hidden="true" />
+											<PrinterIcon aria-hidden="true" />
 											{__('Print / Save PDF', 'cf7-styler-for-divi')}
 										</a>
 									)}
-									{singleEntry.status === 'trash' ? (
-										<>
-											<button
-												type="button"
-												className="cf7m-resp__action-btn"
-												onClick={() => updateStatus(singleEntry.id, 'read')}
-											>
-												<ArrowPathIcon className="cf7m-resp__btn-icon" aria-hidden="true" />
-												{__('Restore', 'cf7-styler-for-divi')}
-											</button>
-											{confirmPending?.id === singleEntry.id && confirmPending?.action === 'delete' ? (
-												<div className="cf7m-resp__action-confirm">
-													<span>{__('Delete permanently?', 'cf7-styler-for-divi')}</span>
-													<button
-														type="button"
-														className="cf7m-resp__confirm-yes"
-														onClick={() => { setConfirmPending(null); deletePermanently(singleEntry.id); }}
-													>
-														{__('Yes', 'cf7-styler-for-divi')}
-													</button>
-													<button
-														type="button"
-														className="cf7m-resp__confirm-cancel"
-														onClick={() => setConfirmPending(null)}
-													>
-														{__('Cancel', 'cf7-styler-for-divi')}
-													</button>
-												</div>
-											) : (
-												<button
-													type="button"
-													className="cf7m-resp__action-btn cf7m-resp__action-btn--danger"
-													onClick={() => setConfirmPending({ id: singleEntry.id, action: 'delete' })}
-												>
-													<TrashIcon className="cf7m-resp__btn-icon" aria-hidden="true" />
-													{__('Delete permanently', 'cf7-styler-for-divi')}
-												</button>
-											)}
-										</>
-									) : confirmPending?.id === singleEntry.id && confirmPending?.action === 'trash' ? (
-										<div className="cf7m-resp__action-confirm">
-											<span>{__('Move to trash?', 'cf7-styler-for-divi')}</span>
-											<button
-												type="button"
-												className="cf7m-resp__confirm-yes"
-												onClick={() => { setConfirmPending(null); moveToTrash(singleEntry.id); }}
-											>
-												{__('Yes', 'cf7-styler-for-divi')}
-											</button>
-											<button
-												type="button"
-												className="cf7m-resp__confirm-cancel"
-												onClick={() => setConfirmPending(null)}
-											>
-												{__('Cancel', 'cf7-styler-for-divi')}
-											</button>
-										</div>
-									) : (
-										<button
-											type="button"
-											className="cf7m-resp__action-btn cf7m-resp__action-btn--danger"
-											onClick={() => setConfirmPending({ id: singleEntry.id, action: 'trash' })}
-										>
-											<TrashIcon className="cf7m-resp__btn-icon" aria-hidden="true" />
-											{__('Move to trash', 'cf7-styler-for-divi')}
-										</button>
+									{singleEntry.status === 'trash' && (
+										<Button onClick={() => updateStatus(singleEntry.id, 'read')}>
+											<ArrowUturnLeftIcon aria-hidden="true" className="rtl:-scale-x-100" />
+											{__('Restore', 'cf7-styler-for-divi')}
+										</Button>
 									)}
-								</div>
-							</div>
-						</aside>
-					</div>
+									{confirming(singleEntry.status === 'trash' ? 'delete' : 'trash') ? (
+										<Confirm
+											label={singleEntry.status === 'trash' ? __('Delete permanently?', 'cf7-styler-for-divi') : __('Move to trash?', 'cf7-styler-for-divi')}
+											onYes={() => {
+												setConfirmPending(null);
+												if (singleEntry.status === 'trash') deletePermanently(singleEntry.id);
+												else moveToTrash(singleEntry.id);
+											}}
+											onNo={() => setConfirmPending(null)}
+										/>
+									) : (
+										<Button variant="danger-outline" onClick={() => setConfirmPending({ id: singleEntry.id, action: singleEntry.status === 'trash' ? 'delete' : 'trash' })}>
+											<TrashIcon aria-hidden="true" />
+											{singleEntry.status === 'trash' ? __('Delete permanently', 'cf7-styler-for-divi') : __('Move to trash', 'cf7-styler-for-divi')}
+										</Button>
+									)}
+								</>
+							)}
+						/>
+						<div className="flex flex-wrap items-start gap-4">
+							<Card aria-labelledby="cf7m-response-fields" className="min-w-0 flex-[999_1_420px] overflow-hidden">
+								<CardTitle id="cf7m-response-fields" className="border-b border-divider px-[18px] py-3.5">{__('Fields', 'cf7-styler-for-divi')}</CardTitle>
+								{fields.length ? <DataList rows={fields} /> : <p className="px-[18px] py-4 text-[13px] text-muted-foreground">{__('No field data.', 'cf7-styler-for-divi')}</p>}
+							</Card>
+							<Card aria-labelledby="cf7m-response-details" className="min-w-0 flex-[1_1_300px] overflow-hidden">
+								<CardTitle id="cf7m-response-details" className="border-b border-divider px-[18px] py-3.5">{__('Details', 'cf7-styler-for-divi')}</CardTitle>
+								<DataList rows={details} />
+							</Card>
+						</div>
+					</>
 				)}
-			</div>
+			</Main>
+			{toastNode}
+			</>
 		);
 	}
 
 	// ===== List view =====
 	return (
-		<div className="cf7m-resp">
-			<header className="cf7m-resp__head">
-				<div><div className="cf7m-resp__head-titles">
-					<h1 className="cf7m-resp__title">
-						{__('Responses', 'cf7-styler-for-divi')}
-					</h1>
-					{total > 0 && (
-						<span className="cf7m-resp__count">
-							{total}
-						</span>
-					)}
-				</div><p className="cf7m-resp__description">{__('Review and manage your form submissions.', 'cf7-styler-for-divi')}</p></div>
-				{exportUrl && entries.length > 0 && (
-					<a className="cf7m-resp__export" href={exportUrl}>
-						<ArrowDownTrayIcon className="cf7m-resp__icon" aria-hidden="true" />
+		<>
+		<Main>
+			<PageHeader
+				title={__('Responses', 'cf7-styler-for-divi')}
+				meta={total > 0 && <Badge>{total}</Badge>}
+				description={__('Submissions saved on this site.', 'cf7-styler-for-divi')}
+				actions={exportUrl && entries.length > 0 && (
+					<a className={buttonVariants()} href={exportUrl}>
+						<ArrowDownTrayIcon aria-hidden="true" />
 						{__('Export', 'cf7-styler-for-divi')}
 					</a>
 				)}
-			</header>
+			/>
 
-			<div className="cf7m-resp__card">
-			<div className="cf7m-resp__toolbar">
-				<div className="cf7m-resp__filters">
-					<SelectControl
-						__nextHasNoMarginBottom
+			<Card className="overflow-hidden">
+				<div className="flex flex-wrap items-center gap-2 border-b border-divider px-3.5 py-3">
+					<NativeSelect
+						aria-label={__('Filter by status', 'cf7-styler-for-divi')}
 						value={statusFilter}
 						options={STATUS_OPTIONS}
-						onChange={(v) => {
-							setStatusFilter(v);
+						onChange={(event) => {
+							setStatusFilter(event.target.value);
 							setCurrentPage(1);
 						}}
-						aria-label={__('Filter by status', 'cf7-styler-for-divi')}
 					/>
-					<SelectControl
-						__nextHasNoMarginBottom
+					<NativeSelect
+						aria-label={__('Filter by form', 'cf7-styler-for-divi')}
+						className="max-w-[260px]"
 						value={formIdFilter}
 						options={formOptions}
-						onChange={(v) => {
-							setFormIdFilter(v);
+						onChange={(event) => {
+							setFormIdFilter(event.target.value);
 							setCurrentPage(1);
 						}}
-						aria-label={__('Filter by form', 'cf7-styler-for-divi')}
 					/>
-				</div>
-				<div className="cf7m-resp__search">
-					<SearchControl
-						__nextHasNoMarginBottom
-						value={searchTerm}
-						onChange={(v) => setSearchTerm(v)}
-						placeholder={__('Search responses…', 'cf7-styler-for-divi')}
-					/>
-				</div>
-			</div>
+					<SearchInput label={__('Search responses', 'cf7-styler-for-divi')} placeholder={__('Search responses', 'cf7-styler-for-divi')} value={searchTerm} onChange={setSearchTerm} className="w-[260px]" />
 
-			{selectedIds.length > 0 && (
-				<div className="cf7m-resp__bulk">
-					<span className="cf7m-resp__bulk-count">
-						{__('%d selected', 'cf7-styler-for-divi').replace(
-							'%d',
-							selectedIds.length
-						)}
-					</span>
-					<div className="cf7m-resp__bulk-actions">
-						{confirmPending?.id === 'bulk' ? (
-							<>
-								<span className="cf7m-resp__confirm-label">
-									{confirmPending.action === 'delete'
-										? __('Delete permanently?', 'cf7-styler-for-divi')
-										: __('Move to trash?', 'cf7-styler-for-divi')}
-								</span>
-								<button
-									type="button"
-									className="cf7m-resp__confirm-yes"
-									onClick={() => {
+					{selectedIds.length > 0 && (
+						<div className="ms-auto flex flex-wrap items-center gap-3 text-[13px]">
+							{/* translators: %d: number of selected responses. */}
+							<span className="text-muted-foreground">{sprintf(__('%d selected', 'cf7-styler-for-divi'), selectedIds.length)}</span>
+							{confirmPending?.id === 'bulk' ? (
+								<Confirm
+									label={confirmPending.action === 'delete' ? __('Delete permanently?', 'cf7-styler-for-divi') : __('Move to trash?', 'cf7-styler-for-divi')}
+									onYes={() => {
 										const action = confirmPending.action;
 										setConfirmPending(null);
 										if (action === 'delete') bulkDeletePermanently();
 										else bulkMoveToTrash();
 									}}
-								>
-									{__('Yes', 'cf7-styler-for-divi')}
-								</button>
-								<button
-									type="button"
-									className="cf7m-resp__confirm-cancel"
-									onClick={() => setConfirmPending(null)}
-								>
-									{__('Cancel', 'cf7-styler-for-divi')}
-								</button>
-							</>
-						) : statusFilter === 'trash' ? (
-							<Button
-								variant="secondary"
-								isDestructive
-								onClick={() => setConfirmPending({ id: 'bulk', action: 'delete' })}
-							>
-								{__('Delete permanently', 'cf7-styler-for-divi')}
-							</Button>
-						) : (
-							<Button
-								variant="secondary"
-								onClick={() => setConfirmPending({ id: 'bulk', action: 'trash' })}
-							>
-								{__('Move to trash', 'cf7-styler-for-divi')}
-							</Button>
-						)}
-						<Button variant="tertiary" onClick={() => setSelectedIds([])}>
-							{__('Clear', 'cf7-styler-for-divi')}
-						</Button>
-					</div>
+									onNo={() => setConfirmPending(null)}
+								/>
+							) : (
+								<Button size="sm" variant="danger-outline" onClick={() => setConfirmPending({ id: 'bulk', action: statusFilter === 'trash' ? 'delete' : 'trash' })}>
+									{statusFilter === 'trash' ? __('Delete permanently', 'cf7-styler-for-divi') : __('Move to trash', 'cf7-styler-for-divi')}
+								</Button>
+							)}
+							<Button variant="link" className="text-muted-foreground" onClick={() => setSelectedIds([])}>{__('Clear', 'cf7-styler-for-divi')}</Button>
+						</div>
+					)}
 				</div>
-			)}
 
-			<div className="cf7m-resp__table-wrap">
-				{loading ? (
-					<div className="cf7m-resp__loading">
-						<Spinner />
-						<span>{__('Loading…', 'cf7-styler-for-divi')}</span>
-					</div>
-				) : !entries.length ? (
-					<div className="cf7m-resp__empty">
-						<InboxIcon className="cf7m-resp__empty-icon" aria-hidden="true" />
-						<p className="cf7m-resp__empty-title">
-							{__('No responses yet', 'cf7-styler-for-divi')}
-						</p>
-						<p className="cf7m-resp__empty-sub">
-							{__('Form submissions will appear here.', 'cf7-styler-for-divi')}
-						</p>
-					</div>
-				) : (
-					<table className="cf7m-resp__table">
+				{loading && <LoadingState rows={4} className="p-3.5" />}
+				{!loading && !entries.length && (
+					<EmptyState
+						className="rounded-none border-0"
+						icon={<InboxIcon />}
+						title={__('No responses yet', 'cf7-styler-for-divi')}
+						description={__('New submissions show up here.', 'cf7-styler-for-divi')}
+					/>
+				)}
+				{!loading && entries.length > 0 && (
+					<Table>
 						<thead>
 							<tr>
-								<th className="cf7m-resp__th cf7m-resp__th--check">
-									<CheckboxControl
-										__nextHasNoMarginBottom
-										checked={allOnPageSelected}
-										onChange={toggleSelectAll}
-										aria-label={__('Select all', 'cf7-styler-for-divi')}
-									/>
-								</th>
-								<th className="cf7m-resp__th">
-									{__('Form', 'cf7-styler-for-divi')}
-								</th>
-								<th className="cf7m-resp__th">
-									{__('Preview', 'cf7-styler-for-divi')}
-								</th>
-								<th className="cf7m-resp__th">
-									{__('Submitted', 'cf7-styler-for-divi')}
-								</th>
-								<th className="cf7m-resp__th cf7m-resp__th--actions" />
+								<TableHead className="w-11 pe-0">
+									<Checkbox checked={allOnPageSelected} onChange={toggleSelectAll} aria-label={__('Select all', 'cf7-styler-for-divi')} />
+								</TableHead>
+								<TableHead>{__('Form', 'cf7-styler-for-divi')}</TableHead>
+								<TableHead className="max-[782px]:hidden">{__('Preview', 'cf7-styler-for-divi')}</TableHead>
+								<TableHead className="max-[600px]:hidden">{__('Submitted', 'cf7-styler-for-divi')}</TableHead>
+								<TableHead className="w-24"><span className="sr-only">{__('Actions', 'cf7-styler-for-divi')}</span></TableHead>
 							</tr>
 						</thead>
 						<tbody>
-							{entries.map((e) => (
-								<tr key={e.id} className={`cf7m-resp__row${e.status === 'new' ? ' is-unread' : ''}`}>
-									<td className="cf7m-resp__td cf7m-resp__td--check">
-										<CheckboxControl
-											__nextHasNoMarginBottom
-											checked={selectedIds.includes(e.id)}
-											onChange={() => toggleSelect(e.id)}
-											aria-label={__('Select response', 'cf7-styler-for-divi')}
-										/>
-									</td>
-									<td className="cf7m-resp__td cf7m-resp__td--strong">
-										<span
-											className={`cf7m-resp__dot cf7m-resp__dot--${e.status}`}
-											aria-label={e.status}
-										/>
-										<a href={`#/responses/${e.id}`} className="cf7m-resp__id-link">
-											{e.form_title_with_id || e.form_title || `#${e.id}`}
-										</a>
-									</td>
-									<td className="cf7m-resp__td cf7m-resp__td--muted cf7m-resp__td--truncate">
-										{getFirstFieldValue(e)}
-									</td>
-									<td className="cf7m-resp__td cf7m-resp__td--muted cf7m-resp__td--nowrap">
-										{e.created}
-									</td>
-									<td className="cf7m-resp__td cf7m-resp__td--actions">
-										<div className="cf7m-resp__row-actions">
-											{confirmPending?.id === e.id ? (
-												<>
-													<span className="cf7m-resp__confirm-label">
-														{confirmPending.action === 'delete'
-															? __('Delete?', 'cf7-styler-for-divi')
-															: __('Trash?', 'cf7-styler-for-divi')}
-													</span>
-													<button
-														type="button"
-														className="cf7m-resp__confirm-yes"
-														onClick={() => {
-															const action = confirmPending.action;
-															const id = confirmPending.id;
+							{entries.map((e) => {
+								const unread = e.status === 'new';
+								const preview = getFirstFieldValue(e);
+								return (
+									<TableRow key={e.id}>
+										<TableCell className="pe-0">
+											{/* translators: %d: response ID. */}
+											<Checkbox checked={selectedIds.includes(e.id)} onChange={() => toggleSelect(e.id)} aria-label={sprintf(__('Select response %d', 'cf7-styler-for-divi'), e.id)} />
+										</TableCell>
+										<TableCell className="py-3">
+											<div className="flex items-center gap-3">
+												<Avatar name={preview === NONE ? e.form_title : preview} seed={e.id} />
+												<div className="min-w-0">
+													<div className="flex min-w-0 items-center gap-2">
+														<a href={`#/responses/${e.id}`} className={cn('max-w-[320px] truncate text-foreground hover:text-primary max-[600px]:max-w-[170px]', unread ? 'font-semibold' : 'font-medium')}>
+															<bdi>{e.form_title || `#${e.form_id}`}</bdi>
+														</a>
+														{unread && (
+															<>
+																<span aria-hidden="true" title={__('Unread', 'cf7-styler-for-divi')} className="h-2 w-2 shrink-0 rounded-full bg-coral" />
+																<span className="sr-only">{__('Unread', 'cf7-styler-for-divi')}</span>
+															</>
+														)}
+													</div>
+													<div className="text-xs text-muted-foreground">
+														#{e.id}
+														<span className="min-[601px]:hidden"> · <span dir="ltr">{e.created}</span></span>
+													</div>
+												</div>
+											</div>
+										</TableCell>
+										<TableCell className="max-w-[320px] truncate text-foreground/80 max-[782px]:hidden"><bdi>{preview}</bdi></TableCell>
+										<TableCell className="whitespace-nowrap text-muted-foreground max-[600px]:hidden"><span dir="ltr">{e.created}</span></TableCell>
+										<TableCell>
+											<div className="flex items-center justify-end gap-0.5">
+												{confirmPending?.id === e.id ? (
+													<Confirm
+														label={confirmPending.action === 'delete' ? __('Delete?', 'cf7-styler-for-divi') : __('Trash?', 'cf7-styler-for-divi')}
+														onYes={() => {
+															const { action, id } = confirmPending;
 															setConfirmPending(null);
 															if (action === 'delete') deletePermanently(id);
 															else moveToTrash(id);
 														}}
-													>
-														{__('Yes', 'cf7-styler-for-divi')}
-													</button>
-													<button
-														type="button"
-														className="cf7m-resp__confirm-cancel"
-														onClick={() => setConfirmPending(null)}
-													>
-														{__('No', 'cf7-styler-for-divi')}
-													</button>
-												</>
-											) : (
-												<>
-													{e.status !== 'trash' && (
-														<a
-															href={`#/responses/${e.id}`}
-															className="cf7m-resp__icon-btn"
-															title={__('View', 'cf7-styler-for-divi')}
-															aria-label={__('View', 'cf7-styler-for-divi')}
-														>
-															<EyeIcon aria-hidden="true" />
-														</a>
-													)}
-													{e.status === 'trash' ? (
-														<>
-															<button
-																type="button"
-																className="cf7m-resp__icon-btn"
-																title={__('Restore', 'cf7-styler-for-divi')}
-																aria-label={__('Restore', 'cf7-styler-for-divi')}
-																onClick={() => updateStatus(e.id, 'read')}
-															>
-																<ArrowUturnLeftIcon aria-hidden="true" />
-															</button>
-															<button
-																type="button"
-																className="cf7m-resp__icon-btn cf7m-resp__icon-btn--danger"
-																title={__('Delete permanently', 'cf7-styler-for-divi')}
-																aria-label={__('Delete permanently', 'cf7-styler-for-divi')}
-																onClick={() => setConfirmPending({ id: e.id, action: 'delete' })}
-															>
-																<TrashIcon aria-hidden="true" />
-															</button>
-														</>
-													) : (
-														<button
-															type="button"
-															className="cf7m-resp__icon-btn cf7m-resp__icon-btn--danger"
-															title={__('Move to trash', 'cf7-styler-for-divi')}
-															aria-label={__('Move to trash', 'cf7-styler-for-divi')}
-															onClick={() => setConfirmPending({ id: e.id, action: 'trash' })}
+														onNo={() => setConfirmPending(null)}
+													/>
+												) : (
+													<>
+														{e.status !== 'trash' && (
+															<a href={`#/responses/${e.id}`} className={buttonVariants({ variant: 'ghost', size: 'icon' })} title={__('View', 'cf7-styler-for-divi')} aria-label={__('View', 'cf7-styler-for-divi')}>
+																<EyeIcon aria-hidden="true" />
+															</a>
+														)}
+														{e.status === 'trash' && (
+															<Button variant="ghost" size="icon" title={__('Restore', 'cf7-styler-for-divi')} aria-label={__('Restore', 'cf7-styler-for-divi')} onClick={() => updateStatus(e.id, 'read')}>
+																<ArrowUturnLeftIcon aria-hidden="true" className="rtl:-scale-x-100" />
+															</Button>
+														)}
+														<Button
+															variant="ghost"
+															size="icon"
+															className="hover:text-destructive"
+															title={e.status === 'trash' ? __('Delete permanently', 'cf7-styler-for-divi') : __('Move to trash', 'cf7-styler-for-divi')}
+															aria-label={e.status === 'trash' ? __('Delete permanently', 'cf7-styler-for-divi') : __('Move to trash', 'cf7-styler-for-divi')}
+															onClick={() => setConfirmPending({ id: e.id, action: e.status === 'trash' ? 'delete' : 'trash' })}
 														>
 															<TrashIcon aria-hidden="true" />
-														</button>
-													)}
-												</>
-											)}
-										</div>
-									</td>
-								</tr>
-							))}
+														</Button>
+													</>
+												)}
+											</div>
+										</TableCell>
+									</TableRow>
+								);
+							})}
 						</tbody>
-					</table>
+					</Table>
 				)}
-			</div>
 
-			{!loading && entries.length > 0 && (
-				<footer className="cf7m-resp__pagination">
-					<div className="cf7m-resp__pagination-info">
-						<span>
-							{__('Page %1$d of %2$d', 'cf7-styler-for-divi')
-								.replace('%1$d', currentPage)
-								.replace('%2$d', pages || 1)}
-						</span>
-						<SelectControl
-							__nextHasNoMarginBottom
-							value={String(perPage)}
-							options={[10, 25, 50, 100].map((n) => ({
-								label: __('%d per page', 'cf7-styler-for-divi').replace('%d', n),
-								value: String(n),
-							}))}
-							onChange={(v) => {
-								setPerPage(Number(v));
-								setCurrentPage(1);
-							}}
-							aria-label={__('Per page', 'cf7-styler-for-divi')}
-						/>
+				{!loading && entries.length > 0 && (
+					<div className="flex flex-wrap items-center justify-between gap-3 border-t border-divider px-3.5 py-2.5 text-xs text-muted-foreground">
+						<div className="flex items-center gap-3">
+							{/* translators: 1: current page, 2: total pages. */}
+							<span>{sprintf(__('Page %1$d of %2$d', 'cf7-styler-for-divi'), currentPage, pages || 1)}</span>
+							<NativeSelect
+								aria-label={__('Per page', 'cf7-styler-for-divi')}
+								selectClassName="h-[30px]"
+								value={String(perPage)}
+								/* translators: %d: responses per page. */
+								options={[10, 25, 50, 100].map((n) => ({ label: sprintf(__('%d per page', 'cf7-styler-for-divi'), n), value: String(n) }))}
+								onChange={(event) => {
+									setPerPage(Number(event.target.value));
+									setCurrentPage(1);
+								}}
+							/>
+						</div>
+						<div className="flex gap-1">
+							<Button size="icon" disabled={currentPage <= 1} onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} aria-label={__('Previous page', 'cf7-styler-for-divi')}>
+								<ChevronLeftIcon aria-hidden="true" className="rtl:-scale-x-100" />
+							</Button>
+							<Button size="icon" disabled={currentPage >= (pages || 1)} onClick={() => setCurrentPage((p) => Math.min(pages || 1, p + 1))} aria-label={__('Next page', 'cf7-styler-for-divi')}>
+								<ChevronRightIcon aria-hidden="true" className="rtl:-scale-x-100" />
+							</Button>
+						</div>
 					</div>
-					<div className="cf7m-resp__pagination-nav">
-						<Button
-							variant="tertiary"
-							size="small"
-							disabled={currentPage <= 1}
-							onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-							icon={<ChevronLeftIcon className="cf7m-resp__icon" />}
-							label={__('Previous page', 'cf7-styler-for-divi')}
-							showTooltip
-						/>
-						<Button
-							variant="tertiary"
-							size="small"
-							disabled={currentPage >= (pages || 1)}
-							onClick={() => setCurrentPage((p) => Math.min(pages || 1, p + 1))}
-							icon={<ChevronRightIcon className="cf7m-resp__icon" />}
-							label={__('Next page', 'cf7-styler-for-divi')}
-							showTooltip
-						/>
-					</div>
-				</footer>
-			)}
-			</div>
-		</div>
+				)}
+			</Card>
+		</Main>
+		{toastNode}
+		</>
 	);
 }

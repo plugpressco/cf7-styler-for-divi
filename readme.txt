@@ -1,89 +1,125 @@
-=== CF7 Mate ===
+=== CF7 Mate – Contact Form 7 Styler, Multi-Step Forms & Conditional Logic ===
 Contributors: badhonrocks, plugpressco
-Tags: contact form 7, cf7, form styler, multi-step form, conditional logic
+Tags: contact form 7, contact form 7 styler, multi step form, conditional fields, contact form 7 database
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.0.0
+Stable tag: 4.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Style Contact Form 7 forms, add steps and conditional fields, and save responses in WordPress.
+Style Contact Form 7 forms. Add multi-step forms, conditional logic and a submissions database. All free, with an AI form builder.
 
 == Description ==
 
-CF7 Mate adds styling and extra tools to Contact Form 7. You keep building forms in the normal CF7 editor.
+**Style Contact Form 7. Add multi-step forms, conditional logic and a submissions database. 100% free.**
 
-All features are free on any number of sites. There is no Pro version and no license key.
+CF7 Mate is a free add-on for Contact Form 7. It makes your forms look good and do more.
 
-= Features =
+Style your forms in Divi, Elementor, Bricks or the block editor. Split long forms into steps. Show fields only when they are needed. Save every submission in WordPress.
 
-* **Styling:** Design forms in Divi 4, Divi 5, the block editor, Elementor or Bricks.
-* **Multi-step forms:** Split a long form into steps with a progress bar.
-* **Conditional logic:** Show or hide fields based on other answers.
-* **Columns:** Place fields side by side.
-* **Extra fields:** Star rating, range slider, phone number, heading, separator, image and icon.
-* **Style presets:** Start from a ready-made look.
-* **Responses:** Save submissions in WordPress. Search, export or print them.
-* **Analytics:** See views and submissions for each form.
-* **Webhooks:** Send submissions to the URLs you add.
-* **Email routing:** Send the notification to a different address based on an answer.
-* **Redirect:** Take visitors to any page after they submit.
-* **Scheduling:** Open and close a form on set dates.
-* **Save and continue:** Visitors finish later in the same browser, within seven days.
-* **AI form generator:** Describe a form and get the CF7 markup. Uses your own AI key.
-* **AI agent tools:** Let an AI app create and edit forms through Saddle.
+You still build forms in the Contact Form 7 editor. There is nothing new to learn.
 
-= Settings =
+**NEW!** Build forms with ChatGPT or Claude. Connect your AI app with [Saddle](https://saddle.to/), describe the form, and it appears in Contact Form 7.
 
-Turn features on or off under CF7Mate > Settings. Add AI keys and webhook URLs under Tools.
+All features are free on unlimited sites. No Pro version. No license key.
 
-Form responses, analytics, webhooks and save and continue start off on new sites and on sites updated from the old free version. Sites updated from Pro keep their settings. Updates never delete saved data.
+= 🎨 Contact Form 7 styler =
 
-Analytics counts submissions only while Form responses is on, so its numbers are estimates.
+* **Visual form styler:** Style labels, fields and buttons in Divi 4, Divi 5, Elementor, Bricks or the block editor. No CSS needed.
+* **Style presets:** Pick a ready-made look, then change it as you like.
+* **Columns:** Put fields side by side.
+* **Extra fields:** Star rating, range slider, phone number with country code, heading, separator, image and icon.
 
-= Privacy =
+= 🧩 Multi-step forms and conditional logic =
 
-CF7 Mate does not check a license or send usage data to PlugPress. Updates come from WordPress.org.
+* **Multi-step forms:** Break a long form into steps. A progress bar shows how far along the visitor is.
+* **Conditional logic:** Show or hide fields based on earlier answers.
+* **Save and continue:** Visitors can stop and finish later in the same browser, within seven days.
+* **Scheduling:** Open and close a form on the dates you choose.
 
-* Form responses stay in your database. Each one stores the submitted fields, the visitor's IP address and browser details.
-* Save and continue keeps progress for seven days in WordPress transients, with a random key in the visitor's browser local storage.
-* Webhooks send each submission as JSON to the URLs you add: form ID and title, time, fields, IP address and browser details. Nothing is sent until you turn on webhooks and add a URL. The Test button sends sample data from your browser.
-* An image placed in a form loads from its host. Use images from your own site to avoid that request.
+= 📬 Save submissions and act on them =
 
-You choose the privacy notice, consent and data retention for your site.
+* **Submissions database:** Save every Contact Form 7 submission in WordPress. Search, export to CSV or print them. Turn on Form responses to start.
+* **Form analytics:** See views and submissions for each form.
+* **Email routing:** Send the email to a different person based on an answer.
+* **Redirect after submit:** Send visitors to a thank-you page or any URL. You can add their answers to the URL.
+* **Webhooks:** Send each submission to Zapier, Make, n8n or any URL.
 
-= AI providers =
+= ✨ AI form builder =
 
-The AI form generator contacts a provider only after an admin adds a key and asks for a form. It sends the prompt, the chosen model, any attached image and your key. Keep personal data out of prompts. Your provider may charge for each request.
+* **AI form generator:** Describe your form in plain words. CF7 Mate writes the form for you. It uses your own OpenAI, Anthropic, Gemini or OpenRouter key.
+* **AI agents:** Let ChatGPT or Claude create and edit forms with [Saddle](https://saddle.to/).
+
+= 🚀 Get started =
+
+1. Install and activate [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) and CF7 Mate.
+2. Go to **Contact > CF7 Mate**. Turn on the features you need.
+3. Edit a form in Contact Form 7. Use the CF7 Mate tag buttons to add fields, steps and conditions. Use the **CF7 Mate** tab for responses, redirects, email routing and scheduling.
+4. Add the form to a page. Use the CF7 Mate module, block, widget or element in your builder, or the CF7 shortcode.
+
+Need help? Read the [getting started guide](https://plugpress.io/docs/cf7-mate-getting-started/) or browse the [docs](https://plugpress.io/docs/).
+
+= 🤖 Build forms with ChatGPT or Claude =
+
+[Saddle](https://saddle.to/) is a free plugin. It connects ChatGPT, Claude and other AI apps to your site. Then you can build forms just by asking.
+
+1. Install [Saddle](https://saddle.to/) and [connect your AI app](https://saddle.to/docs/connect-your-ai-app/).
+2. In Saddle, turn on the CF7 Mate integration. Give the app Edit content access.
+3. Ask for a form. For example: "Create a quote form with name, email, budget and project details."
+
+Good to know:
+
+* The app can find, read, create and edit forms.
+* It cannot see responses or AI keys, and it never sends test submissions.
+* Check each form and its Mail tab before you use it.
+* It needs WordPress 6.9 or later.
+* CF7 Mate never installs or connects Saddle for you. The AI app uses its own account, not your CF7 Mate AI key.
+
+Read more in the [CF7 Mate and Saddle guide](https://plugpress.io/docs/cf7-mate-saddle/).
+
+= ⚙️ Settings =
+
+Turn features on or off in **Contact > CF7 Mate**. Add AI keys and webhook URLs under **Tools**.
+
+On new sites, Form responses, Analytics, Webhooks and Save and continue start turned off. Sites updated from Pro keep their settings. Updates never delete your data.
+
+Analytics only counts submissions saved by Form responses, so treat its numbers as estimates.
+
+= 🔒 Privacy =
+
+CF7 Mate does not check a license. It sends no usage data to PlugPress. Updates come from WordPress.org.
+
+* **Form responses** are saved in your database. Each one stores the form fields, the visitor's IP address and browser details.
+* **Save and continue** keeps progress for seven days in WordPress transients. The visitor's browser keeps a random key in local storage.
+* **Webhooks** send each submission as JSON to the URLs you add. This includes the form ID and title, time, fields, IP address and browser details. Nothing is sent until you turn on webhooks and add a URL. The Test button sends sample data from your browser.
+* **Images** in a form load from where they are hosted. Use images from your own site to avoid outside requests.
+
+You decide the privacy notice, consent and data retention for your site.
+
+= 🔌 AI providers =
+
+The AI form generator only contacts a provider after an admin adds a key and asks for a form. It sends your prompt, the chosen model, any attached image and your key. Keep personal data out of prompts. Your provider may charge for each request.
 
 * OpenAI (api.openai.com): [Service](https://openai.com/api/) · [Terms](https://openai.com/policies/terms-of-use/) · [Privacy](https://openai.com/policies/privacy-policy/)
 * Anthropic (api.anthropic.com): [Service](https://www.anthropic.com/api) · [Terms](https://www.anthropic.com/legal/commercial-terms) · [Privacy](https://www.anthropic.com/legal/privacy)
 * Google Gemini (generativelanguage.googleapis.com): [Service](https://ai.google.dev/) · [Terms](https://ai.google.dev/gemini-api/terms) · [Privacy](https://policies.google.com/privacy)
 * OpenRouter (openrouter.ai): [Service](https://openrouter.ai/) · [Terms](https://openrouter.ai/terms) · [Privacy](https://openrouter.ai/privacy)
 
-= AI agents with Saddle =
-
-[Saddle](https://wordpress.org/plugins/saddle/) is a separate free plugin that connects an AI app to your site. On WordPress 6.9 or later, CF7 Mate gives it four tools: find, read, create and edit forms.
-
-* An admin must enable the CF7 Mate integration in Saddle and give the app Edit content access.
-* The tools cannot read responses or AI keys, and never send a test submission.
-* Review each form and its Mail tab before you publish it.
-
-CF7 Mate never installs or connects Saddle for you. The AI app uses its own account, not your CF7 Mate AI key.
-
-= Source code =
+= 💻 Source code =
 
 Full source and build files are on [GitHub](https://github.com/plugpressco/cf7-styler-for-divi). To build, run `npm ci` and then `npm run build`.
 
-[Docs](https://plugpress.io/docs-category/cf7-mate/) · [Support](https://plugpress.io/support/)
+[Docs](https://plugpress.io/docs/) · [Support](https://plugpress.io/support/) · [Saddle](https://saddle.to/)
 
 == Installation ==
 
 1. Install and activate Contact Form 7.
 2. Install and activate CF7 Mate.
-3. Open CF7Mate > Settings and turn on what you need.
-4. Add the form with your builder's CF7 Mate module, block or widget, or with the usual CF7 shortcode.
+3. Go to **Contact > CF7 Mate** and turn on what you need.
+4. Add the form to a page. Use your builder's CF7 Mate module, block or widget, or the CF7 shortcode.
+
+For a step-by-step walkthrough, see the [getting started guide](https://plugpress.io/docs/cf7-mate-getting-started/).
 
 = Switching from CF7 Mate Pro =
 
@@ -94,13 +130,29 @@ Full source and build files are on [GitHub](https://github.com/plugpressco/cf7-s
 
 Leave Pro inactive. While it is active, CF7 Mate stays off and shows a notice. It never deactivates Pro for you.
 
-Installing CF7 Mate does not cancel a Pro subscription. Contact support about billing.
+Installing CF7 Mate does not cancel a Pro subscription. Contact support about billing. More detail is in the [switching guide](https://plugpress.io/docs/cf7-mate-switch-from-pro/).
 
 == Frequently Asked Questions ==
 
 = Is everything free? =
 
 Yes, on any number of sites. Only your AI provider may charge for AI use.
+
+= How do I style Contact Form 7 forms? =
+
+Add the CF7 Mate module, block, widget or element to a page in Divi, the block editor, Elementor or Bricks. Pick your form. Then style the labels, fields and buttons right in the builder.
+
+= How do I make a multi-step Contact Form 7 form? =
+
+Turn on Multi-step forms in **Contact > CF7 Mate**. In the form editor, click the **step** button to add a step. Visitors see one step at a time, with a progress bar.
+
+= How do I add conditional fields to Contact Form 7? =
+
+Turn on Conditional logic in Settings. In the form editor, click the **conditional** button. Choose which fields to show, and when.
+
+= How do I save Contact Form 7 submissions to the database? =
+
+Turn on Form responses in **Contact > CF7 Mate**. New submissions are then saved in WordPress. Find them under **Contact > CF7 Mate > Responses**. You can search, export to CSV or print them.
 
 = Does it replace Contact Form 7? =
 
@@ -118,13 +170,17 @@ Not on its own. Sites from the old free version must turn on Form responses. Sit
 
 Turn it on in Settings, then on each form. A visitor can return in the same browser within seven days. There are no email resume links, and uploaded files are not restored.
 
+= Can ChatGPT or Claude build my forms? =
+
+Yes, with [Saddle](https://saddle.to/). Connect your AI app, turn on the CF7 Mate integration, and ask for the form you need. It needs WordPress 6.9 or later.
+
 = Why is the plugin slug cf7-styler-for-divi? =
 
 It is the original WordPress.org slug. Keeping it means updates keep working.
 
 = Where can I get help? =
 
-Ask on the WordPress.org support forum or [PlugPress support](https://plugpress.io/support/). Guides are in the [docs](https://plugpress.io/docs-category/cf7-mate/).
+Ask on the WordPress.org support forum or [PlugPress support](https://plugpress.io/support/). Guides are in the [docs](https://plugpress.io/docs/).
 
 == Screenshots ==
 
@@ -137,6 +193,16 @@ Ask on the WordPress.org support forum or [PlugPress support](https://plugpress.
 7. Feature toggles in the CF7 Mate dashboard.
 
 == Changelog ==
+
+= 4.1.0 =
+* CF7 Mate now lives under the Contact menu. Old admin links still work.
+* A calmer admin: checkbox tiles for features, shorter text and the new brand colors.
+* Setup is a small card on the Features tab instead of a full screen wizard and notice.
+* Shorter Saddle tab.
+* Better support for right-to-left languages and longer translations in the admin and the CF7 Mate editor tab.
+* Fixed: on Contact Form 7 5.x, multi-step forms let visitors skip empty required fields once the page had fully loaded.
+* Fixed: CF7 Mate's field tag tools did not load in the Contact Form 7 6.2 editor.
+* Fixed: the AI form generator showed an image remove button with no image attached.
 
 = 4.0.0 =
 * All features are now free: multi-step forms, conditional logic, responses, analytics, webhooks, email routing, redirects, scheduling, save and continue and style presets.
@@ -222,6 +288,9 @@ Ask on the WordPress.org support forum or [PlugPress support](https://plugpress.
 * Improved: Form styling performance and mobile responsiveness.
 
 == Upgrade Notice ==
+
+= 4.1.0 =
+CF7 Mate moves under the Contact menu with a simpler admin. Fixes the field tag tools on Contact Form 7 6.2.
 
 = 4.0.0 =
 Major release. All features are now free and your data is kept. On former free sites, the new data features start off. Pro users: read "Switching from CF7 Mate Pro" first.

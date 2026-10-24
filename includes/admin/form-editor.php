@@ -42,6 +42,7 @@ class Form_Editor
         wp_localize_script('cf7m-editor-panel', 'cf7mEditor', [
             'on' => __('On', 'cf7-styler-for-divi'),
             'off' => __('Off', 'cf7-styler-for-divi'),
+            'enabled' => __('Enabled', 'cf7-styler-for-divi'),
             'unsaved' => __('Unsaved changes. Save the form to apply them.', 'cf7-styler-for-divi'),
             'routingEmpty' => __('No routing rules yet. Notifications use the recipient in the Mail tab.', 'cf7-styler-for-divi'),
             'redirectEmpty' => __('No conditional redirects. All submissions use the default destination above.', 'cf7-styler-for-divi'),
@@ -60,7 +61,7 @@ class Form_Editor
             <div class="cf7m-editor-layout">
                 <aside class="cf7m-editor-sidebar" hidden>
                     <nav class="cf7m-editor-nav" aria-label="<?php esc_attr_e('Form settings sections', 'cf7-styler-for-divi'); ?>"></nav>
-                    <a class="cf7m-editor-manage" href="<?php echo esc_url(admin_url('admin.php?page=cf7-mate#/features')); ?>"><?php esc_html_e('Manage available features', 'cf7-styler-for-divi'); ?> <span aria-hidden="true">↗</span></a>
+                    <a class="cf7m-editor-manage" href="<?php echo esc_url(admin_url('admin.php?page=cf7-mate#/features')); ?>"><?php esc_html_e('Manage features', 'cf7-styler-for-divi'); ?> <span aria-hidden="true">↗</span></a>
                 </aside>
                 <div class="cf7m-editor-panels">
                     <?php do_action('cf7m_editor_panel_sections', $contact_form); ?>

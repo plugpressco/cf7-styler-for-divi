@@ -26,6 +26,7 @@ async page => {
       return enhanced === native;
     });
     assert(nativeStylesUnchanged, 'CF7 Mate styles leave native editor tabs, panels, textarea and tag buttons unchanged');
+    assert(await page.locator('script[src*="cf7m-tag-generators-lite.js"]').count() === 1 && await page.locator('script[src*="/cf7m-tag-generators.js"]').count() === 1, 'Tag generator scripts load on the CF7 editor');
     assert(await page.locator('.cf7m-field-tools').count() === 0 && await page.locator('#tag-generator-list > [data-target=tag-generator-panel-cf7m-step], #tag-generator-list > a[href*="inlineId=tag-generator-panel-cf7m-step"]').count() === 1, 'Native Form field tools retain their original placement');
     await page.getByRole('tab', {name:'CF7 Mate', exact:true}).click();
     await page.locator('.cf7m-editor-nav button').first().waitFor();

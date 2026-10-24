@@ -102,7 +102,7 @@ class Admin_Review_Notice {
 		<div id="<?php echo esc_attr( self::NOTICE_ID ); ?>" class="cf7m-rn-wrap notice">
 			<div class="cf7m-rn">
 				<svg class="cf7m-rn__icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-					<path d="M10 1l2.39 5.26 5.61.82-4.06 3.95.96 5.58L10 14.27 5.1 16.61l.96-5.58L2 7.08l5.61-.82L10 1z" fill="#3044d7" fill-opacity=".15" stroke="#3044d7" stroke-width="1.4" stroke-linejoin="round"/>
+					<path d="M10 1l2.39 5.26 5.61.82-4.06 3.95.96 5.58L10 14.27 5.1 16.61l.96-5.58L2 7.08l5.61-.82L10 1z" fill="#DF7A6D" fill-opacity=".2" stroke="#DF7A6D" stroke-width="1.4" stroke-linejoin="round"/>
 				</svg>
 
 				<div class="cf7m-rn__body">
@@ -157,8 +157,8 @@ class Admin_Review_Notice {
 			.cf7m-rn__stars { display: inline-flex; gap: 2px; align-items: center; }
 			.cf7m-rn__star { background: none; border: none; padding: 2px; cursor: pointer; color: #d1d5db; transition: color .1s, transform .1s; display: inline-flex; line-height: 1; }
 			.cf7m-rn__star svg { width: 18px; height: 18px; display: block; }
-			.cf7m-rn__star:hover, .cf7m-rn__star.is-lit { color: #f59e0b; transform: scale(1.15); }
-			.cf7m-rn__star.is-lit svg path { fill: #f59e0b; stroke: #f59e0b; }
+			.cf7m-rn__star:hover, .cf7m-rn__star.is-lit { color: #DF7A6D; transform: scale(1.15); }
+			.cf7m-rn__star.is-lit svg path { fill: #DF7A6D; stroke: #DF7A6D; }
 			.cf7m-rn__later, .cf7m-rn__close { background: none; border: none; cursor: pointer; color: #9ca3af; border-radius: 4px; transition: color .15s, background .15s; }
 			.cf7m-rn__later { padding: 4px 8px; font-size: 12px; white-space: nowrap; margin-left: auto; }
 			.cf7m-rn__later:hover { color: #6b7280; }
@@ -205,7 +205,7 @@ class Admin_Review_Notice {
 					window.open(reviewUrl, '_blank', 'noopener');
 					setTimeout(function(){ hideAndForget('forever'); }, 3000);
 				} else {
-					$label.html('<?php echo esc_js( __( 'Thanks for the feedback! Anything we can fix?', 'cf7-styler-for-divi' ) ); ?> <a href="' + supportUrl + '" target="_blank" rel="noopener" style="color:#3044d7;font-weight:600;text-decoration:none;"><?php echo esc_js( __( 'Contact support →', 'cf7-styler-for-divi' ) ); ?></a>');
+					$label.html('<?php echo esc_js( __( 'Thanks. Tell us what we can fix.', 'cf7-styler-for-divi' ) ); ?> <a href="' + supportUrl + '" target="_blank" rel="noopener" style="color:#3F6253;font-weight:600;text-decoration:none;"><?php echo esc_js( __( 'Contact support →', 'cf7-styler-for-divi' ) ); ?></a>');
 					$starWrap.hide();
 					setTimeout(function(){ hideAndForget('forever'); }, 4500);
 				}

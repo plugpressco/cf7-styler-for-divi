@@ -4,11 +4,35 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+// Admin styles are the only Tailwind consumers.
+const isAdminStyle = (file) => /[\\/]src[\\/](admin|components)[\\/]/.test(file || '');
+
+// Tailwind writes its --tw-* defaults on `*, ::before, ::after` and
+// `::backdrop`; keep even those inert variables inside the app root.
+const scopeTailwindDefaults = () => ({
+	postcssPlugin: 'cf7m-scope-tailwind-defaults',
+	Rule(rule) {
+		if (rule.selector.startsWith('#cf7-mate-app-root')) {
+			return;
+		}
+		if (rule.parent && rule.parent.type === 'atrule' && /keyframes$/.test(rule.parent.name)) {
+			return;
+		}
+		rule.selectors = rule.selectors.map((selector) => {
+			const part = selector.trim();
+			if (part === '*') {
+				return '#cf7-mate-app-root, #cf7-mate-app-root *';
+			}
+			return `#cf7-mate-app-root ${part}`;
+		});
+	},
+});
+scopeTailwindDefaults.postcss = true;
+
 module.exports = {
 	entry: {
 		'bundle-4': './src/divi4/index.js',
 		lagecy: './src/divi4/lagecy.js',
-		onboarding: './src/onboarding/index.jsx',
 		admin: './src/admin/admin-index.js',
 		blocks: './src/gutenberg/index.js',
 		utils: './src/utils/index.js',
@@ -61,11 +85,16 @@ module.exports = {
 					{
 						loader: 'postcss-loader',
 						options: {
-							postcssOptions: {
-								plugins: [
-									require('tailwindcss'),
-									require('autoprefixer'),
-								],
+							postcssOptions: (loaderContext) => {
+								const admin = isAdminStyle(loaderContext.resourcePath);
+								return {
+									config: false,
+									plugins: [
+										...(admin ? [require('tailwindcss'), scopeTailwindDefaults] : []),
+										require('autoprefixer'),
+										...(admin && isProduction ? [require('cssnano')({ preset: 'default' })] : []),
+									],
+								};
 							},
 						},
 					},

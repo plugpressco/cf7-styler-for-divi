@@ -33,7 +33,7 @@ class AI_Settings
 	 * Inject AI provider config so the Settings app can render the AI Provider tab.
 	 *
 	 * @param array $localize Existing localize data.
-	 * @param array $options  Options passed to render_app_root.
+	 * @param array $options  Screen options (app, current_page).
 	 * @return array
 	 */
 	public function filter_admin_localize($localize, $options)

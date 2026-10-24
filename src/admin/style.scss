@@ -1,6 +1,5 @@
-// Plugin-owned styles are scoped to the app; WordPress keeps its own chrome.
-@import './styles/tokens.scss';
-@import './styles/responses.scss';
-@import './styles/modern.scss';
-
-@import '../components/saddle.scss';
+// Plugin-owned styles are scoped to #cf7-mate-app-root; WordPress keeps its own chrome.
+@use './styles/base';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

@@ -75,7 +75,7 @@ class Entry_Print {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php echo esc_html( $form_title ?: __( 'Form Submission', 'cf7-styler-for-divi' ) ); ?> — <?php echo esc_html( $site_name ); ?></title>
+<title><?php echo esc_html( $form_title ?: __( 'Form Submission', 'cf7-styler-for-divi' ) ); ?> | <?php echo esc_html( $site_name ); ?></title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; color: #111; background: #fff; padding: 40px; }
@@ -90,7 +90,7 @@ th { font-weight: 600; color: #374151; width: 35%; background: #f9fafb; }
 td { color: #111; word-break: break-word; }
 .cf7mp-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; background: #d1f0e0; color: #065f46; }
 .cf7mp-footer { margin-top: 40px; font-size: 11px; color: #aaa; text-align: center; }
-.cf7mp-print-btn { position: fixed; top: 16px; right: 16px; padding: 8px 18px; background: #3858e9; color: #fff; border: 0; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.cf7mp-print-btn { position: fixed; top: 16px; right: 16px; padding: 8px 18px; background: #3F6253; color: #fff; border: 0; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
 @media print {
   .cf7mp-print-btn { display: none; }
   body { padding: 20px; }

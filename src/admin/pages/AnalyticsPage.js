@@ -1,8 +1,23 @@
 import { useState, useEffect, useCallback } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { Spinner, Button } from '@wordpress/components';
-import { ChartBarIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, ArrowTrendingUpIcon, ChartBarIcon, EnvelopeIcon, EyeIcon } from '@heroicons/react/24/outline';
 import apiFetch from '@wordpress/api-fetch';
+import { Main } from '../components/Layout';
+import { Alert, Button, Card, EmptyState, IconChip, LoadingState, MeterBar, PageHeader, Table, TableCell, TableHead, TableRow } from '../components/ui';
+import { cn } from '../lib/utils';
+import { getConfig } from '../utils/config';
+
+function Metric({ icon, tone, label, value }) {
+	return (
+		<Card as="div" className="px-[18px] py-4 transition-[transform,box-shadow] duration-200 hover:-translate-y-px hover:shadow-[0_6px_16px_rgba(33,55,45,.08)]">
+			<dt className="flex flex-col items-start gap-3 text-[12.5px] text-muted-foreground">
+				<IconChip tone={tone}>{icon}</IconChip>
+				{label}
+			</dt>
+			<dd className="mt-0.5 text-[26px] font-semibold leading-tight tracking-[-0.5px] tabular-nums">{value}</dd>
+		</Card>
+	);
+}
 
 export function AnalyticsPage() {
 	const [rows, setRows] = useState([]);
@@ -12,27 +27,81 @@ export function AnalyticsPage() {
 		setLoading(true);
 		setError(null);
 		apiFetch({ path: '/cf7-styler/v1/analytics/stats' })
-			.then(data => setRows(Array.isArray(data) ? data : []))
-			.catch(err => setError(err?.message || __('Could not load analytics.', 'cf7-styler-for-divi')))
+			.then((data) => setRows(Array.isArray(data) ? data : []))
+			.catch((err) => setError(err?.message || __('Could not load analytics.', 'cf7-styler-for-divi')))
 			.finally(() => setLoading(false));
 	}, []);
 	useEffect(() => { fetchStats(); }, [fetchStats]);
+
 	const views = rows.reduce((sum, row) => sum + (row.views || 0), 0);
 	const submissions = rows.reduce((sum, row) => sum + (row.submissions || 0), 0);
-	const responsesUrl = typeof dcsCF7Styler !== 'undefined' ? dcsCF7Styler.responses_url : 'admin.php?page=cf7-mate-responses';
+	const best = rows.reduce((max, row) => Math.max(max, Number(row.conversion) || 0), 0);
+	const responsesUrl = getConfig().responses_url || 'admin.php?page=cf7-mate-responses';
+	const hasData = !loading && !error && rows.length > 0;
+
 	return (
-		<main className="cf7m-resp">
-			<div className="cf7m-page-heading"><div><h1>{__('Analytics', 'cf7-styler-for-divi')}</h1><p>{__('A clearer picture of how your forms perform.', 'cf7-styler-for-divi')}</p></div><Button variant="secondary" onClick={fetchStats} disabled={loading}>{__('Refresh', 'cf7-styler-for-divi')}</Button></div>
-			{loading && <div className="cf7m-resp__loading" role="status"><Spinner />{__('Loading analytics…', 'cf7-styler-for-divi')}</div>}
-			{!loading && error && <div className="cf7m-tool-notice cf7m-tool-notice--error" role="alert">{error}<Button variant="tertiary" onClick={fetchStats}>{__('Try again', 'cf7-styler-for-divi')}</Button></div>}
-			{!loading && !error && rows.length === 0 && <div className="cf7m-resp__card cf7m-resp__empty"><ChartBarIcon className="cf7m-resp__empty-icon" aria-hidden="true" /><h2 className="cf7m-resp__empty-title">{__('Your form insights start here', 'cf7-styler-for-divi')}</h2><p className="cf7m-resp__empty-sub">{__('Visit a page with a form to start tracking views.', 'cf7-styler-for-divi')}</p></div>}
-			{!loading && !error && rows.length > 0 && <>
-				<dl className="cf7m-metrics"><div className="cf7m-metric"><dt>{__('Form views', 'cf7-styler-for-divi')}</dt><dd>{views.toLocaleString()}</dd></div><div className="cf7m-metric"><dt>{__('Saved submissions', 'cf7-styler-for-divi')}</dt><dd>{submissions.toLocaleString()}</dd></div><div className="cf7m-metric"><dt>{__('Estimated conversion', 'cf7-styler-for-divi')}</dt><dd>{views ? `${Math.round(submissions / views * 100)}%` : '—'}</dd></div></dl>
-				<div className="cf7m-resp__card"><div className="cf7m-analytics__caption"><h2>{__('Performance by form', 'cf7-styler-for-divi')}</h2><span>{__('All time', 'cf7-styler-for-divi')}</span></div><div className="cf7m-resp__table-wrap"><table className="cf7m-resp__table"><thead><tr>
-					{[__('Form', 'cf7-styler-for-divi'), __('Views', 'cf7-styler-for-divi'), __('Submissions', 'cf7-styler-for-divi'), __('Conversion', 'cf7-styler-for-divi'), __('Last submission', 'cf7-styler-for-divi')].map((label, index) => <th key={label} scope="col" className={`cf7m-resp__th${index > 0 && index < 4 ? ' cf7m-resp__th--num' : ''}`}>{label}</th>)}
-				</tr></thead><tbody>{rows.map(row => <tr key={row.form_id} className="cf7m-resp__row"><td className="cf7m-resp__td cf7m-resp__td--strong"><a href={responsesUrl} className="cf7m-resp__id-link">{row.form_title || `#${row.form_id}`}</a><span className="cf7m-resp__td--sub">#{row.form_id}</span></td><td className="cf7m-resp__td cf7m-resp__td--num">{row.views.toLocaleString()}</td><td className="cf7m-resp__td cf7m-resp__td--num">{row.submissions.toLocaleString()}</td><td className="cf7m-resp__td cf7m-resp__td--num"><span className="cf7m-analytics__rate">{row.conversion}%</span></td><td className="cf7m-resp__td cf7m-resp__td--muted">{row.last_submission || '—'}</td></tr>)}</tbody></table></div></div>
-				<p className="cf7m-page-note">{__('All-time views and saved submissions. Submission counts require Form responses and exclude deleted or trashed entries. Conversion is an estimate.', 'cf7-styler-for-divi')}</p>
-			</>}
-		</main>
+		<Main>
+			<PageHeader
+				title={__('Analytics', 'cf7-styler-for-divi')}
+				actions={(
+					<Button variant="ghost" onClick={fetchStats} disabled={loading} aria-busy={loading}>
+						<ArrowPathIcon aria-hidden="true" className={cn(loading && 'animate-spin')} />
+						{__('Refresh', 'cf7-styler-for-divi')}
+					</Button>
+				)}
+			/>
+
+			{loading && <LoadingState rows={3} />}
+			{!loading && error && (
+				<Alert variant="error" action={<Button size="sm" onClick={fetchStats}>{__('Try again', 'cf7-styler-for-divi')}</Button>}>{error}</Alert>
+			)}
+			{!loading && !error && rows.length === 0 && (
+				<EmptyState icon={<ChartBarIcon />} title={__('No views yet', 'cf7-styler-for-divi')} description={__('Visit a page with a form to start counting.', 'cf7-styler-for-divi')} />
+			)}
+
+			{hasData && (
+				<>
+					<dl className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-3">
+						<Metric icon={<EyeIcon />} tone="sage" label={__('Views', 'cf7-styler-for-divi')} value={views.toLocaleString()} />
+						<Metric icon={<EnvelopeIcon />} tone="coral" label={__('Submissions', 'cf7-styler-for-divi')} value={submissions.toLocaleString()} />
+						<Metric icon={<ArrowTrendingUpIcon />} tone="sand" label={__('Conversion', 'cf7-styler-for-divi')} value={views ? `${Math.round((submissions / views) * 1000) / 10}%` : __('None', 'cf7-styler-for-divi')} />
+					</dl>
+					<Card>
+						<Table>
+							<caption className="px-3.5 pb-1.5 pt-3.5 text-start text-sm font-semibold">{__('Performance by form', 'cf7-styler-for-divi')}</caption>
+							<thead>
+								<tr>
+									<TableHead>{__('Form', 'cf7-styler-for-divi')}</TableHead>
+									<TableHead className="text-end">{__('Views', 'cf7-styler-for-divi')}</TableHead>
+									<TableHead className="text-end">{__('Submissions', 'cf7-styler-for-divi')}</TableHead>
+									<TableHead className="text-end">{__('Conversion', 'cf7-styler-for-divi')}</TableHead>
+									<TableHead>{__('Last submission', 'cf7-styler-for-divi')}</TableHead>
+								</tr>
+							</thead>
+							<tbody>
+								{rows.map((row) => (
+									<TableRow key={row.form_id}>
+										<TableCell className="py-3">
+											<a href={responsesUrl} className="font-medium text-foreground hover:text-primary"><bdi>{row.form_title || `#${row.form_id}`}</bdi></a>
+											<span className="ms-2 text-xs text-muted-foreground">#{row.form_id}</span>
+										</TableCell>
+										<TableCell className="text-end tabular-nums">{row.views.toLocaleString()}</TableCell>
+										<TableCell className="text-end tabular-nums">{row.submissions.toLocaleString()}</TableCell>
+										<TableCell className="text-end tabular-nums">
+											<span className="inline-flex items-center gap-2.5">
+												<MeterBar value={Number(row.conversion) || 0} max={best} />
+												<span className="min-w-[40px]">{row.conversion}%</span>
+											</span>
+										</TableCell>
+										<TableCell className="whitespace-nowrap text-muted-foreground">{row.last_submission ? <span dir="ltr">{row.last_submission}</span> : __('None', 'cf7-styler-for-divi')}</TableCell>
+									</TableRow>
+								))}
+							</tbody>
+						</Table>
+					</Card>
+					<p className="text-xs text-muted-foreground">{__('All time. Submissions count saved responses. Conversion is an estimate.', 'cf7-styler-for-divi')}</p>
+				</>
+			)}
+		</Main>
 	);
 }

@@ -82,7 +82,7 @@ class Lite_Loader
 
     public function enqueue_admin_scripts($hook)
     {
-        if ('toplevel_page_wpcf7' !== $hook && 'contact_page_wpcf7-new' !== $hook) {
+        if (!cf7m_is_cf7_editor_hook($hook)) {
             return;
         }
 

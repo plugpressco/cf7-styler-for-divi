@@ -1,17 +1,17 @@
 /**
- * Settings app shell: header, dashboard overview, settings tabs, toast, modals.
+ * Settings app: Features, Tools and Saddle tabs with immediate saves.
  *
  * @package CF7_Mate
  */
 
 import { useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { Spinner } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 
-import { Header } from './components/Header';
-import { Toast } from './components/Toast';
+import { AppFrame, LoadingScreen, LoadError } from './components/Layout';
+import { Toast } from './components/ui';
 import { SettingsPage } from './pages/SettingsPage';
+import { SetupDone } from './components/SetupCard';
 
 export function SettingsApp() {
 	const [features, setFeatures] = useState({});
@@ -19,6 +19,7 @@ export function SettingsApp() {
 	const [loadError, setLoadError] = useState('');
 	const [saving, setSaving] = useState(false);
 	const [toast, setToast] = useState(null);
+	const [celebrate, setCelebrate] = useState(false);
 
 	useEffect(() => {
 		loadFeatures();
@@ -28,9 +29,7 @@ export function SettingsApp() {
 		setLoading(true);
 		setLoadError('');
 		try {
-			const response = await apiFetch({
-				path: '/cf7-styler/v1/settings/features',
-			});
+			const response = await apiFetch({ path: '/cf7-styler/v1/settings/features' });
 			setFeatures(response.features);
 		} catch (error) {
 			setLoadError(error?.message || __('Could not load your settings.', 'cf7-styler-for-divi'));
@@ -51,63 +50,35 @@ export function SettingsApp() {
 				method: 'POST',
 				data: { features: newFeatures },
 			});
-			setToast({ message: __('Settings saved.', 'cf7-styler-for-divi'), type: 'success' });
+			setToast({ message: __('Saved', 'cf7-styler-for-divi'), type: 'success' });
 		} catch (error) {
-			console.error('Error saving features:', error);
 			setFeatures(previous);
-			setToast({
-				message: __('Could not save — change reverted', 'cf7-styler-for-divi'),
-				type: 'error',
-			});
+			setToast({ message: __('Could not save. Your change was undone.', 'cf7-styler-for-divi'), type: 'error' });
 		} finally {
 			setSaving(false);
 		}
 	};
 
-	const handleToggle = (featureId, enabled) =>
-		persistFeatures({ ...features, [featureId]: enabled });
+	const handleToggle = (featureId, enabled) => persistFeatures({ ...features, [featureId]: enabled });
 
-	const handleBulkToggle = (updates) =>
-		persistFeatures({ ...features, ...updates });
-
-	const responsesUrl =
-		typeof dcsCF7Styler !== 'undefined' && dcsCF7Styler.responses_url
-			? dcsCF7Styler.responses_url
-			: 'admin.php?page=cf7-mate-responses';
-
-	if (loading) {
-		return (
-			<div className="cf7m-wrap">
-				<Header />
-				<div className="cf7m-resp__loading">
-					<Spinner />
-					<span>{__('Loading…', 'cf7-styler-for-divi')}</span>
-				</div>
-			</div>
-		);
-	}
-
-	if (loadError) {
-        return <div className="cf7m-wrap"><Header /><main className="cf7m-content"><div className="cf7m-disabled-state" role="alert"><h1>{__('Could not load settings', 'cf7-styler-for-divi')}</h1><p>{loadError}</p><button className="cf7m-button" type="button" onClick={loadFeatures}>{__('Try again', 'cf7-styler-for-divi')}</button></div></main></div>;
-    }
+	// The setup card saves on its own; this only mirrors what the server stored.
+	const handleSetupSaved = (saved) => {
+		setFeatures((current) => ({ ...current, ...saved }));
+		setToast(null);
+		setCelebrate(true);
+	};
 
 	return (
-		<div className="cf7m-wrap">
-			<Header />
-			<SettingsPage
-				features={features}
-				onToggle={handleToggle}
-				onBulkToggle={handleBulkToggle}
-				saving={saving}
-				responsesUrl={responsesUrl}
-			/>
-			{toast && (
-				<Toast
-					message={toast.message}
-					type={toast.type}
-					onClose={() => setToast(null)}
-				/>
+		<AppFrame>
+			{loading && <LoadingScreen />}
+			{!loading && loadError && (
+				<LoadError title={__('Could not load settings', 'cf7-styler-for-divi')} message={loadError} onRetry={loadFeatures} />
 			)}
-		</div>
+			{!loading && !loadError && (
+				<SettingsPage features={features} onToggle={handleToggle} saving={saving} onSetupSaved={handleSetupSaved} />
+			)}
+			{toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+			{celebrate && <SetupDone onClose={() => setCelebrate(false)} />}
+		</AppFrame>
 	);
 }

@@ -5,6 +5,21 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Whether an admin hook suffix is CF7's form list/editor or Add New screen.
+ *
+ * CF7 before 6.2 uses `toplevel_page_wpcf7`; 6.2+ nests the editor under its
+ * dashboard (`contact_page_wpcf7`). The prefix also follows the translated menu
+ * title and CF7's notice count, so match the slug, not the whole name.
+ *
+ * @param string $hook Hook suffix passed to admin_enqueue_scripts.
+ * @return bool
+ */
+function cf7m_is_cf7_editor_hook($hook)
+{
+    return is_string($hook) && (bool) preg_match('/_page_wpcf7(-new)?$/', $hook);
+}
+
+/**
  * Get Contact Form 7 forms for use in builders (Divi, Elementor, Bricks).
  *
  * @return array<int, string> Map of form ID => form title. Empty first option when no forms.

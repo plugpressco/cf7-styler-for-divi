@@ -4,7 +4,10 @@ async page => {
   const base=new URL(page.url()).origin;
   const submit=async name=>{const response=page.waitForResponse(r=>r.url().includes('/feedback')&&r.request().method()==='POST');await page.getByRole('button',{name,exact:true}).click();return await(await response).json();};
   await page.goto(base+'/playground-multi-step-and-conditional/');
+  // Wait for CF7's validation schema, so CF7's own validation path is exercised.
+  await page.waitForFunction(()=>{const form=document.querySelector('.wpcf7 form');return !!(form&&form.wpcf7&&form.wpcf7.schema);},null,{timeout:15000}).catch(()=>{});
   await page.getByRole('button',{name:'Next',exact:true}).click();
+  await page.waitForTimeout(500);
   assert(await page.locator('.cf7m-step.active').getAttribute('data-step')==='1','Empty required fields prevent advancing');
   await page.getByRole('textbox',{name:'Your name',exact:true}).fill('Browser Fixture');
   await page.getByRole('textbox',{name:'Your email',exact:true}).fill('bad-email');

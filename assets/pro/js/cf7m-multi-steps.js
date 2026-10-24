@@ -90,19 +90,20 @@
             for (var control of controls) {
               await window.wpcf7.validate(contactForm, { target: control, scope: step });
             }
-          } else {
-            // CF7's schema may still be loading. Keep required fields effective.
-            step.querySelectorAll('.wpcf7-validates-as-required, [aria-required="true"], [required]').forEach(function (required) {
-              var inputs = required.matches('input,select,textarea') ? [required] : Array.from(required.querySelectorAll('input,select,textarea'));
-              inputs = inputs.filter(function (input) { return !input.disabled && input.getClientRects().length; });
-              if (!inputs.length) return;
-              var filled = inputs.some(function (input) {
-                return /^(checkbox|radio)$/.test(input.type) ? input.checked : input.value.trim() !== '';
-              });
-              inputs[0].setCustomValidity(filled ? '' : window.cf7mMultiSteps.required);
-              inputs[0].dataset.cf7mValidity = '1';
-            });
           }
+          // Always enforce required fields here too: CF7's schema may still be
+          // loading, and CF7 5.x starts validation without returning its promise,
+          // so its errors can arrive after this step has already advanced.
+          step.querySelectorAll('.wpcf7-validates-as-required, [aria-required="true"], [required]').forEach(function (required) {
+            var inputs = required.matches('input,select,textarea') ? [required] : Array.from(required.querySelectorAll('input,select,textarea'));
+            inputs = inputs.filter(function (input) { return !input.disabled && input.getClientRects().length; });
+            if (!inputs.length) return;
+            var filled = inputs.some(function (input) {
+              return /^(checkbox|radio)$/.test(input.type) ? input.checked : input.value.trim() !== '';
+            });
+            inputs[0].setCustomValidity(filled ? '' : window.cf7mMultiSteps.required);
+            inputs[0].dataset.cf7mValidity = '1';
+          });
           var invalid = controls.find(function (control) {
             return control.getAttribute('aria-invalid') === 'true' || !control.checkValidity();
           });

@@ -60,7 +60,11 @@
                     if (enableRow) enableRow.remove();
                     if (id === 'redirect' || id === 'scheduling') section.querySelector('.cf7m-feat__body').setAttribute('data-cf7m-dependent', '');
                     toggle.classList.add('cf7m-editor-switch');
-                    toggle.setAttribute('role', 'switch');
+                    const visible = document.createElement('i');
+                    visible.className = 'cf7m-editor-enable__text';
+                    visible.setAttribute('aria-hidden', 'true');
+                    visible.textContent = strings.enabled || 'Enabled';
+                    label.appendChild(visible);
                     toggle.addEventListener('change', update);
                 }
                 update();

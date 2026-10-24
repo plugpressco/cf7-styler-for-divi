@@ -1,35 +1,84 @@
-import { useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
-import { MagnifyingGlassIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
-import { featureGroups as groups } from '../data/feature-groups';
-import { Toggle } from './Toggle';
+import { Alert, Button, CheckTile, EmptyState, PageHeader, SearchInput } from './ui';
+import { SetupCard } from './SetupCard';
+import { getConfig } from '../utils/config';
 
+/** Whether the setup card was asked for with ?cf7m_setup=1 (Help, Run setup again). */
+function setupRequested() {
+	try {
+		return new URLSearchParams(window.location.search).get('cf7m_setup') === '1';
+	} catch (error) {
+		return false;
+	}
+}
 
-
-export function FeaturesSection({ features, onToggle, saving }) {
+export function FeaturesSection({ features, onToggle, saving, onSetupSaved }) {
+	const config = getConfig();
 	const [search, setSearch] = useState('');
-	const [filter, setFilter] = useState('all');
-	const config = typeof dcsCF7Styler !== 'undefined' ? dcsCF7Styler : {};
-	const items = (config.feature_metadata || []).filter(feature => !feature.builder || config.builders?.[feature.builder]);
+	const [showSetup, setShowSetup] = useState(() => setupRequested() || !!(config.setup && config.setup.show));
+
+	useEffect(() => {
+		if (!setupRequested()) return;
+		const url = new URL(window.location.href);
+		url.searchParams.delete('cf7m_setup');
+		window.history.replaceState(window.history.state, '', url.toString());
+	}, []);
+
+	// Builders sit after form features; metadata order is kept otherwise.
+	const items = (config.feature_metadata || [])
+		.filter((feature) => !feature.builder || (config.builders && config.builders[feature.builder]))
+		.sort((a, b) => Number(!!a.builder) - Number(!!b.builder));
 	const query = search.trim().toLocaleLowerCase();
-	const visible = items.filter(feature => `${feature.name} ${feature.desc}`.toLocaleLowerCase().includes(query) && (filter === 'all' || !!features[feature.id] === (filter === 'enabled')));
-	const enabled = items.filter(feature => features[feature.id]).length;
-	const filters = [{ id: 'all', label: __('All', 'cf7-styler-for-divi') }, { id: 'enabled', label: __('Enabled', 'cf7-styler-for-divi') }, { id: 'disabled', label: __('Disabled', 'cf7-styler-for-divi') }];
+	const visible = items.filter((feature) => `${feature.name} ${feature.desc}`.toLocaleLowerCase().includes(query));
+	const enabled = items.filter((feature) => features[feature.id]).length;
+	const notice = config.free_notice || {};
+
 	return (
-		<div className="cf7m-features">
-			<div className="cf7m-feature-toolbar">
-				<label className="cf7m-feature-search"><MagnifyingGlassIcon aria-hidden="true" /><span className="screen-reader-text">{__('Search features', 'cf7-styler-for-divi')}</span><input type="search" value={search} onChange={event => setSearch(event.target.value)} placeholder={__('Search features…', 'cf7-styler-for-divi')} /></label>
-				<div className="cf7m-filter-tabs" aria-label={__('Filter features', 'cf7-styler-for-divi')}>{filters.map(item => <button key={item.id} type="button" aria-pressed={filter === item.id} onClick={() => setFilter(item.id)}>{item.label}</button>)}</div>
-				<span className="cf7m-feature-count">{/* translators: %1$d enabled features, %2$d available features. */}{sprintf(__('%1$d of %2$d enabled', 'cf7-styler-for-divi'), enabled, items.length)}</span>
-			</div>
-			{groups.map(group => {
-				const matches = visible.filter(feature => group.keys.includes(feature.id) || (group.id === 'integrations' && !groups.some(item => item.keys.includes(feature.id))));
-				if (!matches.length) return null;
-				const Icon = group.icon;
-				return <section key={group.id} className="cf7m-feature-section" aria-labelledby={`cf7m-group-${group.id}`}><div className="cf7m-feature-section__heading"><Icon aria-hidden="true" /><h2 id={`cf7m-group-${group.id}`}>{group.title}</h2><span>{matches.length}</span></div><div className="cf7m-feature-grid">{matches.map(feature => <div key={feature.id} className="cf7m-feature-item"><div><label id={`cf7m-label-${feature.id}`} htmlFor={`cf7m-toggle-${feature.id}`}>{feature.name}</label><p>{feature.desc}</p></div><Toggle id={`cf7m-toggle-${feature.id}`} checked={!!features[feature.id]} onChange={value => onToggle(feature.id, value)} disabled={saving} label={feature.name} /></div>)}</div></section>;
-			})}
-			{!visible.length && <div className="cf7m-feature-empty"><AdjustmentsHorizontalIcon aria-hidden="true" /><h2>{__('No features found', 'cf7-styler-for-divi')}</h2><p>{__('Try another search or change your filter.', 'cf7-styler-for-divi')}</p><button type="button" className="cf7m-button" onClick={() => { setSearch(''); setFilter('all'); }}>{__('Clear filters', 'cf7-styler-for-divi')}</button></div>}
-			<p className="cf7m-page-note">{__('These settings apply site-wide. Configure individual forms in Contact forms.', 'cf7-styler-for-divi')}</p>
-		</div>
+		<>
+			{showSetup && (
+				<SetupCard
+					features={features}
+					onDone={(saved) => {
+						setShowSetup(false);
+						if (saved) onSetupSaved(saved);
+					}}
+				/>
+			)}
+			{!showSetup && notice.show && (
+				<Alert
+					action={<a className="text-[13px] font-medium text-primary hover:underline" href={notice.dismiss_url}>{__('Dismiss', 'cf7-styler-for-divi')}</a>}
+				>
+					{__('Every CF7 Mate feature is now free. Responses, analytics, webhooks and save and continue stay off until you turn them on.', 'cf7-styler-for-divi')}
+				</Alert>
+			)}
+			<PageHeader
+				title={__('Features', 'cf7-styler-for-divi')}
+				/* translators: %d: number of features that are on. */
+				meta={<span className="text-[13px] text-muted-foreground">{sprintf(__('%d on', 'cf7-styler-for-divi'), enabled)}</span>}
+				actions={<SearchInput label={__('Search features', 'cf7-styler-for-divi')} placeholder={__('Search', 'cf7-styler-for-divi')} value={search} onChange={setSearch} />}
+			/>
+			{visible.length > 0 ? (
+				<div className="cf7m-stagger grid grid-cols-[repeat(auto-fill,minmax(210px,1fr))] gap-2">
+					{visible.map((feature) => (
+						<CheckTile
+							key={feature.id}
+							id={`cf7m-feature-${feature.id}`}
+							label={feature.name}
+							description={feature.desc}
+							checked={!!features[feature.id]}
+							disabled={saving}
+							onChange={(value) => onToggle(feature.id, value)}
+						/>
+					))}
+				</div>
+			) : (
+				<EmptyState
+					title={__('No features match.', 'cf7-styler-for-divi')}
+					action={<Button onClick={() => setSearch('')}>{__('Clear search', 'cf7-styler-for-divi')}</Button>}
+				/>
+			)}
+			<p className="text-xs text-muted-foreground">{__('Changes save automatically.', 'cf7-styler-for-divi')}</p>
+		</>
 	);
 }

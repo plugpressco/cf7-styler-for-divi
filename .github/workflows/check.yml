@@ -32,3 +32,5 @@ jobs:
       - uses: wordpress/plugin-check-action@v1
         with:
           build-dir: release/cf7-styler-for-divi
+          # The directory title in readme.txt is longer than the "CF7 Mate" header on purpose.
+          ignore-codes: mismatched_plugin_name

@@ -82,45 +82,15 @@ class Premium_Loader
         $this->load_bootstrap();
         $this->load_features();
 
-        // Register pro-only admin subpages (Responses, Analytics).
-        add_action('admin_menu', [$this, 'add_pro_menu'], 20);
-
         // Enqueue tag generator scripts for CF7 admin.
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
 
     }
 
-    public function add_pro_menu()
-    {
-        if (!current_user_can('manage_options')) {
-            return;
-        }
-
-        $admin = \CF7_Mate\Admin::get_instance();
-
-        add_submenu_page(
-            \CF7_Mate\Admin::CF7_PARENT_SLUG,
-            __('Responses', 'cf7-styler-for-divi'),
-            __('Responses', 'cf7-styler-for-divi'),
-            'manage_options',
-            \CF7_Mate\Admin::RESPONSES_PAGE_SLUG,
-            [$admin, 'render_responses_page']
-        );
-
-        add_submenu_page(
-            \CF7_Mate\Admin::CF7_PARENT_SLUG,
-            __('Analytics', 'cf7-styler-for-divi'),
-            __('Analytics', 'cf7-styler-for-divi'),
-            'manage_options',
-            \CF7_Mate\Admin::ANALYTICS_PAGE_SLUG,
-            [$admin, 'render_analytics_page']
-        );
-    }
-
     public function enqueue_admin_scripts($hook)
     {
         // Only load on CF7 edit pages.
-        if ('toplevel_page_wpcf7' !== $hook && 'contact_page_wpcf7-new' !== $hook) {
+        if (!cf7m_is_cf7_editor_hook($hook)) {
             return;
         }
 
