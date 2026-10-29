@@ -72,6 +72,9 @@ class Lite_Loader
 
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
 
+        // Before every form-tag processor below and in the advanced modules.
+        add_filter('wpcf7_form_elements', [$this, 'encode_brackets_in_submitted_values'], 0);
+
         add_filter('wpcf7_form_elements', [$this, 'strip_unprocessed_preset_tags'], 15);
 
         // Backward compat for forms saved with the pre-3.0 plugin (dcs_ prefix).
@@ -98,6 +101,40 @@ class Lite_Loader
             [],
             $version,
             true
+        );
+    }
+
+    /**
+     * Contact Form 7 puts submitted values back into the form after a failed
+     * non-AJAX submission. Its escaping keeps [ and ], so a visitor could type
+     * [cf7m-*], [dipe_*] or [dcs_*] tags that the processors would turn into
+     * markup. Encode brackets in field values and textarea contents first.
+     * Browsers decode the entities, so fields show the same text.
+     */
+    public function encode_brackets_in_submitted_values($form)
+    {
+        if (strpos($form, '[') === false && strpos($form, ']') === false) {
+            return $form;
+        }
+
+        $encode = static function ($text) {
+            return str_replace(['[', ']'], ['&#91;', '&#93;'], $text);
+        };
+
+        $form = preg_replace_callback(
+            '/(<textarea\b[^>]*>)(.*?)(<\/textarea>)/is',
+            static function ($m) use ($encode) {
+                return $m[1] . $encode($m[2]) . $m[3];
+            },
+            $form
+        );
+
+        return preg_replace_callback(
+            '/(<[a-z][^>]*?\svalue\s*=\s*)("[^"]*"|\'[^\']*\')/i',
+            static function ($m) use ($encode) {
+                return $m[1] . $encode($m[2]);
+            },
+            $form
         );
     }
 

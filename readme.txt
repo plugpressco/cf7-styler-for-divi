@@ -4,7 +4,7 @@ Tags: contact form 7, contact form 7 styler, multi step form, conditional fields
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.1.0
+Stable tag: 4.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -194,6 +194,21 @@ Ask on the WordPress.org support forum or [PlugPress support](https://plugpress.
 
 == Changelog ==
 
+= 4.1.1 =
+* Security: text a visitor types into a form can no longer run shortcodes or add markup when the form shows errors after a failed submission. Reported through Patchstack.
+* Security: Divi 5 padding values and form IDs are cleaned before they reach the page.
+* Grid layout renders only its own row and column tags. Shortcodes from other plugins inside a form template no longer run there.
+* Fixed: since 4.0.0 the Divi 4 builder showed "function(t){return ...}" instead of the form.
+* Fixed: in Divi 4, field spacing, checkbox and radio border color, checkbox label color, check mark size and the success message colors had no effect. The field focus color now shows when a field border color is set.
+* Fixed: the Divi 4 builder preview now matches the page for checkboxes, focus color, full width buttons and form messages.
+* Fixed: in Divi 5, the form disappeared from the page when the theme folder was not named Divi, on Extra, with the Divi Builder plugin or with a moved wp-content folder.
+* Fixed: in Divi 5, Design tab options such as background, spacing, border, sizing, visibility and custom CSS now apply on the page.
+* Fixed: in Divi 5, padding fields kept only the last side edited, and tablet and phone values were ignored.
+* Fixed: in Divi 5, the header icon, label spacing, success message colors, radio label color, design presets and the heading, icon, image, range slider and star rating styles now show on the page.
+* Fixed: Divi 4 pages not yet converted to Divi 5 show the form again, and more Divi 4 settings carry over when they convert.
+* Fixed: form icons did not show for visitors on pages built with Divi.
+* Fixed: progress saved with Save and continue was kept for seven days after the form was submitted instead of being removed.
+
 = 4.1.0 =
 * CF7 Mate now lives under the Contact menu. Old admin links still work.
 * A calmer admin: checkbox tiles for features, shorter text and the new brand colors.
@@ -288,6 +303,9 @@ Ask on the WordPress.org support forum or [PlugPress support](https://plugpress.
 * Improved: Form styling performance and mobile responsiveness.
 
 == Upgrade Notice ==
+
+= 4.1.1 =
+Security release. Fixes a content injection issue in form fields and the Divi 4 builder error, and makes Divi 5 settings apply on the page. Update as soon as possible.
 
 = 4.1.0 =
 CF7 Mate moves under the Contact menu with a simpler admin. Fixes the field tag tools on Contact Form 7 6.2.

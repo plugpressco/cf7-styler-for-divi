@@ -32,7 +32,7 @@ class CF7Styler extends Component {
                 address,
                 attrs: props,
                 name: 'form_field_spacing',
-                selector: '%%order_class%% .dipe-cf7 .wpcf7 form>p, .dipe-cf7 .wpcf7 form>div, .dipe-cf7 .wpcf7 form>label, %%order_class%% .dipe-cf7 .wpcf7 form .dp-col>p, .dipe-cf7 .wpcf7 form .dp-col>div, .dipe-cf7 .wpcf7 form .dp-col>label',
+                selector: '%%order_class%% .dipe-cf7 .wpcf7 form>p, %%order_class%% .dipe-cf7 .wpcf7 form>div, %%order_class%% .dipe-cf7 .wpcf7 form>label, %%order_class%% .dipe-cf7 .wpcf7 form .dp-col>p, %%order_class%% .dipe-cf7 .wpcf7 form .dp-col>div, %%order_class%% .dipe-cf7 .wpcf7 form .dp-col>label',
                 cssProperty: 'margin-bottom',
                 important: true,
             })
@@ -155,7 +155,7 @@ class CF7Styler extends Component {
             generateStyles({
                 address,
                 attrs: props,
-                name: 'form_background_color',
+                name: 'form_field_active_color',
                 selector: 'div%%order_class%% .dipe-cf7 .wpcf7 input:not([type=submit]):focus, %%order_class%% .dipe-cf7 .wpcf7 select:focus, %%order_class%% .dipe-cf7 .wpcf7 textarea:focus',
                 cssProperty: 'border-color',
                 important: true,
@@ -175,13 +175,43 @@ class CF7Styler extends Component {
                 })
             );
 
+            if (props.cr_background_color) {
+                additionalCss.push([
+                    {
+                        selector: '%%order_class%% .wpcf7-radio input[type=radio]:checked + span:before',
+                        declaration: `box-shadow: inset 0px 0px 0px 4px ${props.cr_background_color} !important;`,
+                    },
+                ]);
+            }
+
+            additionalCss.push(
+                generateStyles({
+                    address,
+                    attrs: props,
+                    name: 'cr_size',
+                    selector: '%%order_class%% .wpcf7-checkbox input[type=checkbox] + span:before, %%order_class%% .wpcf7-acceptance input[type=checkbox] + span:before, %%order_class%% .wpcf7-radio input[type=radio] + span:before',
+                    cssProperty: ['width', 'height'],
+                    important: true,
+                })
+            );
+
+            const crSize = parseFloat(props.cr_size);
+            if (crSize) {
+                additionalCss.push([
+                    {
+                        selector: '%%order_class%% .wpcf7-acceptance input[type=checkbox]:checked + span:before, %%order_class%% .wpcf7-checkbox input[type=checkbox]:checked + span:before',
+                        declaration: `font-size: ${crSize / 1.2}${String(props.cr_size).replace(/^[\d.]+/, '') || 'px'} !important;`,
+                    },
+                ]);
+            }
+
             additionalCss.push(
                 generateStyles({
                     address,
                     attrs: props,
                     name: 'cr_border_size',
-                    selector: '%%order_class%% .wpcf7-checkbox input[type=checkbox] + span:before, %%order_class%% .wpcf7-acceptance input[type=checkbox] + span:before, %%order_class%% .wpcf7-radio input[type=radio] + span:before, %%order_class%% .wpcf7-checkbox input[type=checkbox]:checked + span:before, %%order_class%% .wpcf7-acceptance input[type=checkbox]:checked + span:before',
-                    cssProperty: 'width',
+                    selector: '%%order_class%% .wpcf7-checkbox input[type=checkbox] + span:before, %%order_class%% .wpcf7-acceptance input[type=checkbox] + span:before, %%order_class%% .wpcf7-radio input[type=radio] + span:before',
+                    cssProperty: 'border-width',
                     important: true,
                 })
             );
@@ -203,7 +233,7 @@ class CF7Styler extends Component {
                     attrs: props,
                     name: 'cr_selected_color',
                     selector: '%%order_class%% .wpcf7-radio input[type=radio]:checked + span:before',
-                    cssProperty: 'color',
+                    cssProperty: 'background-color',
                     important: true,
                 })
             );
@@ -213,7 +243,7 @@ class CF7Styler extends Component {
                     address,
                     attrs: props,
                     name: 'cr_border_color',
-                    selector: '%%order_class%% .wpcf7-checkbox input[type=radio] + span:before, %%order_class%% .dipe-cf7 .wpcf7-radio input[type=checkbox] + span:before, %%order_class%% .dipe-cf7 .wpcf7-acceptance input[type=checkbox] + span:before',
+                    selector: '%%order_class%% .wpcf7-checkbox input[type=checkbox] + span:before, %%order_class%% .wpcf7-radio input[type=radio] + span:before, %%order_class%% .wpcf7-acceptance input[type=checkbox] + span:before',
                     cssProperty: 'border-color',
                     important: true,
                 })
@@ -224,7 +254,7 @@ class CF7Styler extends Component {
                     address,
                     attrs: props,
                     name: 'cr_label_color',
-                    selector: '%%order_class%% .wpcf7-checkbox label, %%order_class%% .wpcf7-radio label, %%order_class%%  .wpcf7-acceptance label',
+                    selector: '%%order_class%% .wpcf7-checkbox label, %%order_class%% .wpcf7-radio label, %%order_class%% .wpcf7-acceptance label, %%order_class%% .wpcf7-list-item-label',
                     cssProperty: 'color',
                     important: true,
                 })
@@ -286,12 +316,20 @@ class CF7Styler extends Component {
             })
         );
 
+        if (props.cf7_border_highlight_color) {
+            additionalCss.push([
+                {
+                    selector: 'div%%order_class%% span.wpcf7-not-valid-tip',
+                    declaration: 'border-style: solid !important; border-width: 2px !important;',
+                },
+            ]);
+        }
+
         additionalCss.push(
             generateStyles({
               address,
               attrs: props,
               name: 'cf7_message_padding',
-              type: 'padding',
               selector: 'div%%order_class%% span.wpcf7-not-valid-tip',
               cssProperty: 'padding',
               important: true,
@@ -303,7 +341,7 @@ class CF7Styler extends Component {
                 address,
                 attrs: props,
                 name: 'cf7_success_message_color',
-                selector: 'div%%order_class%% .wpcf7-mail-sent-ok',
+                selector: '%%order_class%% .wpcf7 form.sent .wpcf7-response-output',
                 cssProperty: 'color',
                 important: true,
             })
@@ -313,8 +351,8 @@ class CF7Styler extends Component {
             generateStyles({
                 address,
                 attrs: props,
-                name: 'cf7_success_bg_color',
-                selector: 'div%%order_class%% .wpcf7-mail-sent-ok',
+                name: 'cf7_success_message_bg_color',
+                selector: '%%order_class%% .wpcf7 form.sent .wpcf7-response-output',
                 cssProperty: 'background-color',
                 important: true,
             })
@@ -325,7 +363,7 @@ class CF7Styler extends Component {
                 address,
                 attrs: props,
                 name: 'cf7_success_border_color',
-                selector: 'div%%order_class%% .wpcf7-mail-sent-ok',
+                selector: '%%order_class%% .wpcf7 form.sent .wpcf7-response-output',
                 cssProperty: 'border-color',
                 important: true,
             })
@@ -336,7 +374,7 @@ class CF7Styler extends Component {
                 address,
                 attrs: props,
                 name: 'cf7_error_message_color',
-                selector: 'div%%order_class%% .wpcf7-validation-errors',
+                selector: '%%order_class%% .wpcf7 form .wpcf7-response-output',
                 cssProperty: 'color',
                 important: true,
             })
@@ -347,7 +385,7 @@ class CF7Styler extends Component {
                 address,
                 attrs: props,
                 name: 'cf7_error_message_bg_color',
-                selector: 'div%%order_class%% .wpcf7-validation-errors',
+                selector: '%%order_class%% .wpcf7 form .wpcf7-response-output',
                 cssProperty: 'background-color',
                 important: true,
             })
@@ -358,7 +396,7 @@ class CF7Styler extends Component {
                 address,
                 attrs: props,
                 name: 'cf7_error_border_color',
-                selector: 'div%%order_class%% .wpcf7-validation-errors',
+                selector: '%%order_class%% .wpcf7 form .wpcf7-response-output',
                 cssProperty: 'border-color',
                 important: true,
             })

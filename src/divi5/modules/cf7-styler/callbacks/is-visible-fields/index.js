@@ -21,18 +21,19 @@ export const isVisibleFields = (args) => {
 	const adv = attrs?.module?.advanced ?? attrs?.cf7?.advanced;
 
 	const getUseFormHeader = () =>
-		getAttrValue({ attr: adv?.useFormHeader, ...ctx });
+		getAttrValue({ attr: adv?.useFormHeader, ...ctx }) ?? 'off';
 
 	const getUseIcon = () =>
-		getAttrValue({ attr: adv?.useIcon, ...ctx });
+		getAttrValue({ attr: adv?.useIcon, ...ctx }) ?? 'off';
 
 	const getUseFormButtonFullwidth = () =>
-		getAttrValue({ attr: adv?.useFormButtonFullwidth, ...ctx });
+		getAttrValue({ attr: adv?.useFormButtonFullwidth, ...ctx }) ?? 'off';
 
 	const getCrCustomStyles = () =>
-		getAttrValue({ attr: adv?.crCustomStyles, ...ctx });
+		getAttrValue({ attr: adv?.crCustomStyles, ...ctx }) ?? 'off';
 
-	switch (attrNameWithSubName) {
+	// Spacing controls report their side group (padding or margin) as subName.
+	switch (['padding', 'margin'].includes(subName) ? attrName : attrNameWithSubName) {
 		// Form header dependent fields - show when useFormHeader is "on"
 		case 'module.advanced.formHeaderTitle':
 		case 'module.advanced.formHeaderText':

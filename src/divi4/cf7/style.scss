@@ -255,3 +255,8 @@
 .dipe-cf7-button-left .wpcf7-form button.wpcf7-submit {
     margin-right: auto !important;
 }
+
+.dipe-cf7-button-fullwidth .wpcf7-form input[type='submit'],
+.dipe-cf7-button-fullwidth .wpcf7-form button.wpcf7-submit {
+    width: 100% !important;
+}

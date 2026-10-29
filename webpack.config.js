@@ -29,6 +29,10 @@ const scopeTailwindDefaults = () => ({
 });
 scopeTailwindDefaults.postcss = true;
 
+// WordPress's lodash. In the Divi 4 builder iframe `window._` is Underscore,
+// so src/divi4/lodash.js finds the library first.
+const lodashGlobal = '(window.cf7mLodash || window.lodash || window._)';
+
 module.exports = {
 	entry: {
 		'bundle-4': './src/divi4/index.js',
@@ -146,15 +150,18 @@ module.exports = {
 
 	externals: [
 		function ({ request }, callback) {
+			if (request.startsWith('lodash/fp/')) {
+				return callback(new Error(`${request}: WordPress's lodash has no lodash/fp; import the plain function.`));
+			}
 			if (request.startsWith('lodash/')) {
-				return callback(null, `(window.lodash || window._)[${JSON.stringify(request.slice(7))}]`);
+				return callback(null, `${lodashGlobal}[${JSON.stringify(request.slice(7))}]`);
 			}
 			callback();
 		},
 		{
 		$: 'jQuery',
 		jquery: 'jQuery',
-		lodash: '(window.lodash || window._)',
+		lodash: lodashGlobal,
 		'@wordpress/element': ['wp', 'element'],
 		'@wordpress/i18n': ['wp', 'i18n'],
 		'@wordpress/components': ['wp', 'components'],

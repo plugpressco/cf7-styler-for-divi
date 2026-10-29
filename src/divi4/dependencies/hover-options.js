@@ -11,18 +11,17 @@ This file (or the corresponding source JS file) was last modified 2020-11-25
 import getFn from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import forEach from 'lodash/forEach';
-import prop from 'lodash/fp/prop';
-import times from 'lodash/fp/times';
-import equals from 'lodash/fp/equals';
-import compose from 'lodash/fp/compose';
+import times from 'lodash/times';
+import flowRight from 'lodash/flowRight';
 import HoverPure from './hover-options-pure';
 // import ETBuilderStore from '../stores/et-builder-store';
 // import ETBuilderActions from '../actions/et-builder-actions';
 
 
+// WordPress's lodash has no lodash/fp, so its curried helpers are written out.
 const hover        = '__hover';
 const enabled      = '__hover_enabled';
-const getHoverProp = prop('hover');
+const getHoverProp = field => getFn(field, 'hover');
 const toBool       = a => !! a;
 const emptyValue   = v => ('' === v ? undefined : v);
 const get          = (k, o, d) => emptyValue(getFn(o, k, d)) || d;
@@ -47,7 +46,7 @@ export const { enabledSuffix } = HoverPure;
  * @param {object} field
  * @returns {boolean}
  */
-export const doesSupport = compose(toBool, getHoverProp);
+export const doesSupport = flowRight(toBool, getHoverProp);
 
 /**
  * Tells if the field does support hover options tabs.
@@ -55,7 +54,7 @@ export const doesSupport = compose(toBool, getHoverProp);
  * @param {object} field
  * @returns {boolean}
  */
-export const hasTabs = compose(equals('tabs'), getHoverProp);
+export const hasTabs = flowRight(value => 'tabs' === value, getHoverProp);
 
 /**
  * Gets the base name of the field without the "__hover" or "__hover_enabled" suffix.
@@ -185,7 +184,7 @@ export const getSplitValue = (setting, props, sep = '|') => {
   const len = Math.max(value.length, hover.length);
 
   // Fill the hover value empty values with value's ones
-  return times(i => get(i, hover, value[i]), len).join(sep);
+  return times(len, i => get(i, hover, value[i])).join(sep);
 };
 
 /**

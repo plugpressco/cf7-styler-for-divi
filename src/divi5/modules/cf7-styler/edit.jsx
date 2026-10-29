@@ -31,6 +31,9 @@ function resolveHeaderIcon(value) {
   }
   if (typeof value === 'string') {
     if (typeof processD4 === 'function') return processD4(value);
+    // Divi 4 saved "unicode||type||weight"; converted modules keep it.
+    const [unicode, type, weight] = value.split('||');
+    if (type !== undefined) return resolveHeaderIcon({ unicode, type, weight });
     return value;
   }
   return null;

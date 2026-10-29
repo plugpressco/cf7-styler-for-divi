@@ -187,8 +187,8 @@ class Plugin
             require_once $divi4_base;
         }
 
-        $is_d5 = function_exists('et_builder_d5_enabled') && et_builder_d5_enabled();
-        if ($this->is_feature_enabled('cf7_module') && !$is_d5) {
+        // Divi 5 renders Divi 4 modules that are not converted yet through this class.
+        if ($this->is_feature_enabled('cf7_module')) {
             require_once CF7M_PLUGIN_PATH . 'includes/lite/builders/divi4/CF7Styler/CF7Styler.php';
         }
 

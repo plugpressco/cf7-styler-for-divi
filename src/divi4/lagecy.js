@@ -1,4 +1,5 @@
 // Divi 4 builder entry: registers legacy FF/GF modules with Visual Builder
+import './lodash';
 import $ from 'jquery';
 
 import './lagecy.scss';

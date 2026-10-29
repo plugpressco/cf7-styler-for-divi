@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: CF7 Mate 4.1.0\n"
+"Project-Id-Version: CF7 Mate 4.1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cf7-mate-pro\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-24T22:38:52+00:00\n"
+"POT-Creation-Date: 2026-10-29T22:22:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: cf7-styler-for-divi\n"
@@ -241,7 +241,7 @@ msgid "Images inside forms."
 msgstr ""
 
 #: includes/feature-settings.php:30
-#: includes/lite/features/icon/module.php:152
+#: includes/lite/features/icon/module.php:156
 msgid "Icon"
 msgstr ""
 
@@ -332,7 +332,7 @@ msgstr ""
 #: includes/lite/builders/bricks/bricks-element.php:21
 #: includes/lite/builders/divi4/CF7Styler/CF7Styler.php:22
 #: includes/lite/builders/elementor/elementor-widget.php:20
-#: src/divi5/modules/cf7-styler/edit.jsx:193
+#: src/divi5/modules/cf7-styler/edit.jsx:196
 msgid "CF7 Styler"
 msgstr ""
 
@@ -786,7 +786,7 @@ msgid "Messages"
 msgstr ""
 
 #: includes/lite/builders/bricks/bricks-element.php:925
-#: includes/lite/builders/divi5/CF7Styler/CF7Styler.php:247
+#: includes/lite/builders/divi5/CF7Styler/CF7Styler.php:773
 #: includes/lite/builders/elementor/elementor-widget.php:820
 #: includes/lite/builders/gutenberg/class-block.php:195
 msgid "Please select a Contact Form 7 form."
@@ -1509,7 +1509,7 @@ msgstr ""
 
 #: includes/lite/features/grid/module.php:170
 #: includes/lite/features/heading/module.php:225
-#: includes/lite/features/icon/module.php:190
+#: includes/lite/features/icon/module.php:194
 #: includes/lite/features/image/module.php:158
 #: includes/lite/features/phone-number/module.php:307
 #: includes/lite/features/range-slider/module.php:288
@@ -1536,47 +1536,47 @@ msgstr ""
 msgid "Color"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:141
+#: includes/lite/features/icon/module.php:145
 msgid "icon"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:155
+#: includes/lite/features/icon/module.php:159
 msgid "Icon type"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:157
+#: includes/lite/features/icon/module.php:161
 msgid "Dashicon (browse below)"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:159
+#: includes/lite/features/icon/module.php:163
 msgid "Custom image (upload)"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:163
+#: includes/lite/features/icon/module.php:167
 msgid "Icon browser"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:165
+#: includes/lite/features/icon/module.php:169
 msgid "Choose an icon"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:170
+#: includes/lite/features/icon/module.php:174
 msgid "Click an icon to select it."
 msgstr ""
 
-#: includes/lite/features/icon/module.php:175
+#: includes/lite/features/icon/module.php:179
 #: includes/lite/features/image/module.php:132
 msgid "Image URL"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:178
+#: includes/lite/features/icon/module.php:182
 #: includes/lite/features/image/module.php:135
 #: assets/js/cf7m-icon-tag-admin.js:56
 #: assets/js/cf7m-image-tag-admin.js:24
 msgid "Select Image"
 msgstr ""
 
-#: includes/lite/features/icon/module.php:182
+#: includes/lite/features/icon/module.php:186
 msgid "Size (px)"
 msgstr ""
 
@@ -3018,19 +3018,19 @@ msgstr ""
 msgid "Could not load settings"
 msgstr ""
 
-#: src/divi5/modules/cf7-styler/edit.jsx:196
+#: src/divi5/modules/cf7-styler/edit.jsx:199
 msgid "Select a Contact Form 7 form to display."
 msgstr ""
 
-#: src/divi5/modules/cf7-styler/edit.jsx:201
+#: src/divi5/modules/cf7-styler/edit.jsx:204
 msgid "Loading form…"
 msgstr ""
 
-#: src/divi5/modules/cf7-styler/edit.jsx:205
+#: src/divi5/modules/cf7-styler/edit.jsx:208
 msgid "Could not load form preview."
 msgstr ""
 
-#: src/divi5/modules/cf7-styler/edit.jsx:214
+#: src/divi5/modules/cf7-styler/edit.jsx:217
 msgid "No form content."
 msgstr ""
 

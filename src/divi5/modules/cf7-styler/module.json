@@ -82,7 +82,7 @@
           },
           "formHeaderPadding": {
             "desktop": {
-              "value": "0px|0px|0px|0px"
+              "value": {"padding": {"top": "0px", "right": "0px", "bottom": "0px", "left": "0px"}}
             }
           },
           "formHeaderBottom": {
@@ -107,7 +107,7 @@
           },
           "formPadding": {
             "desktop": {
-              "value": "0px|0px|0px|0px"
+              "value": {"padding": {"top": "0px", "right": "0px", "bottom": "0px", "left": "0px"}}
             }
           },
           "formFieldHeight": {
@@ -117,7 +117,7 @@
           },
           "formFieldPadding": {
             "desktop": {
-              "value": "10px|15px|10px|15px"
+              "value": {"padding": {"top": "10px", "right": "15px", "bottom": "10px", "left": "15px"}}
             }
           },
           "formBackgroundColor": {
@@ -242,7 +242,7 @@
           },
           "buttonPadding": {
             "desktop": {
-              "value": "10px|20px|10px|20px"
+              "value": {"padding": {"top": "10px", "right": "20px", "bottom": "10px", "left": "20px"}}
             }
           },
           "buttonBorderColor": {
@@ -302,7 +302,7 @@
           },
           "proHeadingMargin": {
             "desktop": {
-              "value": "0px|0px|0px|0px"
+              "value": {"margin": {"top": "0px", "right": "0px", "bottom": "0px", "left": "0px"}}
             }
           },
           "proIconSize": {
@@ -317,7 +317,7 @@
           },
           "proIconMargin": {
             "desktop": {
-              "value": "0px|0px|0px|0px"
+              "value": {"margin": {"top": "0px", "right": "0px", "bottom": "0px", "left": "0px"}}
             }
           },
           "proImageWidth": {
@@ -347,12 +347,12 @@
           },
           "proImagePadding": {
             "desktop": {
-              "value": "0px|0px|0px|0px"
+              "value": {"padding": {"top": "0px", "right": "0px", "bottom": "0px", "left": "0px"}}
             }
           },
           "proImageMargin": {
             "desktop": {
-              "value": "0px|0px|0px|0px"
+              "value": {"margin": {"top": "0px", "right": "0px", "bottom": "0px", "left": "0px"}}
             }
           },
           "proRangeTrackColor": {
@@ -372,7 +372,7 @@
           },
           "proRangeMargin": {
             "desktop": {
-              "value": "0px|0px|0px|0px"
+              "value": {"margin": {"top": "0px", "right": "0px", "bottom": "0px", "left": "0px"}}
             }
           },
           "proStarColor": {
@@ -392,7 +392,7 @@
           },
           "proStarMargin": {
             "desktop": {
-              "value": "0px|0px|0px|0px"
+              "value": {"margin": {"top": "0px", "right": "0px", "bottom": "0px", "left": "0px"}}
             }
           },
           "fieldFontSize": {
@@ -803,10 +803,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "padding": true
+                  "grouped": false,
+                  "fields": {
+                    "padding": {
+                      "render": true
+                    },
+                    "margin": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -1276,10 +1284,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "padding": true
+                  "grouped": false,
+                  "fields": {
+                    "padding": {
+                      "render": true
+                    },
+                    "margin": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -1380,10 +1396,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "padding": true
+                  "grouped": false,
+                  "fields": {
+                    "padding": {
+                      "render": true
+                    },
+                    "margin": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -1935,10 +1959,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "padding": true
+                  "grouped": false,
+                  "fields": {
+                    "padding": {
+                      "render": true
+                    },
+                    "margin": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -2739,10 +2771,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "margin": true
+                  "grouped": false,
+                  "fields": {
+                    "margin": {
+                      "render": true
+                    },
+                    "padding": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -2808,10 +2848,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "margin": true
+                  "grouped": false,
+                  "fields": {
+                    "margin": {
+                      "render": true
+                    },
+                    "padding": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -2955,10 +3003,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "padding": true
+                  "grouped": false,
+                  "fields": {
+                    "padding": {
+                      "render": true
+                    },
+                    "margin": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -2978,10 +3034,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "margin": true
+                  "grouped": false,
+                  "fields": {
+                    "margin": {
+                      "render": true
+                    },
+                    "padding": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -3067,10 +3131,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "margin": true
+                  "grouped": false,
+                  "fields": {
+                    "margin": {
+                      "render": true
+                    },
+                    "padding": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -3156,10 +3228,18 @@
                 "dynamicContent": false
               },
               "component": {
-                "type": "field",
+                "type": "group",
                 "name": "divi/spacing",
                 "props": {
-                  "margin": true
+                  "grouped": false,
+                  "fields": {
+                    "margin": {
+                      "render": true
+                    },
+                    "padding": {
+                      "render": false
+                    }
+                  }
                 }
               }
             }
@@ -3305,7 +3385,7 @@
         "component": {
           "name": "divi/composite",
           "props": {
-            "groupLabel": "Pro: Heading"
+            "groupLabel": "Heading"
           }
         }
       },
@@ -3338,7 +3418,7 @@
         "component": {
           "name": "divi/composite",
           "props": {
-            "groupLabel": "Pro: Range"
+            "groupLabel": "Range Slider"
           }
         }
       },
@@ -3349,7 +3429,7 @@
         "component": {
           "name": "divi/composite",
           "props": {
-            "groupLabel": "Pro: Star Rating"
+            "groupLabel": "Star Rating"
           }
         }
       }

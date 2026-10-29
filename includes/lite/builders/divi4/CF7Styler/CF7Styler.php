@@ -882,8 +882,7 @@ class DCS_CF7Styler extends ET_Builder_Module
 
 		$this->get_responsive_styles(
 			'form_field_spacing',
-			'%%order_class%% .dipe-cf7 .wpcf7 form>p, .dipe-cf7 .wpcf7 form>div, .dipe-cf7 .wpcf7 form>label
-            %%order_class%% .dipe-cf7 .wpcf7 form .dp-col>p, .dipe-cf7 .wpcf7 form .dp-col>div, .dipe-cf7 .wpcf7 form .dp-col>label',
+			'%%order_class%% .dipe-cf7 .wpcf7 form>p, %%order_class%% .dipe-cf7 .wpcf7 form>div, %%order_class%% .dipe-cf7 .wpcf7 form>label, %%order_class%% .dipe-cf7 .wpcf7 form .dp-col>p, %%order_class%% .dipe-cf7 .wpcf7 form .dp-col>div, %%order_class%% .dipe-cf7 .wpcf7 form .dp-col>label',
 			array(
 				'primary'   => 'margin-bottom',
 				'important' => true,
@@ -946,10 +945,10 @@ class DCS_CF7Styler extends ET_Builder_Module
 				$render_slug,
 				array(
 					'selector'    => '%%order_class%% .dipe-cf7 .wpcf7 input:not([type=submit]):focus, %%order_class%% .dipe-cf7 .wpcf7 select:focus, %%order_class%% .dipe-cf7 .wpcf7 textarea:focus',
+					// Field borders are !important too; :focus is more specific.
 					'declaration' => sprintf(
-						'border-color: %1$s%2$s;',
-						esc_attr($form_field_active_color),
-						et_is_builder_plugin_active() ? ' !important' : ''
+						'border-color: %1$s !important;',
+						esc_attr($form_field_active_color)
 					),
 				)
 			);
@@ -972,15 +971,17 @@ class DCS_CF7Styler extends ET_Builder_Module
 				);
 			}
 
-			if ('' !== $cr_size && is_numeric($cr_size)) {
-				$font_size = $cr_size / 1.2;
+			// The check mark scales with the box; keep the unit the size uses.
+			if ((float) $cr_size > 0) {
+				$cr_size_unit = preg_replace('/^[\d.]+/', '', trim($cr_size));
 				ET_Builder_Element::set_style(
 					$render_slug,
 					array(
 						'selector'    => '%%order_class%% .dipe-cf7 .wpcf7-acceptance input[type=checkbox]:checked + span:before, %%order_class%% .dipe-cf7 .wpcf7-checkbox input[type=checkbox]:checked + span:before',
 						'declaration' => sprintf(
-							'font-size: ',
-							esc_attr($font_size),
+							'font-size: %1$s%2$s%3$s;',
+							esc_attr(round((float) $cr_size / 1.2, 2)),
+							esc_attr('' !== $cr_size_unit ? $cr_size_unit : 'px'),
 							et_is_builder_plugin_active() ? ' !important' : ''
 						),
 					)
@@ -1047,7 +1048,7 @@ class DCS_CF7Styler extends ET_Builder_Module
 				ET_Builder_Element::set_style(
 					$render_slug,
 					array(
-						'selector'    => '%%order_class%% .dipe-cf7 .wpcf7-checkbox input[type=radio] + span:before, %%order_class%% .dipe-cf7 .wpcf7-radio input[type=checkbox] + span:before, %%order_class%% .dipe-cf7 .wpcf7-acceptance input[type="checkbox"] + span:before',
+						'selector'    => '%%order_class%% .dipe-cf7 .wpcf7-checkbox input[type="checkbox"] + span:before, %%order_class%% .dipe-cf7 .wpcf7-radio input[type="radio"] + span:before, %%order_class%% .dipe-cf7 .wpcf7-acceptance input[type="checkbox"] + span:before',
 						'declaration' => sprintf(
 							'border-color: %1$s%2$s;',
 							esc_attr($cr_border_color),
@@ -1061,7 +1062,7 @@ class DCS_CF7Styler extends ET_Builder_Module
 				ET_Builder_Element::set_style(
 					$render_slug,
 					array(
-						'selector'    => '%%order_class%% .dipe-cf7 .wpcf7-checkbox label, %%order_class%% .wpcf7-radio label',
+						'selector'    => '%%order_class%% .dipe-cf7 .wpcf7-checkbox label, %%order_class%% .dipe-cf7 .wpcf7-radio label, %%order_class%% .dipe-cf7 .wpcf7-acceptance label, %%order_class%% .dipe-cf7 .wpcf7-list-item-label',
 						'declaration' => sprintf(
 							'color: %1$s%2$s;',
 							esc_attr($cr_label_color),
@@ -1125,97 +1126,31 @@ class DCS_CF7Styler extends ET_Builder_Module
 			);
 		}
 
-		if ('' !== $cf7_success_message_color) {
+		// Error rules match every response; the success rules are more
+		// specific and also !important, so they win once the form is sent.
+		$response_styles = array(
+			array('%%order_class%% .wpcf7 form.sent .wpcf7-response-output', 'color', $cf7_success_message_color),
+			array('%%order_class%% .wpcf7 form.sent .wpcf7-response-output', 'background-color', $cf7_success_message_bg_color),
+			array('%%order_class%% .wpcf7 form.sent .wpcf7-response-output', 'border-color', $cf7_success_border_color),
+			array('%%order_class%% .wpcf7 form .wpcf7-response-output', 'color', $cf7_error_message_color),
+			array('%%order_class%% .wpcf7 form .wpcf7-response-output', 'background-color', $cf7_error_message_bg_color),
+			array('%%order_class%% .wpcf7 form .wpcf7-response-output', 'border-color', $cf7_error_border_color),
+			array('%%order_class%% span.wpcf7-not-valid-tip', 'padding', $cf7_message_padding),
+			array('%%order_class%% span.wpcf7-not-valid-tip', 'margin-top', $cf7_message_margin_top),
+		);
+
+		foreach ($response_styles as $response_style) {
+			if ('' === $response_style[2]) {
+				continue;
+			}
 			ET_Builder_Element::set_style(
 				$render_slug,
 				array(
-					'selector'    => '%%order_class%% .dipe-cf7 .wpcf7-mail-sent-ok',
-					'declaration' => sprintf(
-						'color: %1$s%2$s;',
-						esc_attr($cf7_success_message_color),
-						et_is_builder_plugin_active() ? ' !important' : ''
-					),
+					'selector'    => $response_style[0],
+					'declaration' => sprintf('%1$s: %2$s !important;', $response_style[1], esc_attr($response_style[2])),
 				)
 			);
 		}
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .wpcf7 form.sent .wpcf7-response-output',
-				'declaration' => sprintf(
-					'background-color: %1$s !important;',
-					esc_attr($cf7_success_message_bg_color)
-				),
-			)
-		);
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .wpcf7 form.sent .wpcf7-response-output',
-				'declaration' => sprintf(
-					'border-color: %1$s%2$s;',
-					esc_attr($cf7_success_border_color),
-					et_is_builder_plugin_active() ? ' !important' : ''
-				),
-			)
-		);
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .wpcf7 form .wpcf7-response-output',
-				'declaration' => sprintf(
-					'color: %1$s !important;',
-					esc_attr($cf7_error_message_color)
-				),
-			)
-		);
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .wpcf7 form .wpcf7-response-output',
-				'declaration' => sprintf(
-					'background-color: %1$s !important;',
-					esc_attr($cf7_error_message_bg_color)
-				),
-			)
-		);
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .wpcf7 form .wpcf7-response-output',
-				'declaration' => sprintf(
-					'border-color: %1$s !important;',
-					esc_attr($cf7_error_border_color)
-				),
-			)
-		);
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% span.wpcf7-not-valid-tip',
-				'declaration' => sprintf(
-					'padding: %1$s !important;',
-					esc_attr($cf7_message_padding)
-				),
-			)
-		);
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% span.wpcf7-not-valid-tip',
-				'declaration' => sprintf(
-					'margin-top: %1$s !important;',
-					esc_attr($cf7_message_margin_top)
-				),
-			)
-		);
 	}
 
 	public function render_header_css($render_slug)
@@ -1243,45 +1178,26 @@ class DCS_CF7Styler extends ET_Builder_Module
 			);
 		}
 
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .dipe-form-header-container',
-				'declaration' => "background-color: {$form_header_bg};",
-			)
+		$header_styles = array(
+			array('%%order_class%% .dipe-form-header-container', 'background-color', $form_header_bg),
+			array('%%order_class%% .dipe-form-header-container', 'margin-bottom', $form_header_bottom),
+			array('%%order_class%% .dipe-form-header-icon, %%order_class%% .dipe-form-header-image', 'background-color', $form_header_img_bg),
+			array('%%order_class%% .dipe-form-header-icon span', 'color', $form_header_icon_color),
+			array('%%order_class%% .dipe-cf7-styler', 'background-color', $form_bg),
 		);
 
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .dipe-form-header-container',
-				'declaration' => "margin-bottom: {$form_header_bottom};",
-			)
-		);
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .dipe-form-header-icon, %%order_class%% .dipe-form-header-image',
-				'declaration' => "background-color: {$form_header_img_bg};",
-			)
-		);
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .dipe-form-header-icon span',
-				'declaration' => "color: {$form_header_icon_color};",
-			)
-		);
-
-		ET_Builder_Element::set_style(
-			$render_slug,
-			array(
-				'selector'    => '%%order_class%% .dipe-cf7-styler',
-				'declaration' => "background-color: {$form_bg};",
-			)
-		);
+		foreach ($header_styles as $header_style) {
+			if ('' === $header_style[2]) {
+				continue;
+			}
+			ET_Builder_Element::set_style(
+				$render_slug,
+				array(
+					'selector'    => $header_style[0],
+					'declaration' => sprintf('%1$s: %2$s;', $header_style[1], esc_attr($header_style[2])),
+				)
+			);
+		}
 	}
 
 	public function render_form_header_padding($render_slug)
@@ -1367,7 +1283,7 @@ class DCS_CF7Styler extends ET_Builder_Module
 	public static function process_padding($val = '0|0|0|0', $imp = false)
 	{
 
-		$_val = explode('|', $val);
+		$_val = array_pad(explode('|', (string) $val), 4, '');
 
 		$padding_top    = '';
 		$padding_right  = '';

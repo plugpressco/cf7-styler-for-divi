@@ -19,7 +19,7 @@ if (! defined('ABSPATH')) {
  */
 function cf7m_get_design_presets()
 {
-	$path = defined('CF7M_PLUGIN_PATH') ? CF7M_PLUGIN_PATH . 'src/divi5/modules/cf7-styler/design-presets.json' : '';
+	$path = defined('CF7M_MODULES_JSON_PATH') ? CF7M_MODULES_JSON_PATH . 'cf7-styler/design-presets.json' : '';
 	if (! $path || ! is_readable($path)) {
 		return array();
 	}

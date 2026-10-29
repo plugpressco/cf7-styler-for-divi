@@ -5,7 +5,7 @@
  */
 
 export const placeholderContent = {
-	cf7: {
+	module: {
 		advanced: {
 			formId: {
 				desktop: { value: '0' },

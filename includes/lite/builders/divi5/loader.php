@@ -10,20 +10,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-$cf7m_dependency_interface = ABSPATH . 'wp-content/themes/Divi/includes/builder-5/server/Framework/DependencyManagement/Interfaces/DependencyInterface.php';
-if (!file_exists($cf7m_dependency_interface)) {
-    return;
-}
+require_once CF7M_PLUGIN_PATH . 'includes/pro/design-presets.php';
 
-require_once __DIR__ . '/CF7Styler/CF7Styler.php';
-
-use CF7_Mate\Modules\CF7Styler\CF7Styler;
-
+// Divi 5 registers its class autoloader on init (priority 0), from wherever the
+// theme, Extra or the Divi Builder plugin lives, and then fires this action.
 add_action(
     'divi_module_library_modules_dependency_tree',
     function ($dependency_tree) {
-        $module = new CF7Styler();
-        $dependency_tree->add_dependency($module);
+        require_once __DIR__ . '/CF7Styler/CF7Styler.php';
+        $dependency_tree->add_dependency(new \CF7_Mate\Modules\CF7Styler\CF7Styler());
     },
     5
 );

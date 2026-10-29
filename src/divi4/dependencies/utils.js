@@ -30,7 +30,7 @@ import find from 'lodash/find';
 import take from 'lodash/take';
 import head from 'lodash/head';
 import last from 'lodash/last';
-import compose from 'lodash/fp/compose';
+import flowRight from 'lodash/flowRight';
 import isEqual from 'lodash/isEqual';
 import forOwn from 'lodash/forOwn';
 import has from 'lodash/has';
@@ -1873,7 +1873,7 @@ let Utils = {
     },
 
     toTextOrientation,
-    getTextOrientation: compose(toTextOrientation, toRTLTextOrientation),
+    getTextOrientation: flowRight(toTextOrientation, toRTLTextOrientation),
     isBuilderFocused() {
         return (
             this.$appDocument(window.ETBuilderBackend.css.containerPrefix).is(':hover') ||

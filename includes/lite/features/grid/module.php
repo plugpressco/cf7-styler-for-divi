@@ -70,7 +70,7 @@ class Grid extends Feature_Base
     private function register_shortcodes()
     {
         add_filter('wpcf7_autop_or_not', [$this, 'disable_form_autop'], 10, 2);
-        add_filter('wpcf7_form_elements', 'do_shortcode');
+        add_filter('wpcf7_form_elements', [$this, 'render_grid_tags']);
 
         add_shortcode(self::ROW_TAG, [$this, 'render_row']);
         foreach (array_keys(self::COLUMN_MAP) as $tag) {
@@ -173,6 +173,21 @@ class Grid extends Feature_Base
 <?php
     }
 
+    /**
+     * Render only the grid tags. Running every shortcode over the form would
+     * also run shortcodes from other plugins, including any a visitor typed.
+     */
+    public function render_grid_tags($form)
+    {
+        if (strpos($form, '[dipe_') === false) {
+            return $form;
+        }
+
+        $pattern = get_shortcode_regex(array_merge([self::ROW_TAG], array_keys(self::COLUMN_MAP)));
+
+        return preg_replace_callback("/$pattern/", 'do_shortcode_tag', $form);
+    }
+
     public function render_row($attrs, $content = null)
     {
         return $this->render_wrapper('cf7m-row', $attrs, $content);
@@ -190,7 +205,7 @@ class Grid extends Feature_Base
         return sprintf(
             '<div class="%s">%s</div>',
             esc_attr($class),
-            do_shortcode($content)
+            $this->render_grid_tags((string) $content)
         );
     }
 }

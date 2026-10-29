@@ -37,6 +37,9 @@ export const conversionOutline: ModuleConversionOutline = {
 		formLabels: 'css.*.formLabels',
 		formInputs: 'css.*.formInputs',
 		submitButton: 'css.*.submitButton',
+		// Divi 4 custom CSS slugs.
+		cf7_fields: 'css.*.formFields',
+		cf7_labels: 'css.*.formLabels',
 	},
 	module: {
 		cf7: 'module.advanced.formId.*',
@@ -122,5 +125,20 @@ export const conversionOutline: ModuleConversionOutline = {
 		submit_button_line_height: 'module.advanced.buttonLineHeight.*',
 		submit_button_letter_spacing: 'module.advanced.buttonLetterSpacing.*',
 		submit_button_text_transform: 'module.advanced.buttonTextTransform.*',
+		// Divi 4 attributes saved by its font, button and field border options.
+		// One unmapped attribute keeps the whole module as an unconverted shortcode.
+		form_field_font_font_size: 'module.advanced.fieldFontSize.*',
+		form_field_font_line_height: 'module.advanced.fieldLineHeight.*',
+		form_field_font_letter_spacing: 'module.advanced.fieldLetterSpacing.*',
+		form_field_font_text_color: 'module.advanced.formFieldTextColor.*',
+		submit_button_text_size: 'module.advanced.buttonFontSize.*',
+		submit_button_text_color: 'module.advanced.buttonColor.*',
+		submit_button_bg_color: 'module.advanced.buttonBg.*',
+		submit_button_border_width: 'module.advanced.buttonBorderWidth.*',
+		submit_button_border_color: 'module.advanced.buttonBorderColor.*',
+		submit_button_border_radius: 'module.advanced.buttonBorderRadius.*',
+		submit_button_custom_padding: 'module.advanced.buttonPadding.*',
+		border_width_all_field: 'module.advanced.formFieldBorderWidth.*',
+		border_color_all_field: 'module.advanced.formFieldBorderColor.*',
 	},
 };

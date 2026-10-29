@@ -120,7 +120,7 @@ module.exports = {
       filename: 'css/[name].css',
     }),
 
-    // Copy module.json and conversion-outline.json from src to modules-json folder in plugin root.
+    // Copy module.json, conversion-outline.json and design-presets.json to modules-json in the plugin root.
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -130,6 +130,12 @@ module.exports = {
         },
         {
           from: '**/conversion-outline.json',
+          context: 'src/divi5/modules',
+          to: path.resolve(__dirname, 'modules-json'),
+        },
+        // The frontend renderer applies the same design presets as the builder.
+        {
+          from: '**/design-presets.json',
           context: 'src/divi5/modules',
           to: path.resolve(__dirname, 'modules-json'),
         },

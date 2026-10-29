@@ -105,6 +105,10 @@ class Icon extends Feature_Base
             $name = 'dashicons-star-filled';
         }
 
+        // Builder modules render the form without a shortcode in the post,
+        // so enqueue_dashicons() does not see it there.
+        wp_enqueue_style('dashicons');
+
         return sprintf(
             '<span class="cf7m-icon cf7m-icon--font dashicons %s"%s aria-hidden="true"></span>',
             esc_attr($name),

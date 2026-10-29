@@ -35,7 +35,9 @@
     "formFields": "css.*.formFields",
     "formLabels": "css.*.formLabels",
     "formInputs": "css.*.formInputs",
-    "submitButton": "css.*.submitButton"
+    "submitButton": "css.*.submitButton",
+    "cf7_fields": "css.*.formFields",
+    "cf7_labels": "css.*.formLabels"
   },
   "module": {
     "cf7": "module.advanced.formId.*",
@@ -107,6 +109,19 @@
     "submit_button_font_weight": "module.advanced.buttonFontWeight.*",
     "submit_button_line_height": "module.advanced.buttonLineHeight.*",
     "submit_button_letter_spacing": "module.advanced.buttonLetterSpacing.*",
-    "submit_button_text_transform": "module.advanced.buttonTextTransform.*"
+    "submit_button_text_transform": "module.advanced.buttonTextTransform.*",
+    "form_field_font_font_size": "module.advanced.fieldFontSize.*",
+    "form_field_font_line_height": "module.advanced.fieldLineHeight.*",
+    "form_field_font_letter_spacing": "module.advanced.fieldLetterSpacing.*",
+    "form_field_font_text_color": "module.advanced.formFieldTextColor.*",
+    "submit_button_text_size": "module.advanced.buttonFontSize.*",
+    "submit_button_text_color": "module.advanced.buttonColor.*",
+    "submit_button_bg_color": "module.advanced.buttonBg.*",
+    "submit_button_border_width": "module.advanced.buttonBorderWidth.*",
+    "submit_button_border_color": "module.advanced.buttonBorderColor.*",
+    "submit_button_border_radius": "module.advanced.buttonBorderRadius.*",
+    "submit_button_custom_padding": "module.advanced.buttonPadding.*",
+    "border_width_all_field": "module.advanced.formFieldBorderWidth.*",
+    "border_color_all_field": "module.advanced.formFieldBorderColor.*"
   }
 }

@@ -122,10 +122,10 @@ class Partial_Save extends Pro_Feature_Base {
 			return;
 		}
 
-		$posted = $submission->get_posted_data();
-		$token  = isset( $posted['_cf7m_ps_token'] )
-			? sanitize_text_field( $posted['_cf7m_ps_token'] )
-			: '';
+		// Contact Form 7 leaves fields starting with "_" out of the posted data.
+		// Its front-end submissions carry no nonce; a token only deletes its own progress.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$token = isset( $_POST['_cf7m_ps_token'] ) ? sanitize_text_field( wp_unslash( $_POST['_cf7m_ps_token'] ) ) : '';
 
 		if ( $token && strlen( $token ) === 32 && ctype_xdigit( $token ) ) {
 			delete_transient( Partial_Save_API::TRANSIENT_PREFIX . $token );
